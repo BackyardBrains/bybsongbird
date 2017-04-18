@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+    <body style="background-color:grey;">
+        <h2 class="heading">Project Context</h2>
+        <p class="para">Climate change is affecting all of the natural world, and the habitat and survival of many species of birds are being threatened. In order to understand the effects of climate change on birds, it is crucial to record and track songbird activity. The goal of this project is to develop a system that can correctly identify the songs of eight common and local birds of Michigan. This device will record the bird song and relevant environmental information. In doing so, we must consider and further define our goals for power usage, connectivity, longevity, and cost. Our ultimate goal is to create a product that can automatically report this data and is suitable for deployment in nature spanning weeks or months. Our highest level stakeholder, Backyard Brains, hopes that their investment will help us learn more about the behavior of songbirds and the broader implications of climate change.</p>
+        <h2 class="heading">Early Research and Results</h2>
+        <p class="para">There are many different types of recording devices that field ornithologists use to record songs and calls, as well as existing algorithms that automatically recognize and identify songs. Based on research into relevant literature, there seem to be many different projects that cover this topic, but our device will be unique in execution. We have created our own devices to be placed in the field that will record bird songs. This data will then be processed by the device or stored for processing post recording. Machine learning techniques have shown to be very successful in identifying birds. We have also explored the ideas of using pitch and timbre data and the difference between calls and songs to help us identify bird species. Some challenges that we may face include noise interference, file storage, and durability of the recording devices.</p>
+        <h2 class="heading">Impact of Success</h2>
+        <p class="para">This project is important to us and our sponsor because birdsong and communication is applicable to the field of neuroscience, and birdsongs can tell us much about their behavior. Additionally, Backyard Brains is a company focused on educational outreach, and this project is a good way of educating the public on bird behavior, climate change, and how they can be a part of data collection for research. More broadly, this is important for ornithologists and ecologists because the project provides an accessible and effective device that can provide insight into the patterns of bird populations. Researchers will be able to use this data to use for further studies in understanding the effects of climate change. The device will not be limited to scientists, but be available to the public as well as a way to be involved in community science.</p>
+
+        <h2 class="heading">On this website:</h2>
+            <ul class="none">
+                <li>Database - Displays the database with some options for sorting and selection.</li>
+                <li>Database (SQL) - User can use a SELECT SQL command and have further control with what data is displayed.</li>
+                <li>Migration Pattern - Analysis of the migration pattern and other results.</li>
+                <li>Upload - User can upload data and contribute to the database.</li>
+            </ul>
+
+        <p class="para"><br>Sort the database by column </p>
+        <form method="post">
+            <select name="sort" class="options">
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="added">Time</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
+            </select>
+            <p class="para"> in </p>
+            <select name="dir" class="options">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+            </select>
+            <p class="para"> direction. (Optional selection: </p>
+            <select name="col" class="options">
+                    <option value="">Column</option>
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
+            </select>
+            <select name="equ" class="options">
+                    <option value="">Operator</option>
+                    <option value="equal">=</option>
+                    <option value="notequal">&#8800</option>
+                    <option value="greater">></option>
+                    <option value="lesser"><</option>
+                    <option value="greaterand">> =</option>
+                    <option value="lesserand">< =</option>
+            </select>
+            <input type="text" name="crit" placeholder="Value" class="para" />
+            <p class="para"> )</p>
+            <input class="button" type="submit">
+        </form>
+        <p class="para"><i>Check the navigation bar at the top for other options!</i><br></p>
+
+        {% if result %}
+            <p class="para"><br>Results from query: <i>{{search}}</i><br></p>
+            <font color="orange"><table style="width:100%">
+			    <tr>
+		    	    <th>Sample ID</th>
+		    	    <th>Device ID</th> 
+		    	    <th>Time</th>
+		    	    <th>Best Match Species</th>
+		    	    <th>Best Match Percentage</th> 
+                    <th>Link</th>
+			    </tr>
+			    {% for res in result %}
+				    <tr>
+		    		    <td>{{res["sampleid"]}}</td>
+		    		    <td>{{res["deviceid"]}}</td>
+		    		    <td>{{res["added"]}}</td>
+		    		    <td>{{res["type1"]}}</td>
+		    		    <td>{{res["per1"]}}</td>
+                        <td>
+                            <form action="{{url_for('info.info_route')}}">
+                                <button type="submit" name="sampleid" value="{{res['sampleid']}}" class="button">More Info</button>
+                            </form>
+                        </td>
+		  		    </tr>
+        	    {% endfor %}
+		    </table></font>
+        {% endif %}
+	</body>
+{% endblock %}
