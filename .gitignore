@@ -4,3 +4,4 @@ venv/*
 __pycache__/*
 controllers/__pycache__/*
 controllers/*.pyc
+Vagrantfile
