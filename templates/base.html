@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <title>Backyard Brains Songbird Identidication System</title>
-</head>
-<body style="background-color: grey; font-family: Verdana; color: orange;">
-	<style>
+   	
+    <style>
         .header{ color: orange; text-align: center; font-size: 40px; font-family: Verdana; }
 
         .heading{ color: orange; font-size: 24px; font-family: Verdana; }
@@ -44,8 +43,18 @@
         table td{ border:1px solid; }
 
         table th{ border:1px solid; }
-    </style>
 
+        #accordion{ max-width: 100%; margin: 0px; padding: 0px; list-style: none; }
+
+        #accordion h2{ font-size: 12pt; margin: 0px; padding: 10px; background-color: orange; color: grey; border-bottom: none; }
+
+        #accordion li div.content{ display: none; padding: 10px; background-color: grey; border: none; font-family: Verdana; }
+
+        #accordion li:hover div.content{ display: inherit; font-family: Verdana; }
+    </style>
+</head>
+
+<body style="background-color: grey; font-family: Verdana; color: orange;">
     <ul class="navbar">
         <li class="navbar"><a href="{{url_for('main.main_route')}}"><b>Main</b></a></li>
         <li class="navbar"><a href="{{url_for('sqlpage.sqlpage_route')}}"><b>Database (SQL)</b></a></li>
