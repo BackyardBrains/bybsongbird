@@ -21,48 +21,201 @@ form, input {
 form {
     width: 300px;
 }
+
+.boxes {
+    display: flex;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.upload {
+    border: 1px solid white;
+    width: max-content;
+    padding: 30px;
+}
+
+.upload_title {
+    margin-bottom: 30px;
+    font-size: 31px;
+    font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+    font-weight: 600;
+}
+
+.info {
+    display: table;
+}
+
+.submit_file {
+    background-color: #696969;
+    border: 1px solid #696969;
+    width: 100px;
+    height: 30px;
+    outline: none;
+    box-shadow: 2px 2px 2px #3a3238;
+    border-radius: 30px;
+}
+
+.file-upload {
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.file-select {
+    width: 297px;
+    border: 2px solid #696969;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #444141;
+    text-align: left;
+    background: #cab38e;
+    overflow: hidden;
+    position: relative;
+}
+.file-select-button{
+    background: #696969;
+    padding: 0 10px;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+}
+
+.file-select-name{
+    line-height: 25px;
+    display: inline-block;
+    padding: 0 10px;
+}
+
+input[type=file]{
+    z-index: 100;
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.submit_line {
+    display: flex;
+    height: 30px;
+}
+
+.submit_error {
+    margin-left: 15px;
+    margin-top: 6px;
+    font-size: 15px;
+}
+
+.result {
+    margin-left: 50px;
+    border: 1px solid white;
+    padding: 30px;
+}
+
+.upload_filename {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.classification {
+    margin-top: 30px;
+}
+
+.classification_title {
+    font-size: 25px;
+    font-weight: 600;
+    font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+    margin-bottom: 10px;
+}
+
+.classification_result {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
 </style>
-<tr><td>
-<form method="post" enctype="multipart/form-data">
-	<input type="file" name="file" accept="audio/*"><br>
-	<label for="latitude">Latitude:</label>
-	<input type="text" name="latitude" id="latitude">
-	<label for="longitude">Longitude:</label>
-	<input type="text" name="longitude" id="longitude"> 
-	<label for="humidity">Humidity:</label>
-	<input type="text" name="humidity" id="humidity">
-	<label for="temperature">Temperature:</label>
-	<input type="text" name="temp" id=temperature>
-	<label for="light">Light:</label> 
-	<input type="text" name="light" id="light">
-	<input type="submit" value="Upload">
-</form>
-</td></tr>
-{% if noFile %}
-	<p> No file part! </p>
-{% endif %}
 
-{% if emptyname %}
-	<p> The filename is empty! </p>
-{% endif %}
+<div class="boxes">
+    <div class="upload">
+        <div class="upload_title">
+            Upload your song
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            <div class="file-upload">
+                <div class="file-select">
+                    <div class="file-select-button" id="fileName">Choose File</div>
+                    <div class="file-select-name" id="noFile">No file chosen...</div> 
+                    <!-- <input type="file" name="chooseFile" id="chooseFile"> -->
+                    <input type="file" name="file" accept="audio/*" class="info choose_file" id="chooseFile">
+                </div>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label info">
+                <input class="mdl-textfield__input" type="text" id="latitude" name='latitude'>
+                <label class="mdl-textfield__label" for="latitude">Latitude</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label info">
+                <input class="mdl-textfield__input" type="text" id="longitude" name='longitude'>
+                <label class="mdl-textfield__label" for="longitude">Longitude</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label info">
+                <input class="mdl-textfield__input" type="text" id="humidity" name='humidity'>
+                <label class="mdl-textfield__label" for="humidity">Humidity</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label info">
+                <input class="mdl-textfield__input" type="text" id="temperature" name='temp'>
+                <label class="mdl-textfield__label" for="temperature">Temperature</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label info">
+                <input class="mdl-textfield__input" type="text" id="light" name='light'>
+                <label class="mdl-textfield__label" for="light">Light</label>
+            </div>
+            <div class="submit_line">
+                <input class="info submit_file" type="submit" value="Upload">
+                {% if noFile %}
+                    <p class="submit_error"> No file part! </p>
+                {% endif %}
+                {% if emptyname %}
+                    <p class="submit_error"> The filename is empty! </p>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    {% if filename %}
+    <div class="result">
+        <div class='upload_title'>
+            Thank you for uploading!
+        </div>
+        <div class="upload_filename">
+            The uploaded file is {{filename}} 
+        </div>
+        <audio controls>
+          <source src="../static/songs/users/{{filename}}" type="audio/mpeg">
+        </audio>
+        <div class='classification'>
+            <div class='classification_title'>
+                Classification Results:
+            </div>
+            <div class="classification_result">The best match of your song is xxx with percentage xxx</div>
+            <div class="classification_result">The second match of your song is xxx with percentage xxx</div>
+            <div class="classification_result">The third match of your song is xxx with percentage xxx</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 
-{% if filename %}
-	<p> The upload file is {{filename}} </p>
-{% endif %}
+<script type="text/javascript">
+    $('#chooseFile').bind('change', function () {
+        var filename = $("#chooseFile").val();
+        if (/^\s*$/.test(filename)) {
+            $(".file-upload").removeClass('active');
+            $("#noFile").text("No file chosen..."); 
+        }
+        else {
+            $(".file-upload").addClass('active');
+            $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+        }
+    });
 
-<br>
-<br>
-<p><font size="5", color="orange"> Thank you for uploading! </font></p>
-<br>
-<br>
-<audio controls>
-  <source src="../static/songs/users/{{filename}}" type="audio/mpeg">
-</audio>
-<br>
-<br>
-<p><font size="5", color="orange"> The best match of your song {{filename}} is xxx with percentage xxx </font></p>
-<br>
-<p><font size="5", color="orange"> The second match of your song {{filename}} is xxx with percentage xxx </font></p>
-<br>
-<p><font size="5", color="orange"> The third match of your song {{filename}} is xxx with percentage xxx </font></p>
+</script>
 {% endblock %}

@@ -7,7 +7,7 @@ env = dict(
 	user = 'bybsongbird', 
 	password = 'w6LT6RKWRQKDwa27w1',
 	db = 'bybsongbird', 
-	UPLOAD_FOLDER = '/vagrant/Projects/Songbird/database/static/songs/users'
+	UPLOAD_FOLDER = '/vagrant/bybsongbird/static/songs/users'
 )
 
 host = '0.0.0.0'
