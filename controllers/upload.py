@@ -65,17 +65,17 @@ def upload_route():
                 light = -1
 
             filename = secure_filename(file.filename)
-            file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
 
             # model_file = open('/vagrant/bybsongbird/model','r')
             # model_file = '/vagrant/bybsongbird/model'
             # identify = classifier(model_file=model_file)
             # identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
             
-            # cur = db.cursor()
-            # add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-            # data_song = (-1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
-            # cur.execute(add_song, data_song)
+            cur = db.cursor()
+            add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+            data_song = (-1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
+            cur.execute(add_song, data_song)
 
             options = {
                 "filename": filename
