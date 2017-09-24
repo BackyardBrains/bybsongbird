@@ -69,8 +69,10 @@ def upload_route():
 
             # model_file = open('/vagrant/bybsongbird/model','r')
             # model_file = '/vagrant/bybsongbird/model'
-            # identify = classifier(model_file=model_file)
-            # identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+            model_file = open('/w/bybsongbird/model','r')
+            model_file = '/w/bybsongbird/model'
+            identify = classifier(model_file=model_file)
+            identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
             
             cur = db.cursor()
             add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
