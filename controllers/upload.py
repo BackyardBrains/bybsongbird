@@ -8,7 +8,7 @@ import hashlib
 from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
 import datetime
-# from process_and_categorize import classifier
+from process_and_categorize import classifier
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
@@ -66,19 +66,19 @@ def upload_route():
 
             filename = secure_filename(file.filename)
             file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
-
+            print('69')
             # model_file = open('/vagrant/bybsongbird/model','r')
             # model_file = '/vagrant/bybsongbird/model'
-            model_file = open('/w/bybsongbird/model','r')
-            model_file = '/w/bybsongbird/model'
-            identify = classifier(model_file=model_file)
-            identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+            # # model_file = open('/w/bybsongbird/model','r')
+            # # model_file = '/w/bybsongbird/model'
+            # identify = classifier(model_file=model_file)
+            # identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
             
             cur = db.cursor()
             add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             data_song = (-1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
             cur.execute(add_song, data_song)
-
+            print('81')
             options = {
                 "filename": filename
             }
