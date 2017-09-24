@@ -78,7 +78,7 @@ def upload_route():
             cur.execute(add_song, data_song)
 
             options = {
-                "filename": 'filename'
+                "filename": filename
             }
 
             return render_template("upload.html", **options)
