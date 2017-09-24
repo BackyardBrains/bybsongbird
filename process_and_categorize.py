@@ -1,50 +1,93 @@
 #! python
 
 
-import getopt
+import cPickle
 import os
+import shutil
 import sys
 import time
 from zlib import crc32
 
 import MySQLdb
+import _mysql_exceptions
+import pathos.multiprocessing as mp
+from pathos.multiprocessing import Pool
 from pyAudioAnalysis import audioTrainTest as aT
 
 from config import *
 from noise_removal import noiseCleaner
 
 
-class classifier:
+def tbl_create():
+    tbl_create = os.path.join(os.getcwd(), 'tbl_create.sql')
+    if os.system("mysql -u %s -p %s --password=%s < %s" % (user, database, passwd, tbl_create)):
+        raise Exception("tbl_create.sql error!")
+
+class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
                  classifierType='gradientboosting',
-             verbose=False):
+                 verbose=False, num_threads=mp.cpu_count()):
         self.directory = directory
         self.model_file = model_file
         self.classifierType = classifierType
         self.verbose = verbose
+        self.num_threads = num_threads
+
+        try:
+            db = MySQLdb.connect(host=host, user=user, passwd=passwd,
+                                 db=database)
+        except _mysql_exceptions.OperationalError, e:
+            if e[0] != 1049:
+                raise
+            else:
+                with MySQLdb.connect(host=host, user=user, passwd=passwd,
+                                     db='') as cur:
+                    cur.execute("CREATE DATABASE %s;" % database)
+        else:
+            db.close()
 
     def classify(self):
         directory = self.directory
+        num_threads = self.num_threads
 
+        wav_files = []
         for file in os.listdir(directory):
             if file.endswith('.wav'):
                 file = os.path.join(directory, file)
-                self.classFile(file)
+                wav_files.append(file)
+                if not num_threads:
+                    self.classFile(file)
+        
+        if num_threads:
+            try:
+                pros = Pool(num_threads)
+                pros.map(self.classFile, wav_files)
+            except cPickle.PicklingError:
+                for wfile in wav_files:
+                    self.classFile(wfile)
+        if os.path.exists(os.path.join(directory, "noise")):
+            shutil.rmtree(os.path.join(directory, "noise"))
+        if os.path.exists(os.path.join(directory, "activity")):
+            shutil.rmtree(os.path.join(directory, "activity"))
 
     def classFile(self, file):
         model_file = self.model_file
         classifierType = self.classifierType
         verbose = self.verbose
 
-
         added = os.path.getmtime(file)
         added = time.gmtime(added)
         added = time.strftime('\'' + '-'.join(['%Y', '%m', '%d']) + ' ' + ':'.join(['%H', '%M', '%S']) + '\'',
                               added)
 
-        cleaner = noiseCleaner(verbose=verbose, debug=False)
+        cleaner = noiseCleaner(verbose=verbose)
         clean_wav = cleaner.noise_removal(file)
         Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
+        if verbose:
+            print file
+            print Result
+            print classNames
+            print P, '\n'
 
         result_dict = {}
         for i in xrange(0, len(classNames)):
@@ -75,15 +118,29 @@ class classifier:
                              db=database) as cur:  # config is in config.py: see above
             query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
                 values) + ");"
-            cur.execute(query_text)
+            try:
+                cur.execute(query_text)
+            except _mysql_exceptions.ProgrammingError, e:
+                if e[0] != 1146:
+                    raise
+                else:
+                    tbl_create()
+            except _mysql_exceptions.IntegrityError, e:
+                if e[0] != 1062:
+                    raise
+                else:
+                    sys.stderr.write("Warning: Duplicate key entry.\n")
+
 
     def export(self):
         try:
-            export_file = abs(crc32(str(time.time())))
-            if os.system(
-                            "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
-                            user, database, passwd, export_file)):
-                raise Exception("mysqldump export failed!")
+            export_file = str(time.time())
+            dump_command = "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
+            user, database, passwd, export_file)
+            if not os.path.exists('export'):
+                os.mkdir('export')
+            if os.system(dump_command):
+                raise Exception("mysqldump export failed! Rerun for details: %s" % dump_command)
         except:
             raise
         else:
@@ -92,57 +149,4 @@ class classifier:
                 cur.execute("DROP DATABASE %s;" % database)
                 cur.execute("CREATE DATABASE %s;" % database)
 
-            parent_dir, current_subdir = os.path.split(os.getcwd())
-            tbl_create = os.path.join(parent_dir, 'database', 'tbl_create.sql')
-            if os.system("mysql -u %s -p %s --password=%s < %s" % (user, database, passwd, tbl_create)):
-                raise Exception("tbl_create.sql error!")
-
-
-
-if __name__ == '__main__':
-
-    directory = os.getcwd()
-    classifierType = 'gradientboosting'
-    birds = []
-    verbose = False
-    model_file = os.path.join(directory, 'model')
-    export = False
-    run = False
-
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:ver",
-                                   ["dir=", "model=", "classifier=", "verbose", "export", "run"])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print str(err)  # will print something like "option -a not recognized"
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-d", "--dir"):
-            directory = arg
-        elif opt in ("-m", "--model"):
-            model_file = arg
-        elif opt in ("-c", "--classifier"):
-            classifierType = arg
-        elif opt in ("-v", "--verbose"):
-            verbose = True
-        elif opt in ("-e", "--export"):
-            export = True
-        elif opt in ("-r", "--run"):
-            run = True
-        else:
-            assert False, "unhandled option"
-
-    if not os.path.isfile(model_file):
-        raise Exception("Model file:" + model_file + " not found!")
-
-    if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
-        raise Exception(classifierType + " is not a valid model type!")
-
-    classifier0 = classifier(directory, model_file, classifierType, verbose=verbose)
-    if run:
-        classifier0.classify()
-    if export:
-        classifier0.export()
-    if not run and not export:
-        sys.stderr.out("No operator flags set: exiting!")
-        exit(1)
+            tbl_create()
