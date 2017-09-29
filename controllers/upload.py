@@ -9,6 +9,7 @@ from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
 import datetime
 from process_and_categorize import classiFier
+import numpy as np
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
@@ -68,15 +69,15 @@ def upload_route():
             file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
             
 
-            # model_file = '/vagrant/bybsongbird/model2/model'
-            model_file = '/w/bybsongbird/model2/model'
-            if not os.path.isfile(model_file):
-                print(model_file)
-            else:
-                print('find it')
-            # model_file = '/w/bybsongbird/model'
+            model_file = '/vagrant/bybsongbird/model2/model'
+            # model_file = '/w/bybsongbird/model2/model'
+
             identify = classiFier(model_file=model_file, verbose=True)
-            identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+            result = identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+            sorted_index = np.argsort(result['P'])
+            first_match = {"name": result['classNames'][sorted_index[-1]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-1]])}
+            second_match = {"name": result['classNames'][sorted_index[-2]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-2]])}
+            third_match = {"name": result['classNames'][sorted_index[-3]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-3]])}
             
             cur = db.cursor()
             add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
@@ -84,7 +85,10 @@ def upload_route():
             cur.execute(add_song, data_song)
             
             options = {
-                "filename": filename
+                "filename": filename,
+                'first_match': first_match,
+                'second_match': second_match,
+                'third_match': third_match
             }
 
             return render_template("upload.html", **options)

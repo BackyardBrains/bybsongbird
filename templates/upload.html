@@ -208,9 +208,9 @@ input[type=file]{
             <div class='classification_title'>
                 Classification Results:
             </div>
-            <div class="classification_result">The best match of your song is xxx with percentage xxx</div>
-            <div class="classification_result">The second match of your song is xxx with percentage xxx</div>
-            <div class="classification_result">The third match of your song is xxx with percentage xxx</div>
+            <div class="classification_result">The best match of your song is {{first_match.name}} with percentage {{first_match.percentage}}</div>
+            <div class="classification_result">The second match of your song is {{second_match.name}} with percentage {{second_match.percentage}}</div>
+            <div class="classification_result">The third match of your song is {{third_match.name}} with percentage {{third_match.percentage}}</div>
         </div>
     </div>
     {% endif %}

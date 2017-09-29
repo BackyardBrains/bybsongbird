@@ -15,5 +15,7 @@ env = dict(
 
 host = '0.0.0.0'
 user = 'bybsongbird'
-password = 'w6LT6RKWRQKDwa27w1'
-db = 'bybsongbird'
+passwd = 'w6LT6RKWRQKDwa27w1'
+# user = 'root'
+# passwd = 'root'
+database = 'bybsongbird'
