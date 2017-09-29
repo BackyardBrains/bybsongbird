@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from scipy import linalg as la
 import audioTrainTest as aT
 import audioBasicIO
-import utilities
+import * from utilities
 from scipy.signal import lfilter, hamming
 #from scikits.talkbox import lpc
 
