@@ -74,14 +74,13 @@ def upload_route():
 
             identify = classiFier(model_file=model_file, verbose=True)
             result = identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
-            sorted_index = np.argsort(result['P'])
-            first_match = {"name": result['classNames'][sorted_index[-1]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-1]])}
-            second_match = {"name": result['classNames'][sorted_index[-2]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-2]])}
-            third_match = {"name": result['classNames'][sorted_index[-3]].split('_')[0], "percentage": "{:.2%}".format(result['P'][sorted_index[-3]])}
-            
+            first_match = {"name": result['values'][8].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][9]))}
+            second_match = {"name": result['values'][10].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][11]))}
+            third_match = {"name": result['values'][12].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][13]))}
+
             cur = db.cursor()
-            add_song = ("INSERT INTO sampleInfo (deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-            data_song = (-1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
+            add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
+            data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])
             cur.execute(add_song, data_song)
             
             options = {
