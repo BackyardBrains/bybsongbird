@@ -69,15 +69,15 @@ def upload_route():
             file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
             
 
-            model_file = '/vagrant/bybsongbird/model2/model'
-            # model_file = '/w/bybsongbird/model2/model'
+            # model_file = '/vagrant/bybsongbird/model2/model'
+            model_file = '/w/bybsongbird/model2/model'
 
             identify = classiFier(model_file=model_file, verbose=True)
             result = identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
-            first_match = {"name": result['values'][8].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][9]))}
-            second_match = {"name": result['values'][10].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][11]))}
-            third_match = {"name": result['values'][12].split('_')[0], "percentage": "{:.3%}".format(float(result['values'][13]))}
-
+            first_match = {"name": result['values'][8].split('_')[0].replace("'",""), "percentage": "{:.3%}".format(float(result['values'][9]))}
+            second_match = {"name": result['values'][10].split('_')[0].replace("'",""), "percentage": "{:.3%}".format(float(result['values'][11]))}
+            third_match = {"name": result['values'][12].split('_')[0].replace("'",""), "percentage": "{:.3%}".format(float(result['values'][13]))}
+            
             cur = db.cursor()
             add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
             data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])
@@ -85,6 +85,7 @@ def upload_route():
             
             options = {
                 "filename": filename,
+                'sample_id': result['sample_id'],
                 'first_match': first_match,
                 'second_match': second_match,
                 'third_match': third_match
