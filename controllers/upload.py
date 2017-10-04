@@ -8,7 +8,7 @@ import hashlib
 from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
 import datetime
-from process_and_categorize import classiFier
+from machine_learning_and_dsp.process_and_categorize import classiFier
 import numpy as np
 
 upload = Blueprint('upload', __name__, template_folder='templates')
