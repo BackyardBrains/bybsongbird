@@ -6,3 +6,8 @@ MarkupSafe==0.23
 Werkzeug==0.9.4
 wheel==0.29.0
 pymysql==0.7.1
+scikit-learn==0.18.1
+pyaudioanalysis
+pydub
+pymediainfo
+sox
