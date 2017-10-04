@@ -1,2 +1,0 @@
-# Mind Reading with EEG
-
