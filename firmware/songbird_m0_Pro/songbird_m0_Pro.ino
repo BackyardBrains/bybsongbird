@@ -344,6 +344,8 @@ void setup()
     Serial.end();
   }
   if(!rtc.isrunning()){
+    // following line sets the RTC to the date & time this sketch was compiled
+    //This will occur if the external rtc loses power, eg. the coincell dies or is removed
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
   
