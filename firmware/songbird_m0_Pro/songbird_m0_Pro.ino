@@ -1,3 +1,5 @@
+#include <ArduinoJson.h>
+
 #include <RTClib.h>
 
 //  Test routine heavily inspired by wiring_analog.c from GITHUB site
@@ -88,6 +90,31 @@ void sdInit(){
   Serial.end();
 }
 
+File configFile;
+char *configString;
+float Lat = 999;
+float Lon = 999;
+
+void readConfig(void){
+  StaticJsonBuffer<256> jsonBuffer;
+  Serial.begin(9600);
+  if(!SD.exists("config")){
+    Serial.println("No config file: using defaults!");
+  }
+  else{
+    configFile = SD.open("config", FILE_READ);
+    configString = (char *) malloc(configFile.size());
+    configFile.read(configString, configFile.size());
+    configFile.close();
+    JsonObject& configObject = jsonBuffer.parseObject(configString);
+    Lat = configObject["Lat"];
+    Lon = configObject["Lon"];
+  }
+  Serial.end();
+}
+
+#define metaDataSize 76
+
 //This function creates a header for the wav file and writes it to the 1st 44 bytes of the currently open file
 void makeHeader(int totalAudioLen){
   
@@ -96,14 +123,16 @@ void makeHeader(int totalAudioLen){
 
   String temperature = (String)t;
   String humidity = (String)h;
+  String latitude = (String)Lat;
+  String longitude = (String)Lon;
  
-  byte metaData[36];
+  byte metaData[metaDataSize];
   metaData[0] = 'L';
   metaData[1] = 'I';
   metaData[2] = 'S';
   metaData[3] = 'T';
-  metaData[4] = 0x1;
-  metaData[5] = 0x1C;
+  metaData[4] = metaDataSize - 8;
+  metaData[5] = 0;
   metaData[6] = 0;
   metaData[7] = 0;
   metaData[8] = 'I';
@@ -114,7 +143,7 @@ void makeHeader(int totalAudioLen){
   metaData[13] = 'E';
   metaData[14] = 'M';
   metaData[15] = 'P';
-  metaData[16] = 4;
+  metaData[16] = 8;
   metaData[17] = 0;
   metaData[18] = 0;
   metaData[19] = 0;
@@ -122,6 +151,10 @@ void makeHeader(int totalAudioLen){
   metaData[21] = 0;
   metaData[22] = 0;
   metaData[23] = 0;
+  metaData[24] = 0;
+  metaData[25] = 0;
+  metaData[26] = 0;
+  metaData[27] = 0;
   
   int j=20;
   for(int i=0; i<temperature.length(); ++i){
@@ -129,26 +162,76 @@ void makeHeader(int totalAudioLen){
     ++j;
   }
   
-  metaData[24] = 'H';
-  metaData[25] = 'U';
-  metaData[26] = 'M';
-  metaData[27] = 'I';
-  metaData[28] = 4;
-  metaData[29] = 0;
-  metaData[30] = 0;
-  metaData[32] = 0;
+  metaData[28] = 'H';
+  metaData[29] = 'U';
+  metaData[30] = 'M';
+  metaData[31] = 'I';
+  metaData[32] = 8;
   metaData[33] = 0;
   metaData[34] = 0;
   metaData[35] = 0;
+  metaData[36] = 0;
+  metaData[37] = 0;
+  metaData[38] = 0;
+  metaData[39] = 0;
+  metaData[40] = 0;
+  metaData[41] = 0;
+  metaData[42] = 0;
+  metaData[43] = 0;
 
-  int k=32;
+  int k=36;
   for(int l=0; l<humidity.length(); ++l){
     metaData[k] = humidity[l];
     ++k;
   }
-  
 
-  myFile.write(metaData, 36);
+  metaData[44] = 'L';
+  metaData[45] = 'A';
+  metaData[46] = 'T';
+  metaData[47] = 'I';
+  metaData[48] = 8;
+  metaData[49] = 0;
+  metaData[50] = 0;
+  metaData[51] = 0;
+  metaData[52] = 0;
+  metaData[53] = 0;
+  metaData[54] = 0;
+  metaData[55] = 0;
+  metaData[56] = 0;
+  metaData[57] = 0;
+  metaData[58] = 0;
+  metaData[59] = 0;
+
+  int m=52;
+  for(int n=0; n<latitude.length(); ++n){
+    metaData[m] = latitude[n];
+    ++m;
+  }
+
+  metaData[60] = 'L';
+  metaData[61] = 'O';
+  metaData[62] = 'N';
+  metaData[63] = 'G';
+  metaData[64] = 8;
+  metaData[65] = 0;
+  metaData[66] = 0;
+  metaData[67] = 0;
+  metaData[68] = 0;
+  metaData[69] = 0;
+  metaData[70] = 0;
+  metaData[71] = 0;
+  metaData[72] = 0;
+  metaData[73] = 0;
+  metaData[74] = 0;
+  metaData[75] = 0;
+
+  int o=68;
+  for(int p=0; p<longitude.length(); ++p){
+    metaData[o] = longitude[p];
+    ++o;
+  }
+  
+  myFile.write(metaData, metaDataSize);
   
   const int compressionType = 1;
   const int numOfChannels = 1;
@@ -361,7 +444,7 @@ void setup()
     digitalWrite(sdPin,HIGH);
     while(1);
   }
-  
+  readConfig(); //Grab Data from config file if it exists
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
   
