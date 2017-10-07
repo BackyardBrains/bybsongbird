@@ -131,7 +131,7 @@ void makeHeader(int totalAudioLen){
   metaData[1] = 'I';
   metaData[2] = 'S';
   metaData[3] = 'T';
-  metaData[4] = metaDataSize - 8;
+  metaData[4] = metaDataSize;
   metaData[5] = 0;
   metaData[6] = 0;
   metaData[7] = 0;

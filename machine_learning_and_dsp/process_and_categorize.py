@@ -100,24 +100,35 @@ class classiFier:
             sample_id = crc32(file_contents.read())
 
         device_id = -1  # tbi
-        latitude = -1  # tbi
-        longitute = -1  # tbi
 
         file_metadata = MediaInfo.parse(file)
         file_metadata = file_metadata.tracks[0]
         assert file_metadata.track_type == 'General'
         humidity = file_metadata.humi
         temp = file_metadata.temp
+        latitude = file_metadata.lati
+        longitude = file_metadata.long
 
-        if humidity == None:
+        if humidity == None or humidity == ' nan':
             humidity = -1
         else:
             humidity = float(humidity)
 
-        if temp == None:
+        if temp == None or temp==' nan':
             temp = -1
         else:
             temp = float(temp)
+
+        if latitude == None:
+            latitude = 999.0
+        else:
+            latitude = float(latitude)
+
+        if longitude == None:
+            longitude = 999.0
+        else:
+            longitude = float(longitude)
+
 
         light = -1  # tbi
 
@@ -128,7 +139,7 @@ class classiFier:
         per2 = result_dict[1][1]
         per3 = result_dict[2][1]
 
-        values = [sample_id, device_id, added, latitude, longitute, humidity, temp, light, type1, per1, type2,
+        values = [sample_id, device_id, added, latitude, longitude, humidity, temp, light, type1, per1, type2,
                   per2,
                   type3, per3]
         values = [str(x) for x in values]
