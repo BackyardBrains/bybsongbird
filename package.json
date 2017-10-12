@@ -1,0 +1,14 @@
+{
+  "name": "bybsongbird",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:BackyardBrains/bybsongbird.git",
+  "author": "znrobins <znrobins@umich.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "ffmpeg": "^0.0.4",
+    "mysql": "^2.15.0",
+    "python2": "^0.0.1",
+    "sox": "^0.1.0"
+  }
+}
