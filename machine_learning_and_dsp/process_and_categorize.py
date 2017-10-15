@@ -108,6 +108,7 @@ class classiFier:
         temp = file_metadata.temp
         latitude = file_metadata.lati
         longitude = file_metadata.long
+        light = file_metadata.lite
 
         if humidity == None or humidity == ' nan':
             humidity = -1
@@ -129,8 +130,10 @@ class classiFier:
         else:
             longitude = float(longitude)
 
-
-        light = -1  # tbi
+        if light == None or light == 0:
+            light = -1;
+        else:
+            light = float(light)
 
         type1 = '\'' + result_dict[0][0] + '\''
         type2 = '\'' + result_dict[1][0] + '\''
