@@ -8,11 +8,14 @@
 #include "wiring_private.h"
 #include <SD.h>
 #include "DHT.h"
+#include <Wire.h>
+#include "TSL2561.h"  //If you get a compiler error saying that util/delay.h does not exist then just comment out the #include line for this in TLS2561.cpp from the adafruit library 
 #define DHTPIN 3
 #define DHTTYPE DHT22
 #define recordPin 11
 #define sdPin 13
 DHT dht(DHTPIN, DHTTYPE);
+TSL2561 tsl(TSL2561_ADDR_FLOAT);
 //
 
 #define PIN 10
@@ -113,18 +116,20 @@ void readConfig(void){
   Serial.end();
 }
 
-#define metaDataSize 76
+#define metaDataSize 92
 
 //This function creates a header for the wav file and writes it to the 1st 44 bytes of the currently open file
 void makeHeader(int totalAudioLen){
   
-  float t = dht.readTemperature();
-  float h = dht.readHumidity();
+  float tem = dht.readTemperature();
+  float hum = dht.readHumidity();
+  uint16_t lum = tsl.getLuminosity(TSL2561_VISIBLE);
 
-  String temperature = (String)t;
-  String humidity = (String)h;
+  String temperature = (String)tem;
+  String humidity = (String)hum;
   String latitude = (String)Lat;
   String longitude = (String)Lon;
+  String light = (String)lum;
  
   byte metaData[metaDataSize];
   metaData[0] = 'L';
@@ -229,6 +234,29 @@ void makeHeader(int totalAudioLen){
   for(int p=0; p<longitude.length(); ++p){
     metaData[o] = longitude[p];
     ++o;
+  }
+
+  metaData[76] = 'L';
+  metaData[77] = 'I';
+  metaData[78] = 'T';
+  metaData[79] = 'E';
+  metaData[80] = 8;
+  metaData[81] = 0;
+  metaData[82] = 0;
+  metaData[83] = 0;
+  metaData[84] = 0;
+  metaData[85] = 0;
+  metaData[86] = 0;
+  metaData[87] = 0;
+  metaData[88] = 0;
+  metaData[89] = 0;
+  metaData[90] = 0;
+  metaData[91] = 0;
+
+  int q=84;
+  for(int r=0; r<light.length(); ++r){
+    metaData[q] = light[r];
+    ++q;
   }
   
   myFile.write(metaData, metaDataSize);
@@ -419,6 +447,7 @@ void recordToggle(){
 void setup()
 {
   dht.begin();
+  tsl.begin();
   digitalWrite(recordPin, LOW);
   //Sets the rtc if it's not running
   if(!rtc.begin()){
