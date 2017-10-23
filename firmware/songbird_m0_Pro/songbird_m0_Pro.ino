@@ -64,10 +64,6 @@ bool fileOpen = 0;
 void sdInit(){
   Serial.begin(9600);
 
-  //Get Environmental Data
-  float temp = dht.readTemperature();
-  float hum = dht.readHumidity();
-
   //Loop ensures that files won't be overwritten on the card in the device is reset
   while(SD.exists(filename)){
     ++fileNum;
