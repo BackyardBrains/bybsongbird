@@ -11,3 +11,4 @@ pyaudioanalysis
 pydub
 pymediainfo
 sox
+pathos
