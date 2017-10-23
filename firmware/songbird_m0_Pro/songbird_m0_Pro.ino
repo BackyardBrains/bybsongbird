@@ -388,6 +388,8 @@ void TC3_Handler() {
     
     //Does a single read from the analog pin and adds it to the buffer
     anaVal = anaRead();
+    anaVal = anaVal - 2048; //Center the always positve 12 bit analog sample at 0
+    anaVal = anaVal * -16; //Invert the sample to accomodate for the inverted op-amp and multiply by 2^4 to amplifiy (12 bits to 16 bits)
     
     *anaHead = anaVal&0xFF;
     ++anaHead;
