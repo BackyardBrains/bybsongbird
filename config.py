@@ -14,8 +14,8 @@ env = dict(
 )
 
 host = 'localhost'
-# user = 'bybsongbird'
-# passwd = 'w6LT6RKWRQKDwa27w1'
-user = 'root'
-passwd = 'root'
+user = 'bybsongbird'
+passwd = 'w6LT6RKWRQKDwa27w1'
+# user = 'root'
+# passwd = 'root'
 database = 'bybsongbird'
