@@ -6,7 +6,6 @@ import os
 import sys
 import time
 
-# from twillio_test import send_notification
 import pathos.multiprocessing as mp
 from numpy import mean
 from pathos.multiprocessing import Pool
@@ -49,24 +48,15 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         model_dir, model_name = os.path.split(model_file)
         print ''
         thresholds = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+        t1 = tester(test_dirs=test_dirs, model_dir=model_dir, modelName=model_name, verbose=verbose,
+                    classifierType=classifierType)
         tests = []
-        for t in thresholds:
-            tests.append(
-                tester(test_dirs=test_dirs,
-                       model_dir=model_dir,
-                       modelName=model_name,
-                       level=t, verbose=verbose, classifierType=classifierType))
-
-        test_functions = []
-        for r in tests:
-            test_functions.append(r.test_model())
-
         if num_threads:
             pros = Pool(num_threads)
-            pros.map(test_functions, [])
+            tests = pros.map(t1.test_model, thresholds)
         else:
-            for test_case in test_functions:
-                test_case()
+            for t in thresholds:
+                tests.append(t1.test_model(t))
 
         num_classes = len(birds) - 1
         per_class_fpr = [[] for a in xrange(num_classes)]

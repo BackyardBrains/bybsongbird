@@ -99,7 +99,6 @@ def unshared_copy(inList):
 
 class tester:
     def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='model', classifierType='gradientboosting',
-                 level=0.5,
                  verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
@@ -108,10 +107,9 @@ class tester:
         self.level = level
         self.verbose = verbose
 
-    def test_model(self):
+    def test_model(self, level=0.5):
 
         test_dirs = self.test_dirs
-        level = self.level
         model_dir = self.model_dir
         modelName = self.modelName
         classifierType = self.classifierType
