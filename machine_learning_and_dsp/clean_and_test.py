@@ -1,6 +1,7 @@
 #! python
 
 
+import cPickle
 import getopt
 import os
 import sys
@@ -52,8 +53,12 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
                     classifierType=classifierType)
         tests = []
         if num_threads:
-            pros = Pool(num_threads)
-            tests = pros.map(t1.test_model, thresholds)
+            try:
+                pros = Pool(num_threads)
+                tests = pros.map(t1.test_model, thresholds)
+            except cPickle.PicklingError:
+                for t in thresholds:
+                    tests.append(t1.test_model(t))
         else:
             for t in thresholds:
                 tests.append(t1.test_model(t))
