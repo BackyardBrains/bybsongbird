@@ -69,12 +69,12 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         micro_average_fpr = []
         micro_average_tpr = []
         for v in tests:
-            micro_average_fpr.append(mean([1 - v.stats[f].spec for f in xrange(num_classes)]))
-            micro_average_tpr.append(mean([v.stats[f].sens for f in xrange(num_classes)]))
+            micro_average_fpr.append(mean([1 - v[f].spec for f in xrange(num_classes)]))
+            micro_average_tpr.append(mean([v[f].sens for f in xrange(num_classes)]))
 
             for q in xrange(0, num_classes):
-                per_class_fpr[q].append(1 - v.stats[q].spec)
-                per_class_tpr[q].append(v.stats[q].sens)
+                per_class_fpr[q].append(1 - v[q].spec)
+                per_class_tpr[q].append(v[q].sens)
 
         auc_scores = []
         for g in xrange(num_classes):
