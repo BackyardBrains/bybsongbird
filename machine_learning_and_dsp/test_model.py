@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
+from sklearn import metrics
 
 
 def find_stats(stats_matrix):
@@ -227,13 +228,11 @@ class tester:
 
 def basic_roc_plot(fpr, tpr, className):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
-    from sklearn import metrics
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
     plt.title('Receiver Operating Characteristic for %s' % className)
     plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
     plt.legend(loc='lower right')
-    plt.plot([0, 1], [0, 1], 'r--')
     plt.xlim([0, 1])
     plt.ylim([0, 1])
     plt.ylabel('True Positive Rate')
