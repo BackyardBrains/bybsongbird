@@ -24,7 +24,8 @@ def test_params(dir, categories):
     return test_dirs
 
 
-def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize, num_threads):
+def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize, num_threads,
+                   show_graphs=True):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
 
@@ -82,11 +83,12 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 
         auc_scores = []
         for g in xrange(num_classes):
-            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g]))
+            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g], show_graph=show_graphs))
 
         macro_average_auc = mean(auc_scores)
 
-        basic_roc_plot(micro_average_fpr, micro_average_tpr, "Micro-average")
+        micro_average_auc = basic_roc_plot(micro_average_fpr, micro_average_tpr, "Micro-average",
+                                           show_graph=show_graphs, save_graph=True, filename=model_file)
         print "AUC for %s is %s" % ("Macro-average", macro_average_auc)
     except Exception:
         # send_notification("Clean and test process failed.")
@@ -94,6 +96,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
     else:
         #send_notification("Clean and test finished successfully.")
         print "Total time elapsed: ", time.clock() - start_time, " seconds."
+        return micro_average_auc
 
 
 if __name__ == '__main__':
