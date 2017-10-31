@@ -1,6 +1,7 @@
 #! python
 
 
+import cPickle
 import os
 import shutil
 import sys
@@ -62,11 +63,9 @@ class classiFier:
             try:
                 pros = Pool(num_threads)
                 pros.map(self.classFile, wav_files)
-            # except cPickle.PicklingError:
-            #     for wfile in wav_files:
-            #         self.classFile(wfile)
-            except:
-                raise
+            except cPickle.PicklingError:
+                for wfile in wav_files:
+                    self.classFile(wfile)
         if os.path.exists(os.path.join(directory, "noise")):
             shutil.rmtree(os.path.join(directory, "noise"))
         if os.path.exists(os.path.join(directory, "activity")):
