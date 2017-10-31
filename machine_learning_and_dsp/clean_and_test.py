@@ -62,7 +62,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
             for t in thresholds:
                 tests.append(t1.test_model(t))
 
-        num_classes = len(birds) - 1
+        num_classes = len(birds)
         per_class_fpr = [[] for a in xrange(num_classes)]
         per_class_tpr = [[] for a in xrange(num_classes)]
         micro_average_fpr = []
