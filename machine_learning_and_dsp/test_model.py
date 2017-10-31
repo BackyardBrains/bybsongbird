@@ -104,7 +104,6 @@ class tester:
         self.model_dir = model_dir
         self.modelName = modelName
         self.classifierType = classifierType
-        self.level = level
         self.verbose = verbose
 
     def test_model(self, level=0.5):
