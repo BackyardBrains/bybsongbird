@@ -50,18 +50,18 @@ class classiFier:
         directory = self.directory
         num_threads = self.num_threads
 
-        class_functions = []
+        wav_files = []
         for file in os.listdir(directory):
             if file.endswith('.wav') or file.endswith('.WAV'):
                 file = os.path.join(directory, file)
-                class_functions.append(self.classFile(file=file))
+                wav_files.append(file)
                 if not num_threads:
                     self.classFile(file)
         
         if num_threads:
             try:
                 pros = Pool(num_threads)
-                pros.map(class_functions, [])
+                pros.map(self.classFile, wav_files)
             # except cPickle.PicklingError:
             #     for wfile in wav_files:
             #         self.classFile(wfile)

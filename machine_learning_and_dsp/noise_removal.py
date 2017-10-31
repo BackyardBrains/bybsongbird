@@ -143,13 +143,10 @@ class noiseCleaner:
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
 
-        file_cleaners = []
-        for wfile in wav_files:
-            file_cleaners.append(self.noise_removal(inputFile=wfile))
         try:
             if num_threads:
                 pros = Pool(num_threads)
-                pros.map(file_cleaners, [])
+                pros.map(self.noise_removal, wav_files)
         # except cPickle.PicklingError:
         #     for wfile in wav_files:
         #         self.noise_removal(wfile)
