@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
+from sklearn import metrics
 
 
 def find_stats(stats_matrix):
@@ -98,19 +99,16 @@ def unshared_copy(inList):
 
 class tester:
     def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='model', classifierType='gradientboosting',
-                 level=0.5,
                  verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
         self.modelName = modelName
         self.classifierType = classifierType
-        self.level = level
         self.verbose = verbose
 
-    def test_model(self):
+    def test_model(self, level=0.5):
 
         test_dirs = self.test_dirs
-        level = self.level
         model_dir = self.model_dir
         modelName = self.modelName
         classifierType = self.classifierType
@@ -225,72 +223,20 @@ class tester:
         self.stats = stats
         return stats
 
-def basic_roc_plot(fpr, tpr, className):
+
+def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filename='graph'):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
-    from sklearn import metrics
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
     plt.title('Receiver Operating Characteristic for %s' % className)
     plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
     plt.legend(loc='lower right')
-    plt.plot([0, 1], [0, 1], 'r--')
     plt.xlim([0, 1])
     plt.ylim([0, 1])
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
-    plt.show()
+    if save_graph:
+        plt.savefig('.'.join([filename, 'png']))
+    if show_graph:
+        plt.show()
     return roc_auc
-
-if __name__ == '__main__':
-    birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
-    birds = [
-        os.path.join("F:\\odrive\\Google_Drive\\Shared_with_Me\\BYB_Songbird_Project\\Recordings\\xeno-canto\\Testing",
-                     bird, bird + '_clean') for bird
-        in
-        birds]
-    # birds.append("/home/zach/Documents/bird_samples/no_cat")
-
-    #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
-    #new_test.test_model()
-
-    print ''
-    thresholds = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-    tests = []
-    for t in thresholds:
-        tests.append(
-            tester(test_dirs=birds,
-                   model_dir='C:\\Users\\zacha\\PycharmProjects\\Projects\\Songbird\\machine_learning_and_dsp',
-                   modelName="mlp_XC_all_mlp",
-                   level=t, verbose=True))
-
-    for r in tests:
-        r.test_model()
-
-    # pros = Pool(mp.cpu_count())
-    # pros.map(t.test_model() for t in tests)
-
-    num_classes = len(birds) - 1
-    per_class_fpr = [[] for a in xrange(num_classes)]
-    per_class_tpr = [[] for a in xrange(num_classes)]
-    micro_average_fpr = []
-    micro_average_tpr = []
-    for v in tests:
-        micro_average_fpr.append(mean([1 - v.stats[f].spec for f in xrange(num_classes)]))
-        micro_average_tpr.append(mean([v.stats[f].sens for f in xrange(num_classes)]))
-
-        for q in xrange(0, num_classes):
-            per_class_fpr[q].append(1 - v.stats[q].spec)
-            per_class_tpr[q].append(v.stats[q].sens)
-
-    auc_scores = []
-    for g in xrange(num_classes):
-        auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g]))
-
-    macro_average_auc = mean(auc_scores)
-
-    basic_roc_plot(micro_average_fpr, micro_average_tpr, "Micro-average")
-    print "AUC for %s is %s" % ("Macro-average", macro_average_auc)
-
-
-
-

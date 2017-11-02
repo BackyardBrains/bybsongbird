@@ -1,3 +1,16 @@
+#! python
+
+# This is a command line utility to classify a folder of bird songs
+# Will automatically do preprocessing, classify, extract environmental data and insert into the MySQL Database
+# -d, --dir : Directory of Files to classify
+# -m, --model : Location of the model files created from training
+# -c, --classifier : the ml algorithm the model was trained with, will be one of: [gradientboosting (default), svm, randomforest, extratrees, knn]
+# -v, --verbose : Print the classifier results of each file to stdout
+# -e, --export : Exports the entire sql database to an .sql file
+# -r, --run : runs the preprocessing and classifier, it will not run without this flag
+# -n, --num-threads : the number of threads to use for classification, by default will use the number of cpus on the system, set this to 0 to debug
+
+
 import getopt
 import os
 import sys
@@ -16,12 +29,10 @@ if __name__ == '__main__':
     export = False
     run = False
     num_threads = mp.cpu_count()
-    debug = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vern:x",
-                                   ["dir=", "model=", "classifier=", "verbose", "export", "run", "num-threads=",
-                                    "debug"])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:vern:",
+                                   ["dir=", "model=", "classifier=", "verbose", "export", "run", "num-threads="])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -41,8 +52,6 @@ if __name__ == '__main__':
             run = True
         elif opt in ("-n", "--num-threads"):
             num_threads = int(arg)
-        elif opt in ("-x", "--debug"):
-            debug = True
         else:
             assert False, "unhandled option"
 
@@ -60,8 +69,3 @@ if __name__ == '__main__':
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)
-    if not debug:
-        pass
-        #     shutil.rmtree(directory)
-        #     os.mkdir(directory)
-        # TODO rework so that files won't be deleted if recoreded during process

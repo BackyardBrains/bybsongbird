@@ -13,8 +13,6 @@ import numpy as np
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
-db = extensions.connect_to_database()
-
 ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
 
 @upload.route('/upload', methods = ['GET','POST'])
@@ -78,6 +76,7 @@ def upload_route():
             second_match = {"name": result['values'][10].split('_')[0].replace("'",""), "percentage": "{:.3%}".format(float(result['values'][11]))}
             third_match = {"name": result['values'][12].split('_')[0].replace("'",""), "percentage": "{:.3%}".format(float(result['values'][13]))}
             
+            db = connect_to_database()
             cur = db.cursor()
             add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
             data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])

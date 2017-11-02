@@ -131,7 +131,7 @@ class classiFier:
             longitude = float(longitude)
 
         if light == None or light == 0:
-            light = -1;
+            light = -1
         else:
             light = float(light)
 
