@@ -1,5 +1,7 @@
 #! python
+import matplotlib
 
+matplotlib.use("Pdf")
 
 import cPickle
 import getopt

@@ -239,4 +239,5 @@ def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filen
         plt.savefig('.'.join([filename, 'png']))
     if show_graph:
         plt.show()
+    plt.clf()
     return roc_auc
