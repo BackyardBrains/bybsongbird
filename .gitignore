@@ -5,3 +5,4 @@ __pycache__/*
 controllers/__pycache__/*
 controllers/*.pyc
 Vagrantfile
+config.py

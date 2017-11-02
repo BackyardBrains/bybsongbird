@@ -2,18 +2,18 @@
 # Make a seperate one for your deployed environment
 
 env = dict(
-        host = 'localhost',	
+        host = 'localhost',
        # host = '34.201.32.83',
-	#port = 3000,
-	port = 800,
+        #port = 3000,
+        port = 800,
         #user = 'bybsongbird',
 user = 'root',
-password = 'BYBsongbird2017!',	
+password = 'BYBsongbird2017!',
 #password = 'w6LT6RKWRQKDwa27w1',
     #user = 'root',
     #password = 'root',
-	db = 'bybsongbird', 
-	# UPLOAD_FOLDER = '/vagrant/bybsongbird/static/songs/users'
+        db = 'bybsongbird',
+        # UPLOAD_FOLDER = '/vagrant/bybsongbird/static/songs/users'
     UPLOAD_FOLDER = '/w/bybsongbird/static/songs/users'
 )
 
