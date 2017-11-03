@@ -1,6 +1,7 @@
 from flask import *
 from extensions import connect_to_database
 from flask import url_for
+from datetime import datetime
 
 main = Blueprint('main', __name__, template_folder='templates')
 
@@ -52,8 +53,13 @@ def main_route():
         cur.execute(search)
         result = cur.fetchall()
 
+    cur = db.cursor()
+    cur.execute("SELECT * FROM sampleInfo WHERE DATE(added) - %s < 7", (datetime.now().date(),))
+    samples = cur.fetchall()
+
     options = {
 		"result": result,
-        "search": search
+        "search": search,
+        'samples': samples
 	}
     return render_template("index.html", **options)

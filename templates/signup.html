@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+	label {
+		position:relative;
+		left: 50px;
+	    font-family: Georgia, "Times New Roman", Times, serif;
+	    font-size: 18px;
+	    color: #333;
+	    height: 20px;
+	    width: 200px;
+	    margin-top: 10px;
+	    margin-left: 10px;
+	    text-align: right;
+	    clear: both;
+	    float:left;
+	    margin-right:15px;
+	    top: 50px
+	}
+
+	input[type=text], input[type=password] {
+		position:relative;
+	    width: 50%;
+	    padding: 12px 20px;
+	    margin: 0 auto;
+	    border: 1px solid #ccc;
+	    box-sizing: border-box;
+	    background-color: #696969;
+	    display: block;
+	    float: left;
+	    left: 100px;
+	    top: 50px;
+	}
+
+	button {
+		position:relative;
+	    background-color: #696969;
+	    color: white;
+	    padding: 14px 20px;
+	    margin: 8px 0;
+	    border: none;
+	    cursor: pointer;
+	    width: 60%;
+	    left: 180px;
+	    top: 80px;
+	}
+
+	button:hover {
+    	opacity: 0.8;
+	}
+
+	.signup {
+		color: #FFC433;
+		position:relative;
+		margin-left: 100px;
+	}
+
+	.error {
+		color: orange;
+		top: 300px;
+	}
+
+</style>
+
+<h1 class="signup"> Sign Up </h1>
+
+<form method="post">
+	<div class="signup_form">
+		<label><b>Username</b></label>
+		<input  id="new_username_input" type="text" name="username" required><br><br>
+		<label><b>Password1</b></label>
+		<input  id="new_password1_input" type="password" name="password1" required><br><br>
+		<label><b>Password2</b></label>
+		<input  id="new_password2_input" type="password" name="password2" required><br><br>
+		<label><b>Email</b></label>
+		<input  id="new_email_input" type="text" name="email" required><br><br><br>
+		<button id="new_submit" type="submit"> Sign Up Now </button>
+	</div>
+</form>
+
+{% if isUsernameRepeated %}
+	<p class="error"> The username has been used </p>
+{% endif %}
+
+{% if isPassword1TooShort %}
+	<p class="error"> The password is too short </p>
+{% endif %}
+
+{% if isPassword12Mismatch %}
+	<p class="error"> The password1 does not match the password2 </p> 
+{% endif %}
+
+{% endblock %}

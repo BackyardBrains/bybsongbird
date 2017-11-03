@@ -20,3 +20,10 @@ CREATE TABLE songInfo (
 	songid   VARCHAR(20),
 	format   VARCHAR(20)
 );
+
+CREATE TABLE UserInfo (   
+	username VARCHAR(20),
+	password VARCHAR(256),
+	email VARCHAR(40),
+	PRIMARY KEY (username)
+);

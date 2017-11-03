@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block head %}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+{% endblock %}
+
 {% block content %}
     <body style="background-color:grey;">
         <ul id="accordion">
@@ -119,5 +124,64 @@
         	    {% endfor %}
 		    </table></font>
         {% endif %}
+
+        <div id="map" data-samples={{samples}}></div>
 	</body>
+
+    <style type="text/css">
+        #map {
+            width: 600px;
+            height: 450px;
+        }
+    </style>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        (function() {
+            // map options
+            var options = {
+                zoom: 6,
+                center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+                mapTypeControl: false
+            };
+
+            // init map
+            var map = new google.maps.Map($('#map')[0], options);
+
+            var samples = $('#map').attr('data-samples');
+
+            // set multiple marker
+            // for (var i = 0; i < 250; i++) {
+                // init markers
+            console.log(samples)
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(42.279594, -83.732124),
+                map: map,
+                title: 'Click Me'
+            });
+
+                // process multiple info windows
+                // (function(marker, i) {
+                    // add click event
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location.href = "/info?sampleid=-379669296";
+            });
+                // })(marker, i);
+            // }
+
+            marker.addListener('mouseover', function() {
+                infowindow = new google.maps.InfoWindow({
+                    content: 'sampleid = -379669296'
+                });
+                infowindow.open(map, marker);
+            });
+
+            // assuming you also want to hide the infowindow when user mouses-out
+            marker.addListener('mouseout', function() {
+                infowindow.close();
+            });
+        })();
+    });
+    </script>
 {% endblock %}

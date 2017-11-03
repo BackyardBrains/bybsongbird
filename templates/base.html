@@ -52,7 +52,7 @@
 
         #accordion li:hover div.content{ display: inherit; font-family: Verdana; }
     </style>
-
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     {% block head %}{% endblock %}
 </head>
 
@@ -60,8 +60,11 @@
     <ul class="navbar">
         <li class="navbar"><a href="{{url_for('main.main_route')}}"><b>Main</b></a></li>
         <li class="navbar"><a href="{{url_for('sqlpage.sqlpage_route')}}"><b>Database (SQL)</b></a></li>
-        <li class="navbar"><a href="{{url_for('pattern.pattern_route')}}"><b>Migration Pattern</b></a></li>
+        <!-- <li class="navbar"><a href="{{url_for('pattern.pattern_route')}}"><b>Migration Pattern</b></a></li> -->
         <li class="navbar"><a href="{{url_for('upload.upload_route')}}"><b>Upload</b></a></li>
+        <li class="navbar"><a href="{{url_for('login.login_route')}}"><b>Login</b></a></li>
+        <li class="navbar"><a href="{{url_for('signup.signup_route')}}"><b>Sign up</b></a></li>
+        <li class="navbar"><a href="{{url_for('logout.logout_route')}}"><b>Log Out</b></a></li>
     </ul>
 
     <center><a href="https://backyardbrains.com/">

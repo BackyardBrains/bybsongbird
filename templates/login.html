@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+label {
+	position:relative;
+	left: 50px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 18px;
+    color: #333;
+    height: 20px;
+    width: 200px;
+    margin-top: 10px;
+    margin-left: 10px;
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
+    top: 30px
+}
+
+input[type=text], input[type=password] {
+	position:relative;
+    width: 50%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #696969;
+    display: block;
+    float: left;
+    left: 100px;
+    top: 30px;
+}
+
+button {
+	position:relative;
+    background-color: #696969;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+    left: 180px;
+    top: 60px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.password {
+    float: right;
+    padding-top: 16px;
+}
+
+h1.login {
+	color: #FFC433;
+	position:relative;
+	left: 100px;
+}
+
+</style>
+<h1 class="login">LOG IN</h1>
+<body>
+<form method="post">
+	<div class="container">
+	    <label><b>Username</b></label>
+	    <input type="text" name="username" required>
+
+	    <label><b>Password</b></label>
+	    <input type="password" name="password" required>
+	        
+	    <button type="submit">Login</button>
+	</div>
+</form>
+</body>
+
+{%if isUsernameEmpty%}
+<p class="error"> 
+Username may not be left blank
+</p>
+{%endif%}
+
+{%if isPasswordEmpty%}
+<p class="error"> 
+Password may not be left blank
+</p>
+{%endif%}
+
+{%if isUsernameWrong%}
+<p class="error"> 
+Username does not exist
+</p>
+{%endif%}
+
+{%if isPassowrdWrong%}
+<p class="error">
+Password is incorrect for the specified username
+</p>
+{%endif%}
+
+{% endblock %}
