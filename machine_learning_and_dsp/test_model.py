@@ -229,7 +229,7 @@ def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filen
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
     plt.title('Receiver Operating Characteristic for %s' % className)
-    plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
+    plt.plot(fpr, tpr, 'b', label='%s = %0.2f' % (className, roc_auc))
     plt.legend(loc='lower right')
     plt.xlim([0, 1])
     plt.ylim([0, 1])
@@ -239,5 +239,4 @@ def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filen
         plt.savefig('.'.join([filename, 'png']))
     if show_graph:
         plt.show()
-    plt.clf()
     return roc_auc
