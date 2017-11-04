@@ -3,15 +3,12 @@ import matplotlib
 
 matplotlib.use("Pdf")
 
-import cPickle
 import getopt
 import os
 import sys
 import time
 
-import pathos.multiprocessing as mp
 from numpy import mean
-from pathos.multiprocessing import Pool
 
 from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
@@ -26,7 +23,7 @@ def test_params(dir, categories):
     return test_dirs
 
 
-def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize, num_threads,
+def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize,
                    show_graphs=True):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
@@ -53,16 +50,9 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         t1 = tester(test_dirs=test_dirs, model_dir=model_dir, modelName=model_name, verbose=verbose,
                     classifierType=classifierType)
         tests = []
-        if num_threads:
-            try:
-                pros = Pool(num_threads)
-                tests = pros.map(t1.test_model, thresholds)
-            except cPickle.PicklingError:
-                for t in thresholds:
-                    tests.append(t1.test_model(t))
-        else:
-            for t in thresholds:
-                tests.append(t1.test_model(t))
+
+        for t in thresholds:
+            tests.append(t1.test_model(t))
 
         num_classes = len(birds)
         per_class_fpr = [[] for a in xrange(num_classes)]
@@ -104,12 +94,10 @@ if __name__ == '__main__':
     model_file = os.path.join(directory, 'model')
     skip_clean = False
     no_sanitize = False
-    num_threads = mp.cpu_count()
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vsnt:",
-                                   ["dir=", "model=", "classifier=", "bird=", "verbose", "skip-clean", "no-sanitize",
-                                    "num-threads="])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vsn",
+                                   ["dir=", "model=", "classifier=", "bird=", "verbose", "skip-clean", "no-sanitize", ])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -129,8 +117,6 @@ if __name__ == '__main__':
             skip_clean = True
         elif opt in ("-n", "--no-sanitize"):
             no_sanitize = True
-        elif opt in ("-t", "--num-threads"):
-            num_threads = int(arg)
         else:
             assert False, "unhandled option"
 
@@ -141,4 +127,4 @@ if __name__ == '__main__':
         raise Exception(classifierType + " is not a valid model type!")
 
     clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-                   no_sanitize=no_sanitize, num_threads=num_threads)
+                   no_sanitize=no_sanitize)

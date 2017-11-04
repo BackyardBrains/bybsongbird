@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import cPickle
 import glob
 import os
 import time
@@ -154,9 +155,15 @@ class tester:
             os.chdir(dir)
             rootdir, correct_cat = os.path.split(dir)
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
-
-                Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
-                                                              classifierType)  # Test the file
+                result_pickle = '.'.join([file, modelName])
+                if os.path.exists(result_pickle):
+                    with open(result_pickle, 'r') as result_file:
+                        Result, P, classNames = cPickle.load(result_file)
+                else:
+                    with open(result_pickle, 'w') as result_file:
+                        Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
+                                                                      classifierType)  # Test the file
+                        cPickle.dump([Result, P, classNames], result_file)
 
                 if verbose:
                     print '\n', file
