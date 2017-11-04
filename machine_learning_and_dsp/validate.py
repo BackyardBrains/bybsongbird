@@ -2,6 +2,9 @@ import itertools
 import os
 from functools import partial
 
+import pathos.multiprocessing as mp
+from pathos.multiprocessing import Pool
+
 from clean_and_test import clean_and_test, test_params
 from train_model import train_model
 
@@ -38,7 +41,5 @@ if __name__ == '__main__':
 
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
-    # pros = Pool(mp.cpu_count())
-    # pros.map(verifier, parameters)
-    for params in parameters:
-        verifier(params)
+    pros = Pool(mp.cpu_count())
+    pros.map(verifier, parameters)
