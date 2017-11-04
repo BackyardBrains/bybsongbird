@@ -3,6 +3,7 @@ import os
 from functools import partial
 
 from clean_and_test import clean_and_test, test_params
+from train_model import train_model
 
 
 def train_and_verify(parameters, directory, birds):
@@ -15,8 +16,10 @@ def train_and_verify(parameters, directory, birds):
     test_rootdir = os.path.join(directory, 'Testing')
     train_dirs = test_params(train_rootdir, birds)
     model = 'x'.join([classifierType, str(mtStep), str(mtWin), str(stStep), str(stWin)])
-    # train_model(modelName=model, mtWin=mtWin, mtStep=mtStep, stWin=stWin, stStep=stStep, classifierType=classifierType,
-    #             list_of_dirs=train_dirs)
+    if not os.path.exists(model):
+        train_model(modelName=model, mtWin=mtWin, mtStep=mtStep, stWin=stWin, stStep=stStep,
+                    classifierType=classifierType,
+                    list_of_dirs=train_dirs)
     clean_and_test(directory=test_rootdir, classifierType=classifierType, no_sanitize=True, skip_clean=True,
                    show_graphs=False, model_file=os.path.join(os.getcwd(), model), birds=birds, verbose=False)
 
