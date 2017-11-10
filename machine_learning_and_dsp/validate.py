@@ -10,6 +10,7 @@ from train_model import train_model
 
 
 def train_and_verify(parameters, directory, birds):
+    os.chdir(directory)
     classifierType = parameters[0]
     mtStep = parameters[1]
     mtWin = parameters[2]
@@ -28,14 +29,17 @@ def train_and_verify(parameters, directory, birds):
 
 
 if __name__ == '__main__':
-    birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song',
-             'sparrow_song', 'titmouse_song']
-    directory = '/run/media/zach/untitled/ML_Recordings/xeno-canto'
-    classifierType = ['gradientboosting']
-    mtStep = [0.2]
-    mtWin = [0.2]
-    stStep = [0.02]
-    stWin = [0.02]
+    # birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song',
+    #          'sparrow_song', 'titmouse_song']
+    directory = 'E:\\bird_model_2'
+    for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
+        birds = dirs
+        break
+    classifierType = ['svm']
+    mtStep = [0.4]
+    mtWin = [0.4]
+    stStep = [0.04]
+    stWin = [0.04]
 
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
 
