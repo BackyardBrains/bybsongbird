@@ -69,7 +69,7 @@ def upload_route():
             
 
             # model_file = '/vagrant/bybsongbird/model2/model'
-            model_file = '/model2/model'
+            model_file = '/home/ubuntu/bybsongbird/model2/model'
             #model_file = 'C:\\Users\\chouw\\Documents\\bybsongbird\\model2\\model'
 
             identify = classiFier(model_file=model_file, verbose=True)
