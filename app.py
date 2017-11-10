@@ -17,6 +17,7 @@ app.register_blueprint(controllers.pattern)
 app.register_blueprint(controllers.upload)
 app.register_blueprint(controllers.database)
 
+sys.stderr = open("error_log", "a")
 
 # Listen on external IPs
 # For us, listen to port 3000 so you can just run 'python app.py' to start the server

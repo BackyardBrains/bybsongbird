@@ -1,0 +1,57 @@
+.welcome {
+    background-image: url("../images/home-songbird.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 500px;
+}
+
+.overlay {
+    position: relative;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.home-info {
+    position: relative;
+    top: -350px;
+    width: max-content;
+    margin: 0 auto;
+}
+
+.text-1, .text-2 {
+    color: white;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.text-3 {
+    color: white;
+    font-size: 10px;
+    font-weight: 100;
+}
+
+.home-buttons {
+    display: flex;
+    margin: 0 auto;
+    width: max-content;
+}
+
+.sub-button-1 {
+    width: 100px;
+    height: 30px;
+    background-color: #EE7E21;
+    color: white;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.sub-button-2 {
+    width: 100px;
+    height: 30px;
+    background-color: white;
+    color: black;
+    text-align: center;
+}

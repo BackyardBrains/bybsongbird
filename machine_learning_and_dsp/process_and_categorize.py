@@ -165,6 +165,9 @@ class classiFier:
                 else:
                     sys.stderr.write("Warning: Duplicate key entry.\n")
 
+        return {"values": values, "sample_id": sample_id}
+
+
 
     def export(self):
         try:
