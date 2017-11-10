@@ -10,6 +10,7 @@ from werkzeug import secure_filename
 import datetime
 from machine_learning_and_dsp.process_and_categorize import classiFier
 import numpy as np
+from extensions import connect_to_database
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
@@ -68,7 +69,8 @@ def upload_route():
             
 
             # model_file = '/vagrant/bybsongbird/model2/model'
-            model_file = '/w/bybsongbird/model2/model'
+            model_file = '/model2/model'
+            #model_file = 'C:\\Users\\chouw\\Documents\\bybsongbird\\model2\\model'
 
             identify = classiFier(model_file=model_file, verbose=True)
             result = identify.classFile(os.path.join(config.env['UPLOAD_FOLDER'], filename))
