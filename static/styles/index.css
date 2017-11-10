@@ -42,34 +42,41 @@
 .sub-button-1 {
     width: 100px;
     height: 30px;
+    line-height: 30px;
     background-color: #EE7E21;
     color: white;
     text-align: center;
     margin-right: 20px;
 }
 
+.sub-button-1:hover {
+    cursor: pointer;
+}
+
 .sub-button-2 {
     width: 100px;
     height: 30px;
+    line-height: 30px;
     background-color: white;
     color: black;
     text-align: center;
 }
 
+.sub-button-2:hover {
+    cursor: pointer;
+}
+
 .introducing, .latest-upload {
     margin-top: 3%;
-    margin-left: 8%;
+    margin-bottom: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .intro-header {
     display: flex;
-    width: max-content;
     margin-bottom: 20px;
     border-bottom: solid 1px #EE7E21;
-}
-
-.intro-desc {
-    width: 1090px;
 }
 
 .desc2, .desc3 {
@@ -77,9 +84,9 @@
 }
 
 .header {
-    width: 345px;
+    width: 32%;
     height: 35px;
-    margin-right: 20px;
+    margin-right: 2%;
     text-align: center;
     line-height: 35px;
     background-color: #3F3942;
@@ -109,7 +116,6 @@
 }
 
 .join-us {
-    margin-top: 40px;
     background-color: #EE7E21;
     color: white;
     height: 100px;
