@@ -55,3 +55,77 @@
     color: black;
     text-align: center;
 }
+
+.introducing, .latest-upload {
+    margin-top: 3%;
+    margin-left: 8%;
+}
+
+.intro-header {
+    display: flex;
+    width: max-content;
+    margin-bottom: 20px;
+    border-bottom: solid 1px #EE7E21;
+}
+
+.intro-desc {
+    width: 1090px;
+}
+
+.desc2, .desc3 {
+    display: none;
+}
+
+.header {
+    width: 345px;
+    height: 35px;
+    margin-right: 20px;
+    text-align: center;
+    line-height: 35px;
+    background-color: #3F3942;
+    color: white;
+}
+
+.header:last-child {
+    margin-right: 0;
+}
+
+.header:hover {
+    cursor: pointer;
+}
+
+.active {
+    border-top: solid 1px #EE7E21;
+    border-left: solid 1px #EE7E21;
+    border-right: solid 1px #EE7E21;
+    border-bottom: 0;
+    background-color: white;
+    color: #EE7E21;
+}
+
+.intro-title, .latest-title {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.join-us {
+    margin-top: 40px;
+    background-color: #EE7E21;
+    color: white;
+    height: 100px;
+    text-align: center;
+}
+
+.join-text-1 {
+    margin-bottom: 0;
+    padding-top: 25px;
+}
+
+.join-text-2 {
+    margin-bottom: 0;
+}
+
+.join-link {
+    color: black;
+    font-style: italic;
+}
