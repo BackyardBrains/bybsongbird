@@ -82,7 +82,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
     else:
         #send_notification("Clean and test finished successfully.")
         print "Total time elapsed: ", time.clock() - start_time, " seconds."
-        return micro_average_auc
+        return [micro_average_fpr, micro_average_tpr, micro_average_auc, tests]
 
 
 if __name__ == '__main__':

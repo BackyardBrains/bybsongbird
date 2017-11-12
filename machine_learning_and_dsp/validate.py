@@ -1,3 +1,4 @@
+import cPickle
 import itertools
 import os
 from functools import partial
@@ -21,14 +22,19 @@ def train_and_verify(parameters, directory, birds, debug=False):
         test_rootdir = os.path.join(directory, 'Testing')
         train_dirs = test_params(train_rootdir, birds)
         model = 'x'.join([classifierType, str(mtStep), str(mtWin), str(stStep), str(stWin)])
+        model_path = os.path.join(os.getcwd(), model)
         if not os.path.exists(model):
             train_model(modelName=model, mtWin=mtWin, mtStep=mtStep, stWin=stWin, stStep=stStep,
                         classifierType=classifierType,
                         list_of_dirs=train_dirs)
-        png_path = '.'.join([model, 'png'])
-        if not os.path.exists(png_path):
-            clean_and_test(directory=test_rootdir, classifierType=classifierType, no_sanitize=True, skip_clean=True,
-                           show_graphs=False, model_file=os.path.join(os.getcwd(), model), birds=birds, verbose=False)
+        png_path = '.'.join([model_path, 'png'])
+        stats_path = '.'.join([model_path, 'stats'])
+        if not os.path.exists(png_path) and not os.path.exists(stats_path):
+            stats = clean_and_test(directory=test_rootdir, classifierType=classifierType, no_sanitize=True,
+                                   skip_clean=True,
+                                   show_graphs=False, model_file=model_path, birds=birds, verbose=False)
+            with open(stats_path, 'w') as stats_file:
+                cPickle.dump(stats, stats_file)
     except:
         if debug:
             raise
