@@ -42,22 +42,20 @@ def train_and_verify(parameters, directory, birds, debug=False):
             return
 
 
-if __name__ == '__main__':
-    # birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song',
-    #          'sparrow_song', 'titmouse_song']
-    directory = 'E:\\bird_model_2'
+def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
+
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
         birds = dirs
         break
-    classifierType = ['svm']
-    mtStep = [0.4]
-    mtWin = [0.4]
-    stStep = [0.04]
-    stWin = [0.04]
 
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
 
+    # Gets rid of invalid sets of parameters
+    for p in parameters:
+        if p[1] > p[2] or p[3] > p[4] or p[4] >= p[2]:
+            p.remove()
+
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
-    pros = Pool(mp.cpu_count())
+    pros = Pool(num_threads)
     pros.map(verifier, parameters)
