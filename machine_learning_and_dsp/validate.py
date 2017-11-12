@@ -53,7 +53,7 @@ def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_thread
     # Gets rid of invalid sets of parameters
     for p in parameters:
         if p[1] > p[2] or p[3] > p[4] or p[4] >= p[2]:
-            p.remove()
+            parameters.remove(p)
 
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
