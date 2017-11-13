@@ -3,6 +3,8 @@ import matplotlib
 
 matplotlib.use("Pdf")
 
+from matplotlib import pyplot as plt
+
 import getopt
 import os
 import sys
@@ -75,6 +77,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 
         micro_average_auc = basic_roc_plot(micro_average_fpr, micro_average_tpr, "Micro-average",
                                            show_graph=show_graphs, save_graph=True, filename=model_file)
+        plt.clf()
         print "AUC for %s is %s" % ("Macro-average", macro_average_auc)
     except Exception:
         # send_notification("Clean and test process failed.")
