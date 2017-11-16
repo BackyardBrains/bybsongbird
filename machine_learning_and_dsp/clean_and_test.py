@@ -17,6 +17,7 @@ from sanitize_filenames import sanatize_filenames
 from test_model import tester, basic_roc_plot
 
 
+# This function will take the directory name(dir) and the bird names (categories) and return a list of folder paths of the form dir/bird_name
 def test_params(dir, categories):
     test_dirs = []
     for cat in categories:
@@ -25,6 +26,8 @@ def test_params(dir, categories):
     return test_dirs
 
 
+# When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
+#Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
 def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize,
                    show_graphs=True):
     if not len(birds):
@@ -44,7 +47,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         if not skip_clean:
             for dir in test_dirs:
                 rootdir, subdir = os.path.split(dir)
-                cleaner = noiseCleaner(verbose=verbose, num_threads=num_threads)
+                cleaner = noiseCleaner(verbose=verbose, num_threads=0)
                 cleaner.noise_removal_dir(rootdir)
         model_dir, model_name = os.path.split(model_file)
         print ''
