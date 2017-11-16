@@ -19,17 +19,62 @@
                 </div>
             </div>
             <div class="location">
-                <input class="longitude" type="text" id="latitude" name='longitude' placeholder="Longitude">
-                <input class="latitude" type="text" id="latitude" name='latitude' placeholder="Latitude">
+                <input class="longitude" type="text" name='longitude' placeholder="Longitude">
+                <input class="latitude" type="text" name='latitude' placeholder="Latitude">
                 <div class="location_icon_div">
                     <i class="fa fa-location-arrow location_icon" aria-hidden="true"></i>
                 </div>
             </div>
-            <input class="humidity" type="text" id="latitude" name='longitude' placeholder="Humidity">
-            <input class="temperature" type="text" id="latitude" name='longitude' placeholder="Temperature">
-            <input class="light" type="text" id="latitude" name='longitude' placeholder="Light">
+            <input class="humidity" type="text" name='humidity' placeholder="Humidity">
+            <input class="temperature" type="text" name='temp' placeholder="Temperature">
+            <input class="light" type="text" name='light' placeholder="Light">
             <input class="submit_file" type="submit" value="Upload">
         </form>
     </div>
+
+    {% if matches %}
+    <div class="result">
+        <div class='result_title'>
+            <p class="result_title_text">
+                {% if file_num == 1 %}
+                    Your sample has been uploaded successfully.
+                {% else %}
+                    Your samples have been uploaded successfully.
+                {% endif %}
+                <i class="fa fa-times close_icon" aria-hidden="true"></i>
+            </p>
+        </div>
+        {% for match in matches %}
+        <div class="result_sub">
+            <div class="result_id">
+                Your Sample ID: #123456
+            </div>
+            <hr>
+            <div class="audio_user" data-audio-user={{match.filename}} data-user-waveform={{match.user}}>
+                <p>original file</p>
+            </div>
+            <div class="audio_user_clean" data-audio-user-clean={{match.user_clean_audio}} data-user-clean-waveform={{match.user_clean}}>
+                <p>clean file</p>
+            </div>
+            <div class="audio_activity" data-audio-activity={{match.activity_audio}} data-activity-waveform={{match.activity}}>
+                <p>activity file</p>
+            </div>
+            <div class="audio_noise" data-audio-noise={{match.noise_audio}} data-noise-waveform={{match.noise}}>
+                <p>noise file</p>
+            </div>
+            <div class='classification'>
+                <div class='classification_title' data-classification='{{match.match}}'>
+                    Classification Results:
+                </div>
+                <div class="visulization">
+                    <svg class='chart_hist'></svg>
+                    <svg class='chart_pie'>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <ul id="pagin"></ul>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

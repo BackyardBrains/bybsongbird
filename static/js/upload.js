@@ -26,4 +26,8 @@ $(function() {
             alert("Geolocation is not supported by this browser.");
         }
     });
+
+    $('.close_icon').on('click', function() {
+        $('.result_title').hide();
+    });
 });
