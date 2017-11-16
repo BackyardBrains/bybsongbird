@@ -28,16 +28,15 @@
     color: white;
 }
 
+.navbar-light .navbar-nav .nav-link.upload_btn.active {
+    color: white;
+}
+
 .navbar-light .navbar-nav .nav-link.upload_btn {
     color: #EE7E21;
     font-weight: 200;
     padding-left: 20px;
     padding-right: 20px;
-}
-
-.navbar-light .navbar-nav .nav-link.upload_btn.active {
-    background-color: #3F3942;
-    border: solid 2px #EE7E21;
 }
 
 .navbar-expand-lg .navbar-nav {
