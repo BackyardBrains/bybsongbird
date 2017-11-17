@@ -22,41 +22,41 @@ ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'fla
 @upload.route('/upload', methods = ['GET','POST'])
 def upload_route():
     if request.method == 'POST':
-        if 'file' not in request.files:
-            options = {
-                "noFile": True
-            }
-            return render_template("upload.html", **options)
+        # if 'file' not in request.files:
+        #     options = {
+        #         "noFile": True
+        #     }
+        #     return render_template("upload.html", **options)
 
-        latitude_get = request.form['latitude']
-        if latitude_get != '':
-            latitude = float(latitude_get)
-        else:
-            latitude = None
+        # latitude_get = request.form['latitude']
+        # if latitude_get != '':
+        #     latitude = float(latitude_get)
+        # else:
+        #     latitude = None
 
-        longitude_get = request.form['longitude']
-        if longitude_get != '':
-            longitude = float(longitude_get)
-        else:
-            longitude = None
+        # longitude_get = request.form['longitude']
+        # if longitude_get != '':
+        #     longitude = float(longitude_get)
+        # else:
+        #     longitude = None
 
-        humidity_get = request.form['humidity']
-        if humidity_get != '':
-            humidity = float(humidity_get)
-        else:
-            humidity = None
+        # humidity_get = request.form['humidity']
+        # if humidity_get != '':
+        #     humidity = float(humidity_get)
+        # else:
+        #     humidity = None
 
-        temp_get = request.form['temp']
-        if temp_get != '':
-            temp = float(temp_get)
-        else:
-            temp = None
+        # temp_get = request.form['temp']
+        # if temp_get != '':
+        #     temp = float(temp_get)
+        # else:
+        #     temp = None
 
-        light_get = request.form['light']
-        if light_get != '':
-            light = float(light_get)
-        else:
-            light = None
+        # light_get = request.form['light']
+        # if light_get != '':
+        #     light = float(light_get)
+        # else:
+        #     light = None
 
         # file = request.files['file']
         files = request.files.getlist('file')
@@ -119,10 +119,10 @@ def upload_route():
                                 # 'user_clean': user_clean_waveform_file,
                                 # 'user_clean_audio': user_clean_file,
                                 'file_num': file_num,
-                                'latitude': latitude,
-                                'longitude': longitude,
-                                'humidity': humidity,
-                                'temperature': temp
+                                # 'latitude': latitude,
+                                # 'longitude': longitude,
+                                # 'humidity': humidity,
+                                # 'temperature': temp
                                 })
 
                 # cur = db.cursor()

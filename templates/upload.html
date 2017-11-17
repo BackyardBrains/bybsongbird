@@ -46,7 +46,66 @@
                 <i class="fa fa-times close_icon" aria-hidden="true"></i>
             </p>
         </div>
-        
+        {% for match in matches %}
+        <div class="result_sub">
+            <div class="result_id">
+                Your Sample ID: #{{match.sample_id}}
+            </div>
+
+            <hr>
+
+            <div class="first_row">
+                <div class="audio_user" data-audio-user={{match.filename}} data-user-waveform={{match.user}}>
+                </div>
+                <div class="audio_user_clean" data-audio-user-clean={{match.user_clean_audio}} data-user-clean-waveform={{match.user_clean}}>
+                </div>
+            </div>
+            
+
+            <div class="second_row">
+                <div class="audio_activity" data-audio-activity={{match.activity_audio}} data-activity-waveform={{match.activity}}>
+                </div>
+                <div class="audio_noise" data-audio-noise={{match.noise_audio}} data-noise-waveform={{match.noise}}>
+                </div>
+            </div>
+            
+            <div class='classification' data-classification-first='{{match.first_match}}' data-classification-second='{{match.second_match}}' data-classification-third='{{match.third_match}}'>
+                <div class="first_row_classify">
+                    <div class="first_match">
+                        <div id="chart1"></div>
+                        <div class="first_match_intro">
+                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                    <div class="second_match">
+                        <div id="chart2"></div>
+                        <div class="second_match_intro">
+                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="third_match">
+                    <div id="chart3"></div>
+                    <div class="third_match_intro">
+                        <p class="match_title">Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="progress-bar-container">
+                <div class="progress-bar-child progress_bar"></div>
+                </div>
+            </div>
+
+            <div class="info_location">
+                <p class="info_title">Location:</p>
+                <div id="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}>
+            </div>
+        </div>
+        {% endfor %}
         <ul id="pagin"></ul>
     </div>
     {% endif %}
