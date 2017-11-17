@@ -34,7 +34,20 @@
         </form>
     </div>
 
-    
+    {% if matches %}
+    <div class="result">
+        <div class='result_title'>
+            <p class="result_title_text">
+                {% if file_num == 1 %}
+                    Your sample has been uploaded successfully.
+                {% else %}
+                    Your samples have been uploaded successfully.
+                {% endif %}
+                <i class="fa fa-times close_icon" aria-hidden="true"></i>
+            </p>
+        </div>
+        
+        <ul id="pagin"></ul>
     </div>
     {% endif %}
 </div>
