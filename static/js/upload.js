@@ -75,11 +75,11 @@ $(function() {
 
         $("#pagin li").first().find('a').addClass('current');
         
-        $("#pagin").prepend('<span class="prev">Prev</span>');
-        $("#pagin").append('<span class="next">Next</span>');
+        $("#pagin").prepend('<span class="prev">&#8249;</span>');
+        $("#pagin").append('<span class="next">&#8250;</span>');
 
-        $("#pagin").prepend('<span class="first">First</span>');
-        $("#pagin").append('<span class="last">Last</span>');
+        $("#pagin").prepend('<span class="first">&laquo;</span>');
+        $("#pagin").append('<span class="last">&raquo;</span>');
 
         showPage = function(page) {
           $(".result_sub").hide();
@@ -227,4 +227,39 @@ function donut_chart(data, color, chart) {
             .attr('dy', '.35em')
             .style("font-size", "14px")
             .text(text);
+}
+
+function show_map(sampleid, latitude, longitude) {
+    var options = {
+        zoom: 6,
+        center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        mapTypeControl: false
+    };
+
+    var map = new google.maps.Map($('#map')[0], options);
+
+    // var samples = $('#map').attr('data-samples');
+
+    // console.log(samples)
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        map: map,
+        title: 'Click Me'
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        window.location.href = "/info?sampleid=" + sampleid;
+    });
+
+    marker.addListener('mouseover', function() {
+        infowindow = new google.maps.InfoWindow({
+            content: 'sampleid = ' + sampleid
+        });
+        infowindow.open(map, marker);
+    });
+
+    marker.addListener('mouseout', function() {
+        infowindow.close();
+    });
 }

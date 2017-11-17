@@ -4,6 +4,7 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}">
 <script type="text/javascript"  src="{{ url_for('static', filename='js/upload.js') }}"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -93,7 +94,17 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div id="progress-bar-container">
+                <div class="progress-bar-child progress_bar"></div>
+                </div>
+            </div>
+
+            <div class="info_location">
+                <p class="info_title">Location:</p>
+                <div id="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}>
+            </div>
+            </div>
         {% endfor %}
         <ul id="pagin"></ul>
     </div>
@@ -120,5 +131,10 @@
         donut_chart(data3, color3, 'chart3');
         $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
     });
+
+    var sampleid = $('#map').attr('data-sampleid');
+    var longitude = $('#map').attr('data-longitude');
+    var latitude = $('#map').attr('data-latitude');
+    show_map(sampleid, latitude, longitude);
 </script>
 {% endblock %}

@@ -279,3 +279,64 @@ hr {
 .classification {
     position: relative;
 }
+
+#progress-bar-container {
+    height: 8px; 
+}
+
+.progress-bar-child {
+    height: 100%;
+}
+
+.progress_bar {
+    border-radius: 25px;
+    background: #e5405e;
+    /* Old browsers */
+    background: -moz-linear-gradient(left, #2376E1 0%, #D38B36 25%, #FD7122 50%, #FD7122 50%, #F60D20 75%, #AF1493 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #2376E1 0%, #D38B36 25%, #FD7122 50%, #FD7122 50%, #F60D20 75%, #AF1493 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #2376E1 0%, #D38B36 25%, #FD7122 50%, #FD7122 50%, #F60D20 75%, #AF1493 100%);
+}
+
+.info_location {
+    margin-top: 30px;
+}
+
+#map {
+    height: 250px;
+}
+
+.info_title {
+    font-size: 13px;
+    font-weight: 100;
+    margin-bottom: 5px;
+    color: #545454;
+}
+
+#pagin {
+    display: flex;
+    margin-top: 40px;
+}
+
+.first {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.last {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.paging {
+    list-style-type: none;
+}

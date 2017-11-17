@@ -126,7 +126,11 @@ def upload_route():
                                 'noise_audio': noise_file,
                                 'user_clean': user_clean_waveform_file,
                                 'user_clean_audio': user_clean_file,
-                                'file_num': file_num
+                                'file_num': file_num,
+                                'latitude': latitude,
+                                'longitude': longitude,
+                                'humidity': humidity,
+                                'temperature': temp
                                 })
 
                 cur = db.cursor()
