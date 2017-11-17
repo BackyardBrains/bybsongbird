@@ -21,7 +21,7 @@ ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'fla
 
 @upload.route('/upload', methods = ['GET','POST'])
 def upload_route():
-    if request.method == 'POST':
+    # if request.method == 'POST':
         # if 'file' not in request.files:
         #     options = {
         #         "noFile": True
@@ -59,23 +59,23 @@ def upload_route():
         #     light = None
 
         # file = request.files['file']
-        files = request.files.getlist('file')
+        # files = request.files.getlist('file')
         
         # model_file = '/vagrant/bybsongbird/model2/model'
         # model_file = '/home/ubuntu/bybsongbird/model2/model'
         # identify = classiFier(model_file=model_file, verbose=True)
 
-        matches = []
-        file_num = len(files)
-        for file in files:
-            if file.filename == '':
-                options = {
-                    "emptyname": True
-                }
-                return render_template("upload.html", **options)
+        # matches = []
+        # file_num = len(files)
+        # for file in files:
+        #     if file.filename == '':
+        #         options = {
+        #             "emptyname": True
+        #         }
+        #         return render_template("upload.html", **options)
 
-            else:
-                filename = secure_filename(file.filename)
+        #     else:
+        #         filename = secure_filename(file.filename)
                 # user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
                 # file.save(user_file)            
                 # user_waveform = Waveform(user_file)
@@ -105,9 +105,9 @@ def upload_route():
                 # user_clean_waveform_file = user_clean_file.replace(user_clean_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
                 # user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
 
-                matches.append({
+                # matches.append({
                                 # 'user': user_waveform_file,
-                                'filename': filename, 
+                                # 'filename': filename, 
                                 # 'sample_id': result['sample_id'], 
                                 # 'first_match': json.dumps(first_match),
                                 # 'second_match': json.dumps(second_match),
@@ -118,7 +118,7 @@ def upload_route():
                                 # 'noise_audio': noise_file,
                                 # 'user_clean': user_clean_waveform_file,
                                 # 'user_clean_audio': user_clean_file,
-                                'file_num': file_num,
+                                # 'file_num': file_num,
                                 # 'latitude': latitude,
                                 # 'longitude': longitude,
                                 # 'humidity': humidity,
@@ -131,10 +131,10 @@ def upload_route():
                 # cur.execute(add_song, data_song)
 
         
-        options = {
-            'matches': matches,
-        }
+        # options = {
+        #     'matches': matches,
+        # }
         
-        return render_template("upload.html", **options)
+        # return render_template("upload.html", **options)
 
     return render_template("upload.html")
