@@ -62,8 +62,8 @@ def upload_route():
         files = request.files.getlist('file')
         
         # model_file = '/vagrant/bybsongbird/model2/model'
-        model_file = '/bybsongbird/model2/model'
-        identify = classiFier(model_file=model_file, verbose=True)
+        # model_file = '/bybsongbird/model2/model'
+        # identify = classiFier(model_file=model_file, verbose=True)
 
         matches = []
         
@@ -83,49 +83,41 @@ def upload_route():
                 user_waveform.save()
                 user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
             
-                result = identify.classFile(user_file)
-                # match = []
-                first_match = [{"name": result["values"][8].split("_")[0].replace("'",""), "value": float(result["values"][9])}, {"name": "other", "value": 1 - float(result["values"][9])}]
-                second_match = [{"name": result["values"][10].split("_")[0].replace("'",""), "value": float(result["values"][11])}, {"name": "other", "value": 1 - float(result["values"][11])}]
-                third_match = [{"name": result["values"][12].split("_")[0].replace("'",""), "value": float(result["values"][13])}, {"name": "other", "value": 1 - float(result["values"][13])}]
-                # value_other = 1 - float(result["values"][9]) - float(result["values"][11]) - float(result["values"][13])
-                # ohter_match = {"name": "other birds", "value": value_other, "percentage": "{:.3%}".format(value_other)}
-                # match.append(first_match)
-                # match.append(second_match)
-                # match.append(third_match)
-                # match.append(ohter_match)
-                # match.sort(key=lambda x: x['value'], reverse=True)
+                # result = identify.classFile(user_file)
+                # first_match = [{"name": result["values"][8].split("_")[0].replace("'",""), "value": float(result["values"][9])}, {"name": "other", "value": 1 - float(result["values"][9])}]
+                # second_match = [{"name": result["values"][10].split("_")[0].replace("'",""), "value": float(result["values"][11])}, {"name": "other", "value": 1 - float(result["values"][11])}]
+                # third_match = [{"name": result["values"][12].split("_")[0].replace("'",""), "value": float(result["values"][13])}, {"name": "other", "value": 1 - float(result["values"][13])}]
 
-                activity_file = os.path.join(config.env['UPLOAD_FOLDER'], 'activity/' + filename)
-                activity_waveform = Waveform(activity_file)
-                activity_waveform.save()
-                activity_waveform_file = activity_file.replace(activity_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                activity_file = activity_file.replace('/vagrant/bybsongbird', '..')
+                # activity_file = os.path.join(config.env['UPLOAD_FOLDER'], 'activity/' + filename)
+                # activity_waveform = Waveform(activity_file)
+                # activity_waveform.save()
+                # activity_waveform_file = activity_file.replace(activity_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                # activity_file = activity_file.replace('/vagrant/bybsongbird', '..')
 
-                noise_file = os.path.join(config.env['UPLOAD_FOLDER'], 'noise/' + filename)
-                noise_waveform = Waveform(noise_file)
-                noise_waveform.save()
-                noise_waveform_file = noise_file.replace(noise_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                noise_file = noise_file.replace('/vagrant/bybsongbird', '..')
+                # noise_file = os.path.join(config.env['UPLOAD_FOLDER'], 'noise/' + filename)
+                # noise_waveform = Waveform(noise_file)
+                # noise_waveform.save()
+                # noise_waveform_file = noise_file.replace(noise_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                # noise_file = noise_file.replace('/vagrant/bybsongbird', '..')
 
-                user_clean_file = os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + filename)
-                user_clean_waveform = Waveform(user_clean_file)
-                user_clean_waveform.save()
-                user_clean_waveform_file = user_clean_file.replace(user_clean_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
+                # user_clean_file = os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + filename)
+                # user_clean_waveform = Waveform(user_clean_file)
+                # user_clean_waveform.save()
+                # user_clean_waveform_file = user_clean_file.replace(user_clean_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                # user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
 
                 matches.append({'user': user_waveform_file,
                                 'filename': filename, 
-                                'sample_id': result['sample_id'], 
-                                'first_match': json.dumps(first_match),
-                                'second_match': json.dumps(second_match),
-                                'third_match': json.dumps(third_match),
-                                'activity': activity_waveform_file,
-                                'activity_audio': activity_file,
-                                'noise': noise_waveform_file,
-                                'noise_audio': noise_file,
-                                'user_clean': user_clean_waveform_file,
-                                'user_clean_audio': user_clean_file,
+                                # 'sample_id': result['sample_id'], 
+                                # 'first_match': json.dumps(first_match),
+                                # 'second_match': json.dumps(second_match),
+                                # 'third_match': json.dumps(third_match),
+                                # 'activity': activity_waveform_file,
+                                # 'activity_audio': activity_file,
+                                # 'noise': noise_waveform_file,
+                                # 'noise_audio': noise_file,
+                                # 'user_clean': user_clean_waveform_file,
+                                # 'user_clean_audio': user_clean_file,
                                 'file_num': file_num,
                                 'latitude': latitude,
                                 'longitude': longitude,
@@ -133,10 +125,10 @@ def upload_route():
                                 'temperature': temp
                                 })
 
-                cur = db.cursor()
-                add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
-                data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])
-                cur.execute(add_song, data_song)
+                # cur = db.cursor()
+                # add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
+                # data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])
+                # cur.execute(add_song, data_song)
 
         
         options = {
