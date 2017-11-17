@@ -81,7 +81,7 @@ def upload_route():
                 file.save(user_file)            
                 user_waveform = Waveform(user_file)
                 user_waveform.save()
-                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/home/ubuntu/bybsongbird', '')
             
                 # result = identify.classFile(user_file)
                 # first_match = [{"name": result["values"][8].split("_")[0].replace("'",""), "value": float(result["values"][9])}, {"name": "other", "value": 1 - float(result["values"][9])}]
