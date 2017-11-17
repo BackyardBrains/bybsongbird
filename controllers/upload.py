@@ -62,9 +62,10 @@ def upload_route():
         files = request.files.getlist('file')
         
         # model_file = '/vagrant/bybsongbird/model2/model'
-        # model_file = '/bybsongbird/model2/model'
-        # identify = classiFier(model_file=model_file, verbose=True)
-        
+        model_file = '/home/ubuntu/bybsongbird/model2/model'
+        identify = classiFier(model_file=model_file, verbose=True)
+
+        matches = []
         file_num = len(files)
         for file in files:
             if file.filename == '':
@@ -75,11 +76,11 @@ def upload_route():
 
             else:
                 filename = secure_filename(file.filename)
-                user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
-                file.save(user_file)            
+                # user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
+                # file.save(user_file)            
                 # user_waveform = Waveform(user_file)
                 # user_waveform.save()
-                # user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/home/ubuntu/bybsongbird', '')
+                # user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
             
                 # result = identify.classFile(user_file)
                 # first_match = [{"name": result["values"][8].split("_")[0].replace("'",""), "value": float(result["values"][9])}, {"name": "other", "value": 1 - float(result["values"][9])}]
@@ -118,10 +119,10 @@ def upload_route():
                                 # 'user_clean': user_clean_waveform_file,
                                 # 'user_clean_audio': user_clean_file,
                                 'file_num': file_num,
-                                # 'latitude': latitude,
-                                # 'longitude': longitude,
-                                # 'humidity': humidity,
-                                # 'temperature': temp
+                                'latitude': latitude,
+                                'longitude': longitude,
+                                'humidity': humidity,
+                                'temperature': temp
                                 })
 
                 # cur = db.cursor()
