@@ -3,6 +3,7 @@
 {% block head %}
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}">
 <script type="text/javascript"  src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -47,28 +48,49 @@
         {% for match in matches %}
         <div class="result_sub">
             <div class="result_id">
-                Your Sample ID: #123456
+                Your Sample ID: #{{match.sample_id}}
             </div>
+
             <hr>
-            <div class="audio_user" data-audio-user={{match.filename}} data-user-waveform={{match.user}}>
-                <p>original file</p>
-            </div>
-            <div class="audio_user_clean" data-audio-user-clean={{match.user_clean_audio}} data-user-clean-waveform={{match.user_clean}}>
-                <p>clean file</p>
-            </div>
-            <div class="audio_activity" data-audio-activity={{match.activity_audio}} data-activity-waveform={{match.activity}}>
-                <p>activity file</p>
-            </div>
-            <div class="audio_noise" data-audio-noise={{match.noise_audio}} data-noise-waveform={{match.noise}}>
-                <p>noise file</p>
-            </div>
-            <div class='classification'>
-                <div class='classification_title' data-classification='{{match.match}}'>
-                    Classification Results:
+
+            <div class="first_row">
+                <div class="audio_user" data-audio-user={{match.filename}} data-user-waveform={{match.user}}>
                 </div>
-                <div class="visulization">
-                    <svg class='chart_hist'></svg>
-                    <svg class='chart_pie'>
+                <div class="audio_user_clean" data-audio-user-clean={{match.user_clean_audio}} data-user-clean-waveform={{match.user_clean}}>
+                </div>
+            </div>
+            
+
+            <div class="second_row">
+                <div class="audio_activity" data-audio-activity={{match.activity_audio}} data-activity-waveform={{match.activity}}>
+                </div>
+                <div class="audio_noise" data-audio-noise={{match.noise_audio}} data-noise-waveform={{match.noise}}>
+                </div>
+            </div>
+            
+            <div class='classification' data-classification-first='{{match.first_match}}' data-classification-second='{{match.second_match}}' data-classification-third='{{match.third_match}}'>
+                <div class="first_row_classify">
+                    <div class="first_match">
+                        <div id="chart1"></div>
+                        <div class="first_match_intro">
+                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                    <div class="second_match">
+                        <div id="chart2"></div>
+                        <div class="second_match_intro">
+                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="third_match">
+                    <div id="chart3"></div>
+                    <div class="third_match_intro">
+                        <p class="match_title">Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,4 +99,26 @@
     </div>
     {% endif %}
 </div>
+
+<script type="text/javascript">
+    $('.classification').each(function() {
+        // var thischart1 = d3.select(this.find('.first_match'))
+        var data1 = JSON.parse($(this).attr('data-classification-first'));
+        var color1 = ['#23CFEE', '#CACACA'];
+        donut_chart(data1, color1, 'chart1');
+        $(this).find('.first_match_intro').find('.match_name').html(data1[0]['name']);
+
+        // var thischart2 = d3.select(this.find('.second_match'))
+        var data2 = JSON.parse($(this).attr('data-classification-second'));
+        var color2 = ['#ED531D', '#CACACA'];
+        donut_chart(data2, color2, 'chart2');
+        $(this).find('.second_match_intro').find('.match_name').html(data2[0]['name']);
+
+        // var thischart3 = d3.select(this.find('.third_match'))
+        var data3 = JSON.parse($(this).attr('data-classification-third'));
+        var color3 = ['#ED0C19', '#CACACA'];
+        donut_chart(data3, color3, 'chart3');
+        $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
+    });
+</script>
 {% endblock %}

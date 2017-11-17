@@ -194,3 +194,88 @@ hr {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.first_row {
+    height: 140px;
+}
+
+.second_row {
+    height: 120px;
+}
+
+.audio_user, .audio_activity {
+    width: 46%;
+    float: left;
+}
+
+.audio_user_clean, .audio_noise {
+    width: 46%;
+    float: right;
+}
+
+.waveform {
+    margin-right: 10px;
+    height: 50px;
+    width: 100%
+}
+
+.result_text {
+    font-size: 10px;
+    font-weight: 100;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.audiofile {
+    width: 100%;
+}
+
+.pie {
+  margin: 20px;
+}
+
+.pie text {
+  font-family: "Verdana";
+  fill: #888;
+}
+
+.pie .name-text{
+  font-size: 1em;
+}
+
+.pie .value-text{
+  font-size: 3em;
+}
+
+.first_row_classify {
+    display: flex;
+    height: 105px;
+}
+
+.first_match, .third_match {
+    width: 50%;
+    display: flex;
+    height: min-content;
+}
+
+.second_match {
+    width: 50%;
+    display: flex;
+    height: min-content;
+}
+
+.match_title {
+    font-size: 10px;
+    font-weight: 100;
+    margin-top: 45px;
+    margin-bottom: 0;
+}
+
+.match_name {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.classification {
+    position: relative;
+}
