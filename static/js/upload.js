@@ -75,11 +75,11 @@ $(function() {
 
         $("#pagin li").first().find('a').addClass('current');
         
-        $("#pagin").prepend('<span class="prev">&#8249;</span>');
-        $("#pagin").append('<span class="next">&#8250;</span>');
+        $("#pagin").prepend('<div class="prev">&#8249;</div>');
+        $("#pagin").append('<div class="next">&#8250;</div>');
 
-        $("#pagin").prepend('<span class="first">&laquo;</span>');
-        $("#pagin").append('<span class="last">&raquo;</span>');
+        $("#pagin").prepend('<div class="first">&laquo;</div>');
+        $("#pagin").append('<div class="last">&raquo;</div>');
 
         showPage = function(page) {
           $(".result_sub").hide();

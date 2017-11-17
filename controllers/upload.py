@@ -61,8 +61,8 @@ def upload_route():
         # file = request.files['file']
         files = request.files.getlist('file')
         
-        model_file = '/vagrant/bybsongbird/model2/model'
-        # model_file = '/w/bybsongbird/model2/model'
+        # model_file = '/vagrant/bybsongbird/model2/model'
+        model_file = '/bybsongbird/model2/model'
         identify = classiFier(model_file=model_file, verbose=True)
 
         matches = []

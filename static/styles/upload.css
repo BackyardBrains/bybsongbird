@@ -322,21 +322,27 @@ hr {
 .first {
     height: 20px;
     width: 20px;
-    border: 1px solid black;
+    border: 1px solid #858187;
     margin-right: 10px;
     text-align: center;
-    line-height: 20px;
+    line-height: 18px;
+    color: #858187;
 }
 
 .last {
     height: 20px;
     width: 20px;
-    border: 1px solid black;
+    border: 1px solid #858187;
     margin-left: 10px;
     text-align: center;
-    line-height: 20px;
+    line-height: 18px;
+    color: #858187;
 }
 
 .paging {
     list-style-type: none;
+}
+
+.paging_num {
+    color: #858187;
 }
