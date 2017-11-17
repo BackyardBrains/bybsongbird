@@ -8,3 +8,4 @@ Vagrantfile
 config.py
 static/songs/users/
 localconfig.py
+.idea/Songbird UX V2.0.zip
