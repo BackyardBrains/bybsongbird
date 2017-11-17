@@ -1,17 +1,17 @@
-from flask import *
-import MySQLdb
-import MySQLdb.cursors
-import extensions
-import config
-import os
-import hashlib
+# from flask import *
+# import MySQLdb
+# import MySQLdb.cursors
+# import extensions
+# import config
+# import os
+# import hashlib
 from flask import Flask, request, redirect, url_for
-from werkzeug import secure_filename
-import datetime
-from machine_learning_and_dsp.process_and_categorize import classiFier
-import numpy as np
-import json
-from waveform import Waveform
+# from werkzeug import secure_filename
+# import datetime
+# from machine_learning_and_dsp.process_and_categorize import classiFier
+# import numpy as np
+# import json
+# from waveform import Waveform
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
