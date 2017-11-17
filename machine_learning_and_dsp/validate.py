@@ -1,6 +1,7 @@
 import cPickle
 import itertools
 import os
+from copy import deepcopy
 from functools import partial
 
 import pathos.multiprocessing as mp
@@ -51,10 +52,12 @@ def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_thread
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
 
     # Gets rid of invalid sets of parameters
+    parameters_temp = deepcopy(parameters)
     for p in parameters:
         if p[1] > p[2] or p[3] > p[4] or p[4] >= p[2]:
-            parameters.remove(p)
+            parameters_temp.remove(p)
 
+    parameters = parameters_temp
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
     pros = Pool(num_threads)
