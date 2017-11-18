@@ -23,7 +23,7 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{url_for('main.main_route')}}">Home</a>
                 <a class="nav-item nav-link" href="{{url_for('allsamples.allsamples_route')}}">All Samples</a>
-                <a class="nav-item nav-link" href="#">Our Team</a>
+                <a class="nav-item nav-link" href="{{ url_for('ourTeam.ourTeam_route') }}">Our Team</a>
                 <a class="nav-item nav-link" href="{{url_for('sqlpage.sqlpage_route')}}">Pro Users</a>
                 <a class="nav-item nav-link upload_btn" href="{{url_for('upload.upload_route')}}"><i class="fa fa-upload" aria-hidden="true"></i>Upload</a>
             </div>

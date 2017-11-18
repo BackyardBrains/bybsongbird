@@ -1,7 +1,7 @@
-from flask import Flask, render_template
-import extensions
-import controllers
+from flask import Flask
+
 import config
+import controllers
 
 # Initialize Flask app with the template folder address
 app = Flask(__name__, template_folder='templates')
@@ -17,6 +17,7 @@ app.register_blueprint(controllers.pattern)
 app.register_blueprint(controllers.upload)
 app.register_blueprint(controllers.database)
 app.register_blueprint(controllers.allsamples)
+app.register_blueprint(controllers.ourTeam)
 
 #sys.stderr = open("error_log", "a")
 
