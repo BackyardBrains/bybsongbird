@@ -1,6 +1,6 @@
 # Do NOT commit this file to github
 # Make a seperate one for your deployed environment
-
+import os
 env = dict(
         host = '0.0.0.0',
        # host = '34.201.32.83',
@@ -13,7 +13,7 @@ user = 'root',
     #user = 'root',
     password = 'root',
         db = 'bybsongbird',
-        UPLOAD_FOLDER = '/vagrant/bybsongbird/static/songs/users'
+    UPLOAD_FOLDER=os.path.join(os.getcwd(), 'static/songs/users')
     # UPLOAD_FOLDER = '/w/bybsongbird/static/songs/users'
 )
 
