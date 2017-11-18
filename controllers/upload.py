@@ -1,16 +1,13 @@
-from flask import *
-import MySQLdb
-import MySQLdb.cursors
-import extensions
-import config
-import os
-import hashlib
-from flask import Flask, request, redirect, url_for
-from werkzeug import secure_filename
-import datetime
-from machine_learning_and_dsp.process_and_categorize import classiFier
-import numpy as np
 import json
+import os
+
+from flask import *
+from flask import request
+from werkzeug import secure_filename
+
+import config
+import extensions
+from machine_learning_and_dsp.process_and_categorize import classiFier
 from waveform import Waveform
 
 upload = Blueprint('upload', __name__, template_folder='templates')
@@ -29,8 +26,8 @@ def upload_route():
             return render_template("upload.html", **options)
 
         files = request.files.getlist('file')
-        
-        model_file = '/vagrant/bybsongbird/model2/model'
+
+        model_file = os.path.join(os.getcwd(), 'model2', 'model')
         # model_file = '/home/ubuntu/bybsongbird/model2/model'
         identify = classiFier(model_file=model_file, verbose=True)
 
