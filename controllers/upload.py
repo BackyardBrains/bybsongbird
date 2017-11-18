@@ -28,41 +28,10 @@ def upload_route():
             }
             return render_template("upload.html", **options)
 
-        latitude_get = request.form['latitude']
-        if latitude_get != '':
-            latitude = float(latitude_get)
-        else:
-            latitude = None
-
-        longitude_get = request.form['longitude']
-        if longitude_get != '':
-            longitude = float(longitude_get)
-        else:
-            longitude = None
-
-        humidity_get = request.form['humidity']
-        if humidity_get != '':
-            humidity = float(humidity_get)
-        else:
-            humidity = None
-
-        temp_get = request.form['temp']
-        if temp_get != '':
-            temp = float(temp_get)
-        else:
-            temp = None
-
-        light_get = request.form['light']
-        if light_get != '':
-            light = float(light_get)
-        else:
-            light = None
-
-        file = request.files['file']
         files = request.files.getlist('file')
         
-        # model_file = '/vagrant/bybsongbird/model2/model'
-        model_file = '/home/ubuntu/bybsongbird/model2/model'
+        model_file = '/vagrant/bybsongbird/model2/model'
+        # model_file = '/home/ubuntu/bybsongbird/model2/model'
         identify = classiFier(model_file=model_file, verbose=True)
 
         matches = []
@@ -109,6 +78,15 @@ def upload_route():
                 # user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
                 user_clean_file = user_clean_file.replace('/home/ubuntu/bybsongbird', '..')
 
+                cur = db.cursor()
+                cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (result['sample_id'], ))
+                result_sample = cur.fetchall()
+                latitude = result_sample[0]['latitude']
+                longitude = result_sample[0]['longitude']
+                humidity = result_sample[0]['humidity']
+                temp = result_sample[0]['temp']
+                light = result_sample[0]['light']
+
                 matches.append({
                                 'user': user_waveform_file,
                                 'filename': filename, 
@@ -126,14 +104,9 @@ def upload_route():
                                 'latitude': latitude,
                                 'longitude': longitude,
                                 'humidity': humidity,
-                                'temperature': temp
+                                'temperature': temp,
+                                'light': light
                                 })
-
-                cur = db.cursor()
-                add_song = ("UPDATE sampleInfo SET latitude = %s, longitude = %s, humidity = %s, temp = %s, light = %s WHERE sampleid = %s")
-                data_song = (latitude, longitude, humidity, temp, light, result['sample_id'])
-                cur.execute(add_song, data_song)
-
         
         options = {
             'matches': matches,

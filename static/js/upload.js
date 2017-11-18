@@ -16,20 +16,27 @@ $(function() {
         }
     });
 
-    $('.location_icon').on('click', function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                $('.latitude').val(position.coords.latitude);
-                $('.longitude').val(position.coords.longitude);
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    });
+    // $('.location_icon').on('click', function() {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(function(position) {
+    //             $('.latitude').val(position.coords.latitude);
+    //             $('.longitude').val(position.coords.longitude);
+    //         });
+    //     } else {
+    //         alert("Geolocation is not supported by this browser.");
+    //     }
+    // });
 
     $('.close_icon').on('click', function() {
         $('.result_title').hide();
     });
+
+    progress_bar_buttons();
+    function progress_bar_buttons() {
+        var humidity = $('.humidity_button').attr('data-humidity');
+        console.log('humidity');
+        // $('.humidity_button').css('left', )
+    }
 
     function show_audios_and_images(current, last_current) {
         if (last_current != 0) {
@@ -231,7 +238,7 @@ function donut_chart(data, color, chart) {
 
 function show_map(sampleid, latitude, longitude) {
     var options = {
-        zoom: 6,
+        zoom: 5,
         center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
         mapTypeId: google.maps.MapTypeId.TERRAIN,
         mapTypeControl: false
@@ -239,9 +246,6 @@ function show_map(sampleid, latitude, longitude) {
 
     var map = new google.maps.Map($('#map')[0], options);
 
-    // var samples = $('#map').attr('data-samples');
-
-    // console.log(samples)
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
         map: map,

@@ -5,6 +5,9 @@
 <script type="text/javascript"  src="{{ url_for('static', filename='js/upload.js') }}"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYp3pn94F0hy-2n5-FnqVOcP3wDhQRf38&callback=initMap">
+</script>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +23,7 @@
                     <input type="file" name="file" accept="audio/*" class="choose_file" id="chooseFile" multiple>
                 </div>
             </div>
-            <div class="location">
+            <!-- <div class="location">
                 <input class="longitude" type="text" name='longitude' placeholder="Longitude">
                 <input class="latitude" type="text" name='latitude' placeholder="Latitude">
                 <div class="location_icon_div">
@@ -29,7 +32,7 @@
             </div>
             <input class="humidity" type="text" name='humidity' placeholder="Humidity">
             <input class="temperature" type="text" name='temp' placeholder="Temperature">
-            <input class="light" type="text" name='light' placeholder="Light">
+            <input class="light" type="text" name='light' placeholder="Light"> -->
             <input class="submit_file" type="submit" value="Upload">
         </form>
     </div>
@@ -95,9 +98,10 @@
                 </div>
             </div>
 
-            <div id="progress-bar-container">
-                <div class="progress-bar-child progress_bar"></div>
-                </div>
+            <div class="humidity_result">
+                <p class="info_title">Relative Humidity:</p>
+                <div class="progress_bar"></div>
+                <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}</div>
             </div>
 
             <div class="info_location">
