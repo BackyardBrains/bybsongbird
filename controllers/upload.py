@@ -80,7 +80,8 @@ def upload_route():
                 file.save(user_file)            
                 user_waveform = Waveform(user_file)
                 user_waveform.save()
-                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                # user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
+                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace('/home/ubuntu/bybsongbird', '')
             
                 result = identify.classFile(user_file)
                 first_match = [{"name": result["values"][8].split("_")[0].replace("'",""), "value": float(result["values"][9])}, {"name": "other", "value": 1 - float(result["values"][9])}]
@@ -91,19 +92,22 @@ def upload_route():
                 activity_waveform = Waveform(activity_file)
                 activity_waveform.save()
                 activity_waveform_file = activity_file.replace(activity_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                activity_file = activity_file.replace('/vagrant/bybsongbird', '..')
+                # activity_file = activity_file.replace('/vagrant/bybsongbird', '..')
+                activity_file = activity_file.replace('/home/ubuntu/bybsongbird', '..')
 
                 noise_file = os.path.join(config.env['UPLOAD_FOLDER'], 'noise/' + filename)
                 noise_waveform = Waveform(noise_file)
                 noise_waveform.save()
                 noise_waveform_file = noise_file.replace(noise_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                noise_file = noise_file.replace('/vagrant/bybsongbird', '..')
+                # noise_file = noise_file.replace('/vagrant/bybsongbird', '..')
+                noise_file = noise_file.replace('/home/ubuntu/bybsongbird', '..')
 
                 user_clean_file = os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + filename)
                 user_clean_waveform = Waveform(user_clean_file)
                 user_clean_waveform.save()
                 user_clean_waveform_file = user_clean_file.replace(user_clean_file.split('.')[-1], 'png').replace('/vagrant/bybsongbird', '')
-                user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
+                # user_clean_file = user_clean_file.replace('/vagrant/bybsongbird', '..')
+                user_clean_file = user_clean_file.replace('/home/ubuntu/bybsongbird', '..')
 
                 matches.append({
                                 'user': user_waveform_file,
