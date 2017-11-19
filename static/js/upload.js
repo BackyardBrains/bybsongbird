@@ -34,16 +34,21 @@ $(function() {
     progress_bar_buttons();
     function progress_bar_buttons() {
         var humidity = $('.humidity_button').attr('data-humidity');
-        console.log('humidity');
-        // $('.humidity_button').css('left', )
+        $('.humidity_button').css('left', humidity + '%');
+
+        var temp = $('.temp_button').attr('data-temp');
+        $('.temp_button').css('left', temp + '%');
+
+        var light = $('.light_button').attr('data-light');
+        $('.light_button').css('left', light + '%');
     }
 
     function show_audios_and_images(current, last_current) {
         if (last_current != 0) {
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user').html('<p>original file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user_clean').html('<p>clean file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_activity').html('<p>activity file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_noise').html('<p>noise file</p>');
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user_clean').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_activity').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_noise').empty();
         }
 
         var waveform_user = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').attr('data-user-waveform');
@@ -80,7 +85,7 @@ $(function() {
           $("#pagin").append('<li class="paging"><a href="#" class="paging_num">'+(i+1)+'</a></li>');
         }
 
-        $("#pagin li").first().find('a').addClass('current');
+        $("#pagin li").first().addClass('current');
         
         $("#pagin").prepend('<div class="prev">&#8249;</div>');
         $("#pagin").append('<div class="next">&#8250;</div>');
@@ -143,9 +148,9 @@ $(function() {
 
         var current = 1;
         show_audios_and_images(current, 0);
-        $("#pagin li a").on('click', function() {
-            var last_current = $("#pagin li").find('.current').html();
-            $("#pagin li").find('.current').removeClass('current');
+        $("#pagin li").on('click', function() {
+            var last_current = $("#pagin").find('.current').find('a').html();
+            $("#pagin").find('.current').removeClass('current');
             $(this).addClass('current');
             $(".ellipsis").remove();
             current = parseInt($(this).text());
@@ -156,8 +161,8 @@ $(function() {
 
         $(".prev").on("click", function() {
           $(".ellipsis").remove();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin>li:eq("+ (current - 2) +")").find('a').addClass('current');
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin>li:eq("+ (current - 2) +")").addClass('current');
           current = current - 1;
           showNumber(current);
           showPage(current);
@@ -166,8 +171,8 @@ $(function() {
 
         $(".next").on("click", function() {
           $(".ellipsis").remove();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin>li:eq("+ current +")").find('a').addClass('current');
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin>li:eq("+ current +")").addClass('current');
           current = current + 1;
           showNumber(current);
           showPage(current);
@@ -176,9 +181,9 @@ $(function() {
 
         $(".first").on("click", function() {
           $(".ellipsis").remove();
-          var last_current = $("#pagin li").find('.current').html();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin li").first().find('a').addClass('current');
+          var last_current = $("#pagin").find('.current').find('a').html();
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin li").first().addClass('current');
           showNumber(1);
           showPage(1);
           show_audios_and_images(1, last_current);
@@ -186,84 +191,12 @@ $(function() {
 
         $(".last").on("click", function() {
           $(".ellipsis").remove();
-          var last_current = $("#pagin li").find('.current').html();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin li").last().find('a').addClass('current');
+          var last_current = $("#pagin").find('.current').find('a').html();
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin li").last().addClass('current');
           showNumber(pageCount);
           showPage(pageCount);
           show_audios_and_images(pageCount, last_current);
         });
     }
 });
-
-function donut_chart(data, color, chart) {
-    var text = (data[0].value * 100).toFixed(3) + '%' ;
-    var width = 90;
-    var height = 90;
-    var thickness = 10;
-
-    var radius = Math.min(width, height) / 2;
-
-    var svg = d3.select("#" + chart)
-        .append('svg')
-        .attr('class', 'pie')
-        .attr('width', width)
-        .attr('height', height);
-
-    var g = svg.append('g')
-        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
-
-    var arc = d3.arc()
-        .innerRadius(radius - thickness)
-        .outerRadius(radius);
-
-    var pie = d3.pie()
-        .value(function(d) { return d.value; })
-        .sort(null);
-
-    var path = g.selectAll('path')
-        .data(pie(data))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', (d,i) => color[i])
-
-
-        g.append('text')
-            .attr('text-anchor', 'middle')
-            .attr('dy', '.35em')
-            .style("font-size", "14px")
-            .text(text);
-}
-
-function show_map(sampleid, latitude, longitude) {
-    var options = {
-        zoom: 5,
-        center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
-        mapTypeId: google.maps.MapTypeId.TERRAIN,
-        mapTypeControl: false
-    };
-
-    var map = new google.maps.Map($('#map')[0], options);
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latitude, longitude),
-        map: map,
-        title: 'Click Me'
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-        window.location.href = "/info?sampleid=" + sampleid;
-    });
-
-    marker.addListener('mouseover', function() {
-        infowindow = new google.maps.InfoWindow({
-            content: 'sampleid = ' + sampleid
-        });
-        infowindow.open(map, marker);
-    });
-
-    marker.addListener('mouseout', function() {
-        infowindow.close();
-    });
-}
