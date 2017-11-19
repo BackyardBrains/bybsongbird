@@ -128,7 +128,7 @@
 
             <div class="info_location">
                 <p class="info_title">Location:</p>
-                {% if match.latitude = 999.0 and match.longitude = 999.0 %}
+                {% if match.latitude == 999.0 and match.longitude == 999.0 %}
                     <div id="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}></div>
                 {% else %}
                     <p class="none_info">N/A</p>
