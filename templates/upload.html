@@ -98,7 +98,7 @@
 
             <div class="humidity_result">
                 <p class="info_title">Relative Humidity:</p>
-                {% if match.humidity %}
+                {% if match.humidity or match.humidity == -1 %}
                     <div class="progress_bar"></div>
                     <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}%</div>
                 {% else %}
@@ -108,7 +108,7 @@
 
             <div class="temp_result">
                 <p class="info_title">Temperature:</p>
-                {% if match.temperature %}
+                {% if match.temperature or match.temperature == -1 %}
                     <div class="progress_bar"></div>
                     <div class="temp_button" data-temp={{match.temperature}}>{{match.temperature}}°F</div>
                 {% else %}
@@ -118,7 +118,7 @@
 
             <div class="light_result">
                 <p class="info_title">Light:</p>
-                {% if match.light %}
+                {% if match.light or match.light == -1 %}
                     <div class="progress_bar"></div>
                     <div class="light_button" data-light={{match.light}}>{{match.light}}lx</div>
                 {% else %}
@@ -128,7 +128,7 @@
 
             <div class="info_location">
                 <p class="info_title">Location:</p>
-                {% if match.latitude and match.longitude %}
+                {% if match.latitude = 999.0 and match.longitude = 999.0 %}
                     <div id="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}></div>
                 {% else %}
                     <p class="none_info">N/A</p>
