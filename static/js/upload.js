@@ -54,7 +54,6 @@ $(function() {
         var sampleid = thismap.attr('data-sampleid');
         var longitude = thismap.attr('data-longitude');
         var latitude = thismap.attr('data-latitude');
-        console.log(sampleid);
         show_map(sampleid, latitude, longitude, thismap);
     });
 
