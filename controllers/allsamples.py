@@ -64,8 +64,9 @@ def allsamples_route():
     cur.execute(base)
     result = cur.fetchall()
     
-    print(search)
-    print(result)
+    print("base :: " + base)
+    print("search :: " + search)
+    print("result :: " + result)
     
     results = []
 

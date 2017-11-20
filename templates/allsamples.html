@@ -14,7 +14,7 @@
         <form method="post">
             <div style="display:inline-block;">
                 <p style="display:inline-block; font-size:75%">Sort data by:</p>
-                <select name="sort" id="sortid">
+                <select name="sort" id="sortid" onchange='if(this.value != 0) { this.form.submit(); }'>
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Added Date</option>
