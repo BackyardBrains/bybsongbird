@@ -15,15 +15,6 @@ def allsamples_route():
     result = ''
 
     search = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
-    where = 'WHERE '
-    order = ' ORDER BY '
-    des = ' DESC'
-    equal = ' = '
-    notequal = ' = '
-    greater = ' > '
-    lesser = ' < '
-    greaterand = ' >= '
-    lesserand = ' <= '
 
     if request.method == 'POST':
         button = request.form.get('sort')
@@ -33,21 +24,21 @@ def allsamples_route():
         match = request.form.get('crit')
 
         if column != '' and equation != '' and match != '':
-            search = search + where + column
-            if equation == 'equal': search += equal
-            elif equation == 'notequal': search += notequal
-            elif equation == 'greater': search += greater
-            elif equation == 'lesser': search += lesser
-            elif equation == 'greaterand': search += greaterand
-            elif equation == 'lesserand': search += lesserand
-            if column == 'type1': search += " '"
+            search = search + ' WHERE ' + column
+            if equation == 'equal': search += ' = '
+            elif equation == 'notequal': search += ' <> '
+            elif equation == 'greater': search += ' > '
+            elif equation == 'lesser': search += ' < '
+            elif equation == 'greaterand': search += ' >= '
+            elif equation == 'lesserand': search += ' <= '
+            if column == 'type1': search += " LIKE '%"
             search += match
-            if column == 'type1': search += "' "
+            if column == 'type1': search += "%' "
 
-        search = search + order + button
+        search = search + ' ORDER BY ' + button
 
         if direction == 'descending':
-            search += des
+            search += ' DESC'
     
     cur.execute(search)
     result = cur.fetchall()

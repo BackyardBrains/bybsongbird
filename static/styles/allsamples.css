@@ -7,6 +7,15 @@
     box-shadow: 1px 1px 15px #dbdbdb;
 }
 
+.nothing {
+    position: absolute;
+    width: 300px;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+    text-align: center;
+}
+
 .button {
     width: 250px;
     margin: 100px 50px 0px -125px;
@@ -16,8 +25,12 @@
     left: 50%;
     border-radius: 25px;
     border: none;
-    background-color: indigo;
+    background-color: #3F3942;
     color: white;
+}
+
+.circles {
+    margin: 5px 5px 5px 5px;
 }
 
 .species {

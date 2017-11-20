@@ -63,14 +63,16 @@
 <div>
     {% for res in results %}
         <div class="sample">
-            <div class="c100 p{{res['perR']}} green">
-                <span>{{res['per']}}%</span>
-                <div class="slice">
-                    <div class="bar"></div>
-                    <div class="fill"></div>
+            <div class="circles">
+                <div class="c100 p{{res['perR']}} green">
+                    <span>{{res['per']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="species">Species:</div>
             <div class="bird">{{res['type']}}</div>
             <div class="upload">Upload On:</div>
@@ -90,6 +92,13 @@
     <a href="/#">1</a>
     <a href="/#">&raquo;</a>
 </div>
+
+{% else %}
+
+<div>
+    <p class="nothing">No results returned. :(</p>
+</div>
+
 {% endif %}
 
 <script type="text/javascript">
