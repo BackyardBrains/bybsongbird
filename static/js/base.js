@@ -60,7 +60,7 @@ function donut_chart(data, color, chart, thischart) {
             .text(text);
 }
 
-function show_map(sampleid, latitude, longitude) {
+function show_map(sampleid, latitude, longitude, thismap) {
     var options = {
         zoom: 5,
         center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
@@ -68,11 +68,11 @@ function show_map(sampleid, latitude, longitude) {
         mapTypeControl: false
     };
 
-    var map = new google.maps.Map($('#map')[0], options);
+    var mapcanvas = new google.maps.Map(thismap[0], options);
 
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
-        map: map,
+        map: mapcanvas,
         title: 'Click Me'
     });
 
@@ -84,7 +84,7 @@ function show_map(sampleid, latitude, longitude) {
         infowindow = new google.maps.InfoWindow({
             content: 'sampleid = ' + sampleid
         });
-        infowindow.open(map, marker);
+        infowindow.open(mapcanvas, marker);
     });
 
     marker.addListener('mouseout', function() {
