@@ -14,7 +14,9 @@ def allsamples_route():
 
     result = ''
 
-    search = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
+    base = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
+    search, button, direction, column, equation, match = '', '', '', '', '', ''
+    good = True
 
     if request.method == 'POST':
         button = request.form.get('sort')
@@ -24,6 +26,8 @@ def allsamples_route():
         match = request.form.get('crit')
 
         if column != '' and equation != '' and match != '':
+            good = False
+
             search = search + ' WHERE ' + column
             if equation == 'equal': search += ' = '
             elif equation == 'notequal': search += ' <> '
@@ -31,16 +35,33 @@ def allsamples_route():
             elif equation == 'lesser': search += ' < '
             elif equation == 'greaterand': search += ' >= '
             elif equation == 'lesserand': search += ' <= '
-            if column == 'type1': search += " LIKE '%"
-            search += match
-            if column == 'type1': search += "%' "
+            
+            if column == 'type1':
+              search = search + " LIKE '%" + match + "%' "
+              good = True
+            elif column == 'added':
+              if len(match) == 8 and match.isdigit():
+                month = match[0:2]
+                day = match[2:4]
+                year = match[4:]
+                if int(month) < 1 or int(month) > 12 or int(day) < 1 or int(day) > 30:
+                  search = search + " '" + year + "-" + month + "-" + day + " 00:00:00'"
+                  good = True
+                else: good = False
+              else: good = False
+            else:
+              if match.isdigit(): good = True
+              else: good = False
 
         search = search + ' ORDER BY ' + button
 
         if direction == 'descending':
             search += ' DESC'
     
-    cur.execute(search)
+    if good:
+      base = base + search
+
+    cur.execute(base)
     result = cur.fetchall()
     
     print(search)
@@ -55,7 +76,7 @@ def allsamples_route():
         "type": row['type1'][0:row['type1'].find('_')].title(),
         "date": row['added'].strftime("%b %d %Y"),
         "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
-        "id": row['sampleid']
+        "id": str(row['sampleid'])
       })
       results.append(sample)
 

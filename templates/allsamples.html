@@ -14,10 +14,10 @@
         <form method="post">
             <div style="display:inline-block;">
                 <p style="display:inline-block; font-size:75%">Sort data by:</p>
-                <select name="sort">
+                <select name="sort" id="sortid">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
-                    <option value="added">Time</option>
+                    <option value="added">Added Date</option>
                     <option value="latitude">Latitude</option>
                     <option value="longitude">Longitude</option>
                     <option value="humidity">Humidity</option>
@@ -26,16 +26,17 @@
                     <option value="type1">Species</option>
                     <option value="per1">Percentage</option>
                 </select>
-                <select name="dir" onchange='if(this.value != 0) { this.form.submit(); }'>
+                <select name="dir" id="dirid" onchange='if(this.value != 0) { this.form.submit(); }'>
                     <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
                 </select>
             </div>
             <div style="display:inline-block; float:right">
                 <p style="display:inline-block; font-size:75%">Optional sort:</p>
-                <select name="col">
+                <select name="col" id="colid">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
+                    <option value="added">Added Date (MMDDYYYY)</option>
                     <option value="latitude">Latitude</option>
                     <option value="longitude">Longitude</option>
                     <option value="humidity">Humidity</option>
@@ -44,7 +45,7 @@
                     <option value="type1">Species</option>
                     <option value="per1">Percentage</option>
                 </select>
-                <select name="equ">
+                <select name="equ" id="equid">
                     <option value="">Condition</option>
                     <option value="equal">=</option>
                     <option value="notequal">&#8800</option>
@@ -53,7 +54,7 @@
                     <option value="greaterand">> =</option>
                     <option value="lesserand">< =</option>
                 </select>
-                <input type="text" name="crit" placeholder="Your Value" />
+                <input type="text" id="textid" name="crit" placeholder="Your Value" />
             </div>
         </form>
     </div>
@@ -78,7 +79,7 @@
             <div class="upload">Upload On:</div>
             <div class="time">{{res['date']}}</div>
 
-            <div class="wav" data-activity-waveform={{res['wave']}}></div>
+            <div class="wav" data-activity-waveform='/home/ubuntu/bybsongbird/static/songs/users/users_clean/1194073584.png'></div>
 
             <form action="{{url_for('info.info_route')}}">
                 <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
@@ -100,13 +101,5 @@
 </div>
 
 {% endif %}
-
-<script type="text/javascript">
-    document.getElementById('sort').value = "<?php echo $_POST['sort']?>";
-    document.getElementById('dir').value = "<?php echo $_POST['dir']?>";
-    document.getElementById('col').value = "<?php echo $_POST['col']?>";
-    document.getElementById('equ').value = "<?php echo $_POST['equ']?>";
-    document.getElementById('crit').value = "<?php echo $_POST['crit']?>";
-</script>
 
 {% endblock %}
