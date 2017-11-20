@@ -49,20 +49,21 @@ def allsamples_route():
                 else: good = False
               else: good = False
             else:
-              if match.isdigit(): good = True
+              if match.isdigit():
+                search += match
+                good = True
               else: good = False
 
         search = search + ' ORDER BY ' + button
 
         if direction == 'descending':
             search += ' DESC'
-    
+    print("search :: " + search)
+    print(result)
+
     if good:
       cur.execute(search)
       result = cur.fetchall()
-    
-    print("search :: " + search)
-    print(result)
     
     results = []
 
