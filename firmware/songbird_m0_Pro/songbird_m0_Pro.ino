@@ -10,7 +10,7 @@
 #include "DHT.h"
 #include <Wire.h>
 #include "TSL2561.h"  //If you get a compiler error saying that util/delay.h does not exist then just comment out the #include line for this in TLS2561.cpp from the adafruit library 
-#define DHTPIN 3
+#define DHTPIN 9
 #define DHTTYPE DHT22
 #define recordPin 11
 #define sdPin 13
