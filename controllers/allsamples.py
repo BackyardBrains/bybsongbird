@@ -43,7 +43,7 @@ def allsamples_route():
                 month = match[0:2]
                 day = match[2:4]
                 year = match[4:]
-                if int(month) < 1 or int(month) > 12 or int(day) < 1 or int(day) > 30:
+                if int(month) > 0 and int(month) < 13 or int(day) > 0 or int(day) < 32:
                   search = search + " '" + year + "-" + month + "-" + day + " 00:00:00'"
                   good = True
                 else: good = False
@@ -58,6 +58,7 @@ def allsamples_route():
 
         if direction == 'descending':
             search += ' DESC'
+    
     print("search :: " + search)
     print(result)
 

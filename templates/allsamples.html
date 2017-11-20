@@ -11,10 +11,10 @@
         <h3>All Data Samples</h3>
     </div>
     <div style="padding-bottom:10px;">
-        <form method="post">
+        <form method="post" id="selection">
             <div style="display:inline-block;">
                 <p style="display:inline-block; font-size:75%">Sort data by:</p>
-                <select name="sort" id="sortid" onchange='if(this.value != 0) { this.form.submit(); }'>
+                <select name="sort" id="sortid" onchange="submitThis()">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Added Date</option>
@@ -26,14 +26,14 @@
                     <option value="type1">Species</option>
                     <option value="per1">Percentage</option>
                 </select>
-                <select name="dir" id="dirid" onchange='if(this.value != 0) { this.form.submit(); }'>
+                <select name="dir" id="dirid" onchange="submitThis()">
                     <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
                 </select>
             </div>
             <div style="display:inline-block; float:right">
                 <p style="display:inline-block; font-size:75%">Optional sort:</p>
-                <select name="col" id="colid">
+                <select name="col">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Added Date (MMDDYYYY)</option>
@@ -45,7 +45,7 @@
                     <option value="type1">Species</option>
                     <option value="per1">Percentage</option>
                 </select>
-                <select name="equ" id="equid">
+                <select name="equ">
                     <option value="">Condition</option>
                     <option value="equal">=</option>
                     <option value="notequal">&#8800</option>
@@ -54,7 +54,7 @@
                     <option value="greaterand">> =</option>
                     <option value="lesserand">< =</option>
                 </select>
-                <input type="text" id="textid" name="crit" placeholder="Your Value" />
+                <input type="text" name="crit" placeholder="Your Value" onsubmit="submitThis()"/>
             </div>
         </form>
     </div>
@@ -97,7 +97,7 @@
 {% else %}
 
 <div>
-    <p class="nothing">No results returned. :(</p>
+    <h3 class="nothing">No results returned.</h3>
 </div>
 
 {% endif %}
