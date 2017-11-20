@@ -1,6 +1,8 @@
 from flask import *
 from extensions import connect_to_database
 from flask import url_for
+import datetime
+import os
 
 allsamples = Blueprint('allsamples', __name__, template_folder='templates')
 
@@ -10,9 +12,8 @@ def allsamples_route():
     cur = db.cursor()
 
     result = ''
-    button = ''
 
-    search = 'SELECT * FROM sampleInfo '
+    search = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
     where = 'WHERE '
     order = ' ORDER BY '
     des = ' DESC'
@@ -22,8 +23,6 @@ def allsamples_route():
     lesser = ' < '
     greaterand = ' >= '
     lesserand = ' <= '
-
-    search = 'SELECT * FROM sampleInfo'
 
     if request.method == 'POST':
         button = request.form.get('sort')
@@ -52,8 +51,20 @@ def allsamples_route():
     cur.execute(search)
     result = cur.fetchall()
 
+    results = []
+
+    for row in result:
+      sample = ({
+        "per": round(row[0] * 100, 2),
+        "perR": round(row[0] * 100, 0), 
+        "type": row[1][0:row[1].find('_')].title(),
+        "date": row[2].strftime("%b %d %Y"),
+        "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + row[3] + '.png'),
+        "id": row[3]
+      })
+      results.append(sample)
+
     options = {
-		  "result": result,
-    "search": search
-	}
+		    "results": results
+	   }
     return render_template("allsamples.html", **options)

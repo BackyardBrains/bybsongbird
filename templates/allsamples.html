@@ -3,19 +3,18 @@
 {% block head %}
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/allsamples.css') }}">
 <script type="text/javascript" src="{{ url_for('static', filename='js/allsamples.js') }}"></script>
-
 {% endblock %}
 
 {% block content %}
 <div style="padding-left:10px; padding-right:10px;">
-    <div style="padding-bottom:50px">
+    <div style="padding-bottom:50px;">
         <h3>All Data Samples</h3>
     </div>
-    <div style="padding-bottom:10px">
+    <div style="padding-bottom:10px;">
         <form method="post">
             <div style="display:inline-block;">
                 <p style="display:inline-block; font-size:75%">Sort data by:</p>
-                <select name="sort" id="sort">
+                <select name="sort">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Time</option>
@@ -54,34 +53,36 @@
                     <option value="greaterand">> =</option>
                     <option value="lesserand">< =</option>
                 </select>
-                <input type="text" name="input" placeholder="Your Value" />
+                <input type="text" name="crit" placeholder="Your Value" />
             </div>
         </form>
     </div>
 </div>
 
-
+{% if results %}
 <div>
-
-    <div class="sample">
-        <div class="c100 p85 green">
-            <span>85%</span>
-            <div class="slice">
-                <div class="bar"></div>
-                <div class="fill"></div>
+    {% for res in results %}
+        <div class="sample">
+            <div class="c100 p{{res['perR']}} green">
+                <span>{{res['per']}}%</span>
+                <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                </div>
             </div>
+            
+            <div class="species">Species:</div>
+            <div class="bird">{{res['type']}}</div>
+            <div class="upload">Upload On:</div>
+            <div class="time">{{res['date']}}</div>
+
+            <div class="wav" data-activity-waveform={{res['wave']}}></div>
+
+            <form action="{{url_for('info.info_route')}}">
+                <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
+            </form>
         </div>
-
-        <div class="species">Species:</div>
-        <div class="bird">Robin</div>
-        <div class="upload">Upload On:</div>
-        <div class="time">2017-11-142 19:20:24</div>
-
-        <form action="{{url_for('info.info_route')}}">
-            <button type="submit" name="sampleid" value="{{1}}" class="button">Learn More</button>
-        </form>
-    </div>
-
+    {% endfor %}
 </div>
 
 <div class="pagination">
@@ -89,6 +90,14 @@
     <a href="/#">1</a>
     <a href="/#">&raquo;</a>
 </div>
+{% endif %}
 
+<script type="text/javascript">
+    document.getElementById('sort').value = "<?php echo $_POST['sort']?>";
+    document.getElementById('dir').value = "<?php echo $_POST['dir']?>";
+    document.getElementById('col').value = "<?php echo $_POST['col']?>";
+    document.getElementById('equ').value = "<?php echo $_POST['equ']?>";
+    document.getElementById('crit').value = "<?php echo $_POST['crit']?>";
+</script>
 
 {% endblock %}
