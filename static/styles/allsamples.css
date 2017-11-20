@@ -41,6 +41,11 @@
     font-size: 130%;
 }
 
+.wav {
+    width: 50%;
+    float: left;
+}
+
 .pagination {
     display: inline-block;
 }

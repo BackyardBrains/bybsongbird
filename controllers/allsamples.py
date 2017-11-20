@@ -48,10 +48,13 @@ def allsamples_route():
 
         if direction == 'descending':
             search += des
-
+    
     cur.execute(search)
     result = cur.fetchall()
-
+    
+    print(search)
+    print(result)
+    
     results = []
 
     for row in result:
@@ -63,7 +66,6 @@ def allsamples_route():
         "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
         "id": row['sampleid']
       })
-      print(str(row['sampleid']))
       results.append(sample)
 
     options = {
