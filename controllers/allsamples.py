@@ -58,11 +58,11 @@ def allsamples_route():
             search += ' DESC'
     
     if good:
-      cur.execute(base)
+      cur.execute(search)
       result = cur.fetchall()
     
     print("search :: " + search)
-    print("result :: " + result)
+    print(result)
     
     results = []
 
