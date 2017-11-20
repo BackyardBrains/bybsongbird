@@ -14,8 +14,7 @@ def allsamples_route():
 
     result = ''
 
-    base = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
-    search, button, direction, column, equation, match = '', '', '', '', '', ''
+    search = 'SELECT per1, type1, added, sampleid FROM sampleInfo '
     good = True
 
     if request.method == 'POST':
@@ -59,12 +58,9 @@ def allsamples_route():
             search += ' DESC'
     
     if good:
-      base = base + search
-
-    cur.execute(base)
-    result = cur.fetchall()
+      cur.execute(base)
+      result = cur.fetchall()
     
-    print("base :: " + base)
     print("search :: " + search)
     print("result :: " + result)
     
