@@ -31,42 +31,90 @@ $(function() {
         $('.result_title').hide();
     });
 
+    $('.classification').each(function() {
+        var thischart = d3.select(this)
+        var data1 = JSON.parse($(this).attr('data-classification-first'));
+        var color1 = ['#23CFEE', '#CACACA'];
+        donut_chart(data1, color1, 'chart1', thischart);
+        $(this).find('.first_match_intro').find('.match_name').html(data1[0]['name']);
+
+        var data2 = JSON.parse($(this).attr('data-classification-second'));
+        var color2 = ['#ED531D', '#CACACA'];
+        donut_chart(data2, color2, 'chart2', thischart);
+        $(this).find('.second_match_intro').find('.match_name').html(data2[0]['name']);
+
+        var data3 = JSON.parse($(this).attr('data-classification-third'));
+        var color3 = ['#ED0C19', '#CACACA'];
+        donut_chart(data3, color3, 'chart3', thischart);
+        $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
+    });
+
+    $('.map').each(function() {
+        var thismap = $(this);
+        if (thismap.length != 0) {
+            var sampleid = thismap.attr('data-sampleid');
+            var longitude = thismap.attr('data-longitude');
+            var latitude = thismap.attr('data-latitude');
+            show_map(sampleid, latitude, longitude, thismap);
+        }
+    });
+
     progress_bar_buttons();
     function progress_bar_buttons() {
-        var humidity = $('.humidity_button').attr('data-humidity');
-        console.log('humidity');
-        // $('.humidity_button').css('left', )
+        $('.humidity_button').each(function() {
+            var thishumidity = $(this);
+            if (thishumidity.length != 0) {
+                var humidity = $(this).attr('data-humidity');
+                $(this).css('left', humidity + '%');
+            }
+        });
+        
+        $('.temp_button').each(function() {
+            var thistemp = $(this);
+            if (thistemp.length != 0) {
+                var temp = $(this).attr('data-temp');
+                $(this).css('left', temp + '%');
+            }
+        });  
+        
+        $('.light_button').each(function() {
+            var thislight = $(this);
+            if (thislight.length != 0) {
+                var light = $(this).attr('data-light');
+                $(this).css('left', light + '%');
+            }
+        });
     }
 
     function show_audios_and_images(current, last_current) {
         if (last_current != 0) {
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user').html('<p>original file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user_clean').html('<p>clean file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_activity').html('<p>activity file</p>');
-            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_noise').html('<p>noise file</p>');
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user_clean').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_activity').empty();
+            $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_noise').empty();
         }
 
         var waveform_user = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').attr('data-user-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<img class="waveform" src=' + waveform_user + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<p class="result_text">Original Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<p class="result_text">Original Audio Track:</p>');
         var audio_user = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').attr('data-audio-user');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<audio controls preload="metadata" class="audiofile"><source src="../static/songs/users/' + audio_user + '" type="audio/mpeg"></audio>');
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user + ' type="audio/mpeg"></audio>');
                 
         var waveform_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-user-clean-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<img class="waveform" src=' + waveform_user_clean + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>');
         var audio_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-audio-user-clean');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user_clean + ' type="audio/mpeg"></audio>');
 
         var waveform_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-activity-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<img class="waveform" src=' + waveform_activity + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>');
         var audio_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-audio-activity');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_activity + ' type="audio/mpeg"></audio>');
 
         var waveform_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-noise-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<img class="waveform" src=' +waveform_noise + ' height="50px" />');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>');
         var audio_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-audio-noise');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_noise + ' type="audio/mpeg"></audio>');
     }
@@ -80,7 +128,7 @@ $(function() {
           $("#pagin").append('<li class="paging"><a href="#" class="paging_num">'+(i+1)+'</a></li>');
         }
 
-        $("#pagin li").first().find('a').addClass('current');
+        $("#pagin li").first().addClass('current');
         
         $("#pagin").prepend('<div class="prev">&#8249;</div>');
         $("#pagin").append('<div class="next">&#8250;</div>');
@@ -143,9 +191,9 @@ $(function() {
 
         var current = 1;
         show_audios_and_images(current, 0);
-        $("#pagin li a").on('click', function() {
-            var last_current = $("#pagin li").find('.current').html();
-            $("#pagin li").find('.current').removeClass('current');
+        $("#pagin li").on('click', function() {
+            var last_current = $("#pagin").find('.current').find('a').html();
+            $("#pagin").find('.current').removeClass('current');
             $(this).addClass('current');
             $(".ellipsis").remove();
             current = parseInt($(this).text());
@@ -156,8 +204,8 @@ $(function() {
 
         $(".prev").on("click", function() {
           $(".ellipsis").remove();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin>li:eq("+ (current - 2) +")").find('a').addClass('current');
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin>li:eq("+ (current - 2) +")").addClass('current');
           current = current - 1;
           showNumber(current);
           showPage(current);
@@ -166,8 +214,8 @@ $(function() {
 
         $(".next").on("click", function() {
           $(".ellipsis").remove();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin>li:eq("+ current +")").find('a').addClass('current');
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin>li:eq("+ current +")").addClass('current');
           current = current + 1;
           showNumber(current);
           showPage(current);
@@ -176,9 +224,9 @@ $(function() {
 
         $(".first").on("click", function() {
           $(".ellipsis").remove();
-          var last_current = $("#pagin li").find('.current').html();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin li").first().find('a').addClass('current');
+          var last_current = $("#pagin").find('.current').find('a').html();
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin li").first().addClass('current');
           showNumber(1);
           showPage(1);
           show_audios_and_images(1, last_current);
@@ -186,84 +234,12 @@ $(function() {
 
         $(".last").on("click", function() {
           $(".ellipsis").remove();
-          var last_current = $("#pagin li").find('.current').html();
-          $("#pagin li").find('.current').removeClass('current');
-          $("#pagin li").last().find('a').addClass('current');
+          var last_current = $("#pagin").find('.current').find('a').html();
+          $("#pagin").find('.current').removeClass('current');
+          $("#pagin li").last().addClass('current');
           showNumber(pageCount);
           showPage(pageCount);
           show_audios_and_images(pageCount, last_current);
         });
     }
 });
-
-function donut_chart(data, color, chart) {
-    var text = (data[0].value * 100).toFixed(3) + '%' ;
-    var width = 90;
-    var height = 90;
-    var thickness = 10;
-
-    var radius = Math.min(width, height) / 2;
-
-    var svg = d3.select("#" + chart)
-        .append('svg')
-        .attr('class', 'pie')
-        .attr('width', width)
-        .attr('height', height);
-
-    var g = svg.append('g')
-        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
-
-    var arc = d3.arc()
-        .innerRadius(radius - thickness)
-        .outerRadius(radius);
-
-    var pie = d3.pie()
-        .value(function(d) { return d.value; })
-        .sort(null);
-
-    var path = g.selectAll('path')
-        .data(pie(data))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', (d,i) => color[i])
-
-
-        g.append('text')
-            .attr('text-anchor', 'middle')
-            .attr('dy', '.35em')
-            .style("font-size", "14px")
-            .text(text);
-}
-
-function show_map(sampleid, latitude, longitude) {
-    var options = {
-        zoom: 5,
-        center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
-        mapTypeId: google.maps.MapTypeId.TERRAIN,
-        mapTypeControl: false
-    };
-
-    var map = new google.maps.Map($('#map')[0], options);
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latitude, longitude),
-        map: map,
-        title: 'Click Me'
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-        window.location.href = "/info?sampleid=" + sampleid;
-    });
-
-    marker.addListener('mouseover', function() {
-        infowindow = new google.maps.InfoWindow({
-            content: 'sampleid = ' + sampleid
-        });
-        infowindow.open(map, marker);
-    });
-
-    marker.addListener('mouseout', function() {
-        infowindow.close();
-    });
-}

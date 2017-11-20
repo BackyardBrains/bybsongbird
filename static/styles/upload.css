@@ -265,7 +265,7 @@ hr {
 }
 
 .match_title {
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 100;
     margin-top: 45px;
     margin-bottom: 0;
@@ -293,7 +293,7 @@ hr {
     /*height: 100%;*/
 }
 
-.humidity_button {
+.humidity_button, .temp_button, .light_button {
     height: 25px;
     width: 25px;
     border: 1px solid #FBFBFB;
@@ -309,11 +309,14 @@ hr {
     margin-left: -12.5px;
 }
 
-.info_location {
-    margin-top: 30px;
+.none_info {
+    font-size: 18px;
+    font-weight: 200;
+    margin-bottom: 5px;
+    color: #545454;
 }
 
-#map {
+.map {
     height: 250px;
 }
 
@@ -329,30 +332,41 @@ hr {
     margin-top: 40px;
 }
 
-.first {
+.first, .prev, .next, .last {
+    cursor: pointer;
+    line-height: 18px;
+}
+
+.first, .prev, .next, .paging, .last {
     height: 20px;
     width: 20px;
     border: 1px solid #858187;
-    margin-right: 10px;
     text-align: center;
-    line-height: 18px;
     color: #858187;
 }
 
-.last {
-    height: 20px;
-    width: 20px;
-    border: 1px solid #858187;
-    margin-left: 10px;
-    text-align: center;
-    line-height: 18px;
-    color: #858187;
+.prev, .next, .last, .paging {
+    margin-left: 5px;
 }
 
 .paging {
     list-style-type: none;
+    line-height: 20px;
 }
 
 .paging_num {
     color: #858187;
+}
+
+.paging_num:hover {
+    color: #858187;
+}
+
+.current {
+    background-color: #EE7E21;
+    border: none;
+}
+
+.current .paging_num {
+    color: white;
 }

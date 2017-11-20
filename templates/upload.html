@@ -3,11 +3,9 @@
 {% block head %}
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}">
 <script type="text/javascript"  src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script type="text/javascript"  src="{{ url_for('static', filename='js/base.js') }}"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYp3pn94F0hy-2n5-FnqVOcP3wDhQRf38&callback=initMap">
-</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCYp3pn94F0hy-2n5-FnqVOcP3wDhQRf38"></script>
 {% endblock %}
 
 {% block content %}
@@ -84,7 +82,7 @@
                     <div class="second_match">
                         <div id="chart2"></div>
                         <div class="second_match_intro">
-                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_title">2nd Best Match Species:</p>
                             <p class="match_name"></p>
                         </div>
                     </div>
@@ -92,7 +90,7 @@
                 <div class="third_match">
                     <div id="chart3"></div>
                     <div class="third_match_intro">
-                        <p class="match_title">Best Match Species:</p>
+                        <p class="match_title">3rd Best Match Species:</p>
                         <p class="match_name"></p>
                     </div>
                 </div>
@@ -100,13 +98,41 @@
 
             <div class="humidity_result">
                 <p class="info_title">Relative Humidity:</p>
-                <div class="progress_bar"></div>
-                <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}</div>
+                {% if match.humidity and match.humidity != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}%</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="temp_result">
+                <p class="info_title">Temperature:</p>
+                {% if match.temperature and match.temperature != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="temp_button" data-temp={{match.temperature}}>{{match.temperature}}°F</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="light_result">
+                <p class="info_title">Light:</p>
+                {% if match.light and match.light != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="light_button" data-light={{match.light}}>{{match.light}}lx</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
             </div>
 
             <div class="info_location">
                 <p class="info_title">Location:</p>
-                <div id="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}>
+                {% if match.latitude and match.latitude != 999.0 and match.longitude and match.longitude != 999.0 %}
+                    <div class="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}></div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -114,31 +140,4 @@
     </div>
     {% endif %}
 </div>
-
-<script type="text/javascript">
-    $('.classification').each(function() {
-        // var thischart1 = d3.select(this.find('.first_match'))
-        var data1 = JSON.parse($(this).attr('data-classification-first'));
-        var color1 = ['#23CFEE', '#CACACA'];
-        donut_chart(data1, color1, 'chart1');
-        $(this).find('.first_match_intro').find('.match_name').html(data1[0]['name']);
-
-        // var thischart2 = d3.select(this.find('.second_match'))
-        var data2 = JSON.parse($(this).attr('data-classification-second'));
-        var color2 = ['#ED531D', '#CACACA'];
-        donut_chart(data2, color2, 'chart2');
-        $(this).find('.second_match_intro').find('.match_name').html(data2[0]['name']);
-
-        // var thischart3 = d3.select(this.find('.third_match'))
-        var data3 = JSON.parse($(this).attr('data-classification-third'));
-        var color3 = ['#ED0C19', '#CACACA'];
-        donut_chart(data3, color3, 'chart3');
-        $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
-    });
-
-    var sampleid = $('#map').attr('data-sampleid');
-    var longitude = $('#map').attr('data-longitude');
-    var latitude = $('#map').attr('data-latitude');
-    show_map(sampleid, latitude, longitude);
-</script>
 {% endblock %}
