@@ -12,6 +12,7 @@ from machine_learning_and_dsp.process_and_categorize import classiFier
 import numpy as np
 import json
 from waveform import Waveform
+from zlib import crc32
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
@@ -44,12 +45,16 @@ def upload_route():
 
             else:
                 filename = secure_filename(file.filename)
+                user_file_temp = os.path.join(config.env['UPLOAD_FOLDER'], filename)
+                file.save(user_file_temp)
+
+                with open(user_file_temp, 'rb') as file_contents:
+                    sample_id = crc32(file_contents.read())
+
+                filename = str(sample_id) + '.WAV'
                 user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
-                file.save(user_file)            
-                user_waveform = Waveform(user_file)
-                user_waveform.save()
-                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace(os.getcwd(), '')
-            
+                os.rename(user_file_temp, user_file)
+
                 result = identify.classFile(user_file)
                 first_match_name = result["values"][8]
                 first_match = [{"name": first_match_name[1:first_match_name.find('_')].title(), "value": float(result["values"][9])}, {"name": "Other", "value": 1 - float(result["values"][9])}]
@@ -57,7 +62,12 @@ def upload_route():
                 second_match = [{"name": second_match_name[1:second_match_name.find('_')].title(), "value": float(result["values"][11])}, {"name": "Other", "value": 1 - float(result["values"][11])}]
                 third_match_name = result["values"][12]
                 third_match = [{"name": third_match_name[1:third_match_name.find('_')].title(), "value": float(result["values"][13])}, {"name": "Other", "value": 1 - float(result["values"][13])}]
-                
+
+                user_waveform = Waveform(user_file)
+                user_waveform.save()
+                user_waveform_file = user_file.replace(user_file.split('.')[-1], 'png').replace(os.getcwd(), '')
+                user_file = user_file.replace(os.getcwd(), '..')
+
                 activity_file = os.path.join(config.env['UPLOAD_FOLDER'], 'activity/' + filename)
                 activity_waveform = Waveform(activity_file)
                 activity_waveform.save()
@@ -91,7 +101,7 @@ def upload_route():
 
                 matches.append({
                                 'user': user_waveform_file,
-                                'filename': filename, 
+                                'filename': user_file, 
                                 'sample_id': result['sample_id'], 
                                 'first_match': json.dumps(first_match),
                                 'second_match': json.dumps(second_match),

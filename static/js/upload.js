@@ -49,30 +49,41 @@ $(function() {
         $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
     });
 
-    $('.info_location').each(function() {
-        var thismap = $(this).find('.map');
-        var sampleid = thismap.attr('data-sampleid');
-        var longitude = thismap.attr('data-longitude');
-        var latitude = thismap.attr('data-latitude');
-        show_map(sampleid, latitude, longitude, thismap);
+    $('.map').each(function() {
+        var thismap = $(this);
+        if (thismap.length != 0) {
+            var sampleid = thismap.attr('data-sampleid');
+            var longitude = thismap.attr('data-longitude');
+            var latitude = thismap.attr('data-latitude');
+            show_map(sampleid, latitude, longitude, thismap);
+        }
     });
 
     progress_bar_buttons();
     function progress_bar_buttons() {
         $('.humidity_button').each(function() {
-            var humidity = $(this).attr('data-humidity');
-            $(this).css('left', humidity + '%');
-        })
+            var thishumidity = $(this);
+            if (thishumidity.length != 0) {
+                var humidity = $(this).attr('data-humidity');
+                $(this).css('left', humidity + '%');
+            }
+        });
         
         $('.temp_button').each(function() {
-            var temp = $(this).attr('data-temp');
-            $(this).css('left', temp + '%');
-        })  
+            var thistemp = $(this);
+            if (thistemp.length != 0) {
+                var temp = $(this).attr('data-temp');
+                $(this).css('left', temp + '%');
+            }
+        });  
         
         $('.light_button').each(function() {
-            var light = $(this).attr('data-light');
-            $(this).css('left', light + '%');
-        })  
+            var thislight = $(this);
+            if (thislight.length != 0) {
+                var light = $(this).attr('data-light');
+                $(this).css('left', light + '%');
+            }
+        });
     }
 
     function show_audios_and_images(current, last_current) {
@@ -85,25 +96,25 @@ $(function() {
 
         var waveform_user = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').attr('data-user-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<img class="waveform" src=' + waveform_user + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<p class="result_text">Original Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<p class="result_text">Original Audio Track:</p>');
         var audio_user = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').attr('data-audio-user');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<audio controls preload="metadata" class="audiofile"><source src="../static/songs/users/' + audio_user + '" type="audio/mpeg"></audio>');
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user + ' type="audio/mpeg"></audio>');
                 
         var waveform_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-user-clean-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<img class="waveform" src=' + waveform_user_clean + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>');
         var audio_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-audio-user-clean');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user_clean + ' type="audio/mpeg"></audio>');
 
         var waveform_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-activity-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<img class="waveform" src=' + waveform_activity + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>');
         var audio_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-audio-activity');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_activity + ' type="audio/mpeg"></audio>');
 
         var waveform_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-noise-waveform');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<img class="waveform" src=' +waveform_noise + ' height="50px" />');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>')
+        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>');
         var audio_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-audio-noise');
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_noise + ' type="audio/mpeg"></audio>');
     }
