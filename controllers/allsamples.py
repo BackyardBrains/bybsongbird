@@ -55,12 +55,12 @@ def allsamples_route():
 
     for row in result:
       sample = ({
-        "per": round(row[0] * 100, 2),
-        "perR": round(row[0] * 100, 0), 
-        "type": row[1][0:row[1].find('_')].title(),
-        "date": row[2].strftime("%b %d %Y"),
-        "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + row[3] + '.png'),
-        "id": row[3]
+        "per": round(row['per1'] * 100, 2),
+        "perR": round(row['per1'] * 100, 0), 
+        "type": row['type1'][0:row['type1'].find('_')].title(),
+        "date": row['added'].strftime("%b %d %Y"),
+        "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + row['sampleid'] + '.png'),
+        "id": row['sampleid']
       })
       results.append(sample)
 
