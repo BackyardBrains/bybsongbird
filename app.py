@@ -15,9 +15,10 @@ app.register_blueprint(controllers.sqlpage)
 app.register_blueprint(controllers.info)
 app.register_blueprint(controllers.pattern)
 app.register_blueprint(controllers.upload)
-app.register_blueprint(controllers.database)
+# app.register_blueprint(controllers.database)
 app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
+app.register_blueprint(controllers.new_user)
 
 #sys.stderr = open("error_log", "a")
 
