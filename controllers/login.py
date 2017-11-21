@@ -19,7 +19,11 @@ def login_route():
     correct_password = db_response['password']
     login_successful = hasher.verify(password, correct_password)
     if login_successful:
-        login_user(User(username))
+        if request.form['remember'] == u'True':
+            remember = True
+        else:
+            remember = False
+        login_user(User(username), remember=remember)
         return json.dumps({}), 200
     else:
         return json.dumps({'error': 'Incorrect password.\n'}), 422
