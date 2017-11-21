@@ -2,6 +2,7 @@ from flask import Flask
 
 import config
 import controllers
+from extensions import login_manager
 
 # Initialize Flask app with the template folder address
 app = Flask(__name__, template_folder='templates')
@@ -20,6 +21,10 @@ app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
+
+login_manager.init_app(app)
+
+app.secret_key = config.secret_key
 
 #sys.stderr = open("error_log", "a")
 
