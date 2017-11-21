@@ -19,6 +19,7 @@ app.register_blueprint(controllers.upload)
 app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
+app.register_blueprint(controllers.login)
 
 #sys.stderr = open("error_log", "a")
 
