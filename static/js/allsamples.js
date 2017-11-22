@@ -10,7 +10,7 @@ function submitThis() {
     document.getElementById("selection").submit();
 }
 
-$(function () {
+/*$(function () {
     pagination();
     function pagination() {
         var pageSize = 20;
@@ -82,7 +82,6 @@ $(function () {
         showPage(1);
 
         var current = 1;
-        show_audios_and_images(current, 0);
         $("#pagin li").on('click', function () {
             var last_current = $("#pagin").find('.current').find('a').html();
             $("#pagin").find('.current').removeClass('current');
@@ -134,4 +133,4 @@ $(function () {
             show_audios_and_images(pageCount, last_current);
         });
     }
-});
+});*/
