@@ -15,7 +15,7 @@ def login_route():
         cur.execute("SELECT password FROM userInfo WHERE username='%s';" % username)
         db_response = cur.fetchone()
     if not db_response:
-        return json.dumps({'error': 'Incorrect username.\n'}), 422
+        return json.dumps({'error': 'Incorrect username\n'}), 422
     correct_password = db_response['password']
     login_successful = hasher.verify(password, correct_password)
     if login_successful:
@@ -26,7 +26,7 @@ def login_route():
         login_user(User(username), remember=remember)
         return json.dumps({}), 200
     else:
-        return json.dumps({'error': 'Incorrect password.\n'}), 422
+        return json.dumps({'error': 'Incorrect password\n'}), 422
 
 
 @login.route('/api/logout', methods=['POST'])
@@ -34,3 +34,9 @@ def login_route():
 def logout_route():
     logout_user()
     return json.dumps({}), 200
+
+
+@login.route('/login', methods=['GET'])
+def login_page_route():
+    options = {}
+    return render_template("login.html", **options)
