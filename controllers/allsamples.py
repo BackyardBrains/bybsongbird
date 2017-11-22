@@ -24,7 +24,14 @@ def allsamples_route():
         equation = request.form.get('equ')
         match = request.form.get('crit')
 
-        if equation != '' and match != '':
+        if 'update' in match.lower() or 'delete' in match.lower() or 'insert' in match.lower():
+            good = False
+        elif 'create' in match.lower() or 'alter' in match.lower() or 'drop' in match.lower():
+            good = False
+        elif ';' in match.lower() or 'select' in match.lower():
+            good = False
+
+        if equation != '' and match != '' and good == True:
             good = False
 
             search = search + ' WHERE ' + column
