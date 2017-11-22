@@ -12,33 +12,40 @@ def sqlpage_route():
     result = ''
     search = ''
     error = ''
-
-    update = 'update'
-    delete = 'delete'
-    insert = 'insert'
-    create = 'create'
-    alter = 'alter'
-    drop = 'drop'
-    select = 'select'
-    searchFrom = 'from sampleinfo'
-    sampleInfo = 'sampleInfo'
+    cols = []
 
     if request.method == 'POST':
         search = request.form.get('command')
+        lower = search.lower()
 
-        if update in search.lower() or delete in search.lower() or insert in search.lower():
+        if 'update' in lower or 'delete' in lower or 'insert' in lower:
             error = 'Command not allowed, please only use the SELECT command.'
-        elif create in search.lower() or alter in search.lower() or drop in search.lower():
+        elif 'create' in lower or 'alter' in lower or 'drop' in lower:
             error = 'Command not allowed, please only use the SELECT command.'
-        elif select not in search.lower() or searchFrom not in search.lower() or sampleInfo not in search:
+        elif 'select' not in lower or 'from sampleinfo' not in lower:
             error = 'Command not allowed, please only use the SELECT command.'
+
+        if '*' in lower or 'sampleid' in lower: cols.append('sampleid')
+        if '*' in lower or 'deviceid' in lower: cols.append('deviceid')
+        if '*' in lower or 'added' in lower: cols.append('added')
+        if '*' in lower or 'type1' in lower: cols.append('type1')
+        if '*' in lower or 'type2' in lower: cols.append('type2')
+        if '*' in lower or 'type3' in lower: cols.append('type3')
+        if '*' in lower or 'per1' in lower: cols.append('per1')
+        if '*' in lower or 'per2' in lower: cols.append('per2')
+        if '*' in lower or 'per3' in lower: cols.append('per3')
+        if '*' in lower or 'humidity' in lower: cols.append('humidity')
+        if '*' in lower or 'temp' in lower: cols.append('temp')
+        if '*' in lower or 'light' in lower: cols.append('light')
+        if '*' in lower or 'latitude' in lower: cols.append('latitude')
+        if '*' in lower or 'longitude' in lower: cols.append('longitude')
 
         if not error:
             try:
                 cur.execute(search)
                 result = cur.fetchall()
             except:
-                error = 'The SQL command returned an error.'
+                error = 'The SQL command returned an error. Query is: "' + search + '".'
 
         if not result and not error:
             error = 'Search did not return any results.'
@@ -46,6 +53,7 @@ def sqlpage_route():
     options = {
 		      "result": result,
         "search": search,
-        "error": error
+        "error": error,
+        "cols": cols
 	}
     return render_template("sqlpage.html", **options)
