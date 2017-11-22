@@ -4,6 +4,7 @@ from passlib.hash import pbkdf2_sha512 as hasher
 login = Blueprint('login', __name__, template_folder='templates')
 from extensions import *
 from flask_login import *
+from _mysql import escape_string
 
 
 @login.route('/api/login', methods=['POST'])
@@ -12,7 +13,7 @@ def login_route():
     username = request.form['username']
     password = request.form['password']
     with connect_to_database() as cur:
-        cur.execute("SELECT password FROM userInfo WHERE username='%s';" % username)
+        cur.execute("SELECT password FROM userInfo WHERE username='%s';" % escape_string(username))
         db_response = cur.fetchone()
     if not db_response:
         return json.dumps({'error': 'Incorrect username\n'}), 422
