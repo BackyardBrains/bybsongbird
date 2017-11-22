@@ -16,7 +16,8 @@ def sqlpage_route():
 
     if request.method == 'POST':
         search = request.form.get('command')
-        lower = search.lower()
+        lower = search.split(";")[0].lower()
+        birds = lower.split("from")[0]
 
         if 'update' in lower or 'delete' in lower or 'insert' in lower:
             error = 'Command not allowed, please only use the SELECT command.'
@@ -25,20 +26,20 @@ def sqlpage_route():
         elif 'select' not in lower or 'from sampleinfo' not in lower:
             error = 'Command not allowed, please only use the SELECT command.'
 
-        if '*' in lower or 'sampleid' in lower: cols.append('sampleid')
-        if '*' in lower or 'deviceid' in lower: cols.append('deviceid')
-        if '*' in lower or 'added' in lower: cols.append('added')
-        if '*' in lower or 'type1' in lower: cols.append('type1')
-        if '*' in lower or 'type2' in lower: cols.append('type2')
-        if '*' in lower or 'type3' in lower: cols.append('type3')
-        if '*' in lower or 'per1' in lower: cols.append('per1')
-        if '*' in lower or 'per2' in lower: cols.append('per2')
-        if '*' in lower or 'per3' in lower: cols.append('per3')
-        if '*' in lower or 'humidity' in lower: cols.append('humidity')
-        if '*' in lower or 'temp' in lower: cols.append('temp')
-        if '*' in lower or 'light' in lower: cols.append('light')
-        if '*' in lower or 'latitude' in lower: cols.append('latitude')
-        if '*' in lower or 'longitude' in lower: cols.append('longitude')
+        if '*' in birds or 'sampleid' in birds: cols.append('sampleid')
+        if '*' in birds or 'deviceid' in birds: cols.append('deviceid')
+        if '*' in birds or 'added' in birds: cols.append('added')
+        if '*' in birds or 'type1' in birds: cols.append('type1')
+        if '*' in birds or 'type2' in birds: cols.append('type2')
+        if '*' in birds or 'type3' in birds: cols.append('type3')
+        if '*' in birds or 'per1' in birds: cols.append('per1')
+        if '*' in birds or 'per2' in birds: cols.append('per2')
+        if '*' in birds or 'per3' in birds: cols.append('per3')
+        if '*' in birds or 'humidity' in birds: cols.append('humidity')
+        if '*' in birds or 'temp' in birds: cols.append('temp')
+        if '*' in birds or 'light' in birds: cols.append('light')
+        if '*' in birds or 'latitude' in birds: cols.append('latitude')
+        if '*' in birds or 'longitude' in birds: cols.append('longitude')
 
         if not error:
             try:

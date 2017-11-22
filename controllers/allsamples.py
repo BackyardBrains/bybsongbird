@@ -87,13 +87,34 @@ def allsamples_route():
     results = []
 
     for row in result:
+      birdType = row['type1'][0:row['type1'].find('_')]
+      if 'robin' in birdType:
+        color = 'green'
+      elif 'gold' in birdType:
+        color = 'orange'
+      elif 'jay' in birdType:
+        color = 'lightgr'
+      elif 'chicadee' in birdType:
+        color = 'lightbl'
+      elif 'crow' in birdType:
+        color = 'indigo'
+      elif 'titmouse' in birdType:
+        color = 'purple'
+      elif 'cardinal' in birdType:
+        color = 'brown'
+      elif 'sparrow' in birdType:
+        color = 'green'
+      else:
+        color = 'blue'
+      
       sample = ({
         "per": round(row['per1'] * 100, 2),
         "perR": int(round(row['per1'] * 100, 0)), 
-        "type": row['type1'][0:row['type1'].find('_')].title(),
+        "type": birdType.title(),
         "date": row['added'].strftime("%b %d %Y"),
         "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
-        "id": str(row['sampleid'])
+        "id": str(row['sampleid']),
+        "color": color
       })
       results.append(sample)
 

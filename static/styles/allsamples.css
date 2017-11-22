@@ -19,7 +19,7 @@
 
 .button {
     width: 250px;
-    margin: 100px 50px 0px -125px;
+    margin: 20px 50px 0px -125px;
     position: relative;
     padding: 5px;
     top: 50%;
@@ -32,7 +32,8 @@
 
 .wav {
     width: 250px;
-    margin: 100px 50px 0px -125px;
+    height: 75px;
+    margin: 1px 50px 0px -125px;
     position: relative;
     padding: 5px;
     top: 50%;
@@ -68,21 +69,21 @@
     display: inline-block;
 }
 
-    .pagination a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-    }
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
 
-        .pagination a.active {
-            background-color: orange;
-            color: white;
-        }
+.pagination a.active {
+    background-color: orange;
+    color: white;
+}
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-        }
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
 
 .rect-auto, .c100.p51 .slice, .c100.p52 .slice, .c100.p53 .slice, .c100.p54 .slice, .c100.p55 .slice, .c100.p56 .slice, .c100.p57 .slice, .c100.p58 .slice, .c100.p59 .slice, .c100.p60 .slice, .c100.p61 .slice, .c100.p62 .slice, .c100.p63 .slice, .c100.p64 .slice, .c100.p65 .slice, .c100.p66 .slice, .c100.p67 .slice, .c100.p68 .slice, .c100.p69 .slice, .c100.p70 .slice, .c100.p71 .slice, .c100.p72 .slice, .c100.p73 .slice, .c100.p74 .slice, .c100.p75 .slice, .c100.p76 .slice, .c100.p77 .slice, .c100.p78 .slice, .c100.p79 .slice, .c100.p80 .slice, .c100.p81 .slice, .c100.p82 .slice, .c100.p83 .slice, .c100.p84 .slice, .c100.p85 .slice, .c100.p86 .slice, .c100.p87 .slice, .c100.p88 .slice, .c100.p89 .slice, .c100.p90 .slice, .c100.p91 .slice, .c100.p92 .slice, .c100.p93 .slice, .c100.p94 .slice, .c100.p95 .slice, .c100.p96 .slice, .c100.p97 .slice, .c100.p98 .slice, .c100.p99 .slice, .c100.p100 .slice {
     clip: rect(auto, auto, auto, auto)
@@ -1014,24 +1015,24 @@
         background-color: #777777
     }
 
-        .c100.dark .bar, .c100.dark .fill {
-            border-color: #c6ff00 !important
-        }
+    .c100.dark .bar, .c100.dark .fill {
+        border-color: #c6ff00 !important
+    }
 
-        .c100.dark > span {
-            color: #777777
-        }
+    .c100.dark > span {
+        color: #777777
+    }
 
-        .c100.dark:after {
-            background-color: #666666
-        }
+    .c100.dark:after {
+        background-color: #666666
+    }
 
     .c100.green .bar, .c100.green .fill {
         border-color: #4db53c !important
     }
 
     .c100.green.dark .bar, .c100.green.dark .fill {
-        border-color: #5fd400 !important
+        border-color: #4db53c !important
     }
 
     .c100.orange .bar, .c100.orange .fill {
@@ -1039,5 +1040,53 @@
     }
 
     .c100.orange.dark .bar, .c100.orange.dark .fill {
-        border-color: #e08833 !important
+        border-color: #dd9d22 !important
+    }
+
+    .c100.lightgr .bar, .c100.lightgr .fill {
+        border-color: #97CB55 !important
+    }
+
+    .c100.lightgr.dark .bar, .c100.lightgr.dark .fill {
+        border-color: #97CB55 !important
+    }
+
+    .c100.red .bar, .c100.red .fill {
+        border-color: #EE0000 !important
+    }
+
+    .c100.red.dark .bar, .c100.red.dark .fill {
+        border-color: #EE0000 !important
+    }
+
+    .c100.lightbl .bar, .c100.lightbl .fill {
+        border-color: #00B4F4 !important
+    }
+
+    .c100.lightbl.dark .bar, .c100.lightbl.dark .fill {
+        border-color: #00B4F4 !important
+    }
+
+    .c100.indigo .bar, .c100.indigo .fill {
+        border-color: #022062 !important
+    }
+
+    .c100.indigo.dark .bar, .c100.indigo.dark .fill {
+        border-color: #022062 !important
+    }
+
+    .c100.purple .bar, .c100.purple .fill {
+        border-color: #703296 !important
+    }
+
+    .c100.purple.dark .bar, .c100.purple.dark .fill {
+        border-color: #703296 !important
+    }
+
+    .c100.brown .bar, .c100.brown .fill {
+        border-color: #a98756 !important
+    }
+
+    .c100.brown.dark .bar, .c100.brown.dark .fill {
+        border-color: #a98756 !important
     }
