@@ -91,3 +91,11 @@ function show_map(sampleid, latitude, longitude, thismap) {
         infowindow.close();
     });
 }
+
+function logout() {
+    $.post('/api/logout').success(function () {
+        window.location.replace("");
+    }).fail(function () {
+        window.location.replace("");
+    })
+}

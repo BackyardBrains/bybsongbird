@@ -26,6 +26,12 @@
                 <a class="nav-item nav-link" href="{{ url_for('ourTeam.ourTeam_route') }}">Our Team</a>
                 <a class="nav-item nav-link" href="{{url_for('sqlpage.sqlpage_route')}}">Pro Users</a>
                 <a class="nav-item nav-link upload_btn" href="{{url_for('upload.upload_route')}}"><i class="fa fa-upload" aria-hidden="true"></i>Upload</a>
+                {% if current_user.get_id() %}
+                    <a id="login_button" class="nav-item nav-link" href="" onclick="logout()">Logout</a>
+                {% else %}
+                    <a id="login_button" class="nav-item nav-link"
+                       href={{ url_for('login.login_page_route') }}>Login</a>
+                {% endif %}
             </div>
         </nav>
     </header>

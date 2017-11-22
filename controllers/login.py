@@ -40,3 +40,8 @@ def logout_route():
 def login_page_route():
     options = {}
     return render_template("login.html", **options)
+
+
+@login.route('/api/current-user', methods=['GET'])
+def current_user_route():
+    return json.dumps({'current_user': current_user.get_id()})
