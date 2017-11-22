@@ -80,13 +80,9 @@ def allsamples_route():
         if direction == 'descending':
             search += ' DESC'
     
-    print("search :: " + search)
-
     if good:
       cur.execute(search)
       result = cur.fetchall()
-
-    print(result)
     
     results = []
 
