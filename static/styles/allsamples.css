@@ -30,6 +30,15 @@
     color: white;
 }
 
+.wav {
+    width: 250px;
+    margin: 100px 50px 0px -125px;
+    position: relative;
+    padding: 5px;
+    top: 50%;
+    left: 50%;
+}
+
 .circles {
     margin: 10px 10px 10px 10px;
 }
@@ -53,10 +62,6 @@
 
 .time {
     font-size: 130%;
-}
-
-.wav {
-    width: 50%;
 }
 
 .pagination {
