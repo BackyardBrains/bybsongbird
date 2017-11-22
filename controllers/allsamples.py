@@ -24,7 +24,7 @@ def allsamples_route():
         equation = request.form.get('equ')
         match = request.form.get('crit')
 
-        if column != '' and equation != '' and match != '':
+        if equation != '' and match != '':
             good = False
 
             search = search + ' WHERE ' + column
@@ -65,6 +65,8 @@ def allsamples_route():
                   search += match
                   good = True
               else: good = False
+        elif equation == '' and match != '':
+          good = False
 
         search = search + ' ORDER BY ' + button
 
