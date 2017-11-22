@@ -77,7 +77,7 @@
                 <div class="upload">Upload On:</div>
                 <div class="time">{{res['date']}}</div>
 
-                <div class="wav" data-activity-waveform='/home/ubuntu/bybsongbird/static/songs/users/users_clean/1194073584.png'></div>
+                <div class="wav"><img src="{{ url_for('static', filename='songs/users/users_clean/1194073584.png') }}" class="wav"></div>
 
                 <form action="{{url_for('info.info_route')}}">
                     <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
