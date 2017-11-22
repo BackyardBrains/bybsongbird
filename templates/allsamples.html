@@ -77,7 +77,7 @@
                 <div class="upload">Upload On:</div>
                 <div class="time">{{res['date']}}</div>
 
-                <div><img src="{{ url_for('static', filename='songs/users/users_clean/{{res['id']}}.png') }}" class="wav"></div>
+                <div><img src="{{ url_for('static', filename='songs/users/users_clean/' + res['id'] + '.png') }}" class="wav"></div>
 
                 <form action="{{url_for('info.info_route')}}">
                     <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
