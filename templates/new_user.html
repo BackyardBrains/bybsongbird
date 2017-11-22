@@ -3,7 +3,7 @@
 {% block head %}
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}"
           xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/new_user.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -12,14 +12,11 @@
             <form>
                 <input type="text" placeholder="Username" class="username" title="username_box"/>
                 <input type="password" placeholder="Password" class="password" title="password_box"/>
-                <label class="remember_me"><input id="rememberme" name="rememberme" value="remember" type="checkbox"/>
-                    &nbsp;Remember me </label>
-                <button class="login_button" name="Login" type="button" onclick="login()"> Login</button>
+                <input type="password" placeholder="Confirm Password" class="confirm_password"
+                       title="confirm_pass_box"/>
+                <button class="login_button" name="Login" type="button" onclick="new_user()">Create user</button>
             </form>
             <p class="error"></p>
-            <center>
-                <a href={{ url_for('new_user.new_user_page_route') }} class="new_user_link">New user?</a>
-            </center>
         </div>
     </div>
 

@@ -15,10 +15,23 @@
     box-shadow: 1px 1px 5px #DADBDB;
 }
 
-.upload_intro, .remember_me {
+.upload_intro {
     font-size: 13px;
     font-weight: 100;
     margin-bottom: 5px;
+    color: #545454;
+}
+
+.remember_me {
+    font-size: 13px;
+    font-weight: 100;
+    color: #545454;
+}
+
+.new_user_link {
+    font-size: 13px;
+    font-weight: 100;
+    text-align: center;
     color: #545454;
 }
 
@@ -103,7 +116,7 @@
     cursor: pointer;
 }
 
-.humidity, .temperature, .light, .username, .password {
+.humidity, .temperature, .light, .username, .password, .confirm_password {
     border: 1px solid #736F75;
     height: 30px;
     margin-right: 8px;
