@@ -2,7 +2,17 @@
 
 {% block head %}
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/allsamples.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='js/allsamples.js') }}"></script>
+<script>
+    document.getElementById("sortid").selectedIndex = sessionStorage.getItem("sort");
+    document.getElementById("dirid").selectedIndex = sessionStorage.getItem("dir");
+
+    function submitThis() {
+        sessionStorage.setItem("sort", document.getElementById("sortid").selectedIndex);
+        sessionStorage.setItem("dir", document.getElementById("dirid").selectedIndex);
+
+        document.getElementById("selection").submit();
+    }
+</script>
 {% endblock %}
 
 {% block content %}
