@@ -5,33 +5,33 @@
 {% endblock %}
 
 {% block content %}
-<div style="padding-left:10px; padding-right:10px;">
+<div style="margin-left:10%; margin-right:10%">
     <div>
         <h3>Pro Users</h3>
     </div>
-    <p><i>SQL commands using SELECT only, others will be rejected!</i>(Data will be displayed as retreived.) Columns within table <b>sampleInfo</b>:</p>
-    <table style="width:100%; border:none; text-align:center;">
-        <tr><td>sampleid INTEGER</td>
-            <td>deviceid INTEGER</td>
-            <td>added TIMESTAMP</td></tr>
-        <tr><td>type1 VARCHAR (First Match Species)</td>
-            <td>type2 VARCHAR (Second Match Species)</td>
-            <td>type3 VARCHAR (Third Match Species)</td></tr>
-        <tr><td>per1 FLOAT (First Match Percentage)</td>
-            <td>per2 FLOAT (Second Match Percentage)</td>
-            <td>per3 FLOAT (Third Match Percentage)</td></tr>
-        <tr><td>humidity INTEGER</td>
-            <td>temp FLOAT</td>
-            <td>light FLOAT</td></tr>
-        <tr><td>latitude FLOAT</td>
-            <td>longitude FLOAT</td>
+    <p><i>SQL commands using SELECT only, others will be rejected!</i> Columns within table <b>sampleInfo</b>:</p>
+    <table style="width:100%; border:none;">
+        <tr><td>&#9656 sampleid INTEGER</td>
+            <td>&#9656 deviceid INTEGER</td>
+            <td>&#9656 added TIMESTAMP</td></tr>
+        <tr><td>&#9656 type1 VARCHAR (First Match Species)</td>
+            <td>&#9656 type2 VARCHAR (Second Match Species)</td>
+            <td>&#9656 type3 VARCHAR (Third Match Species)</td></tr>
+        <tr><td>&#9656 per1 FLOAT (First Match Percentage)</td>
+            <td>&#9656 per2 FLOAT (Second Match Percentage)</td>
+            <td>&#9656 per3 FLOAT (Third Match Percentage)</td></tr>
+        <tr><td>&#9656 humidity INTEGER</td>
+            <td>&#9656 temp FLOAT</td>
+            <td>&#9656 light FLOAT</td></tr>
+        <tr><td>&#9656 latitude FLOAT</td>
+            <td>&#9656 longitude FLOAT</td>
             <td></td></tr>
     </table>
 
     <form method="post">
-        <p>SQL command:</p>
-        <input type="text" name="command" style="width: 50%;" />
-        <input class="button" type="submit">
+        <p style="display:inline-block;">SQL command:</p>
+        <input style="display:inline-block;" type="text" name="command" style="width: 50%;" />
+        <input style="display:inline-block;" type="submit">
     </form>
 
     {% if error %}
@@ -40,6 +40,11 @@
     {% if result %}
         <p>Results from query: <i>{{search}}</i></p>
         <table style="width:100%">
+            <tr>
+                {% for col in cols %}
+                    <th>{{col}}</th>
+                {% endfor %}
+            </tr>
             {% for res in result %}
                 <tr>
                     {% for col in cols %}
