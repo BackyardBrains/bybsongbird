@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div style="margin-left:10%; margin-right:10%">
+< style="margin-left:10%; margin-right:10%">
     <div>
         <h3>All Samples</h3>
     </div>
@@ -57,49 +57,44 @@
             </div>
         </form>
     </div>
-</div>
 
-{% if results %}
-<div>
-    {% for res in results %}
-        <div class="sample">
-            <div class="circles">
-                <div class="c100 p{{res['perR']}} green">
-                    <span>{{res['per']}}%</span>
-                    <div class="slice">
-                        <div class="bar"></div>
-                        <div class="fill"></div>
+    {% if results %}
+    <div style="margin-left:10%; margin-right:10%">
+        {% for res in results %}
+            <div class="sample">
+                <div class="circles">
+                    <div class="c100 p{{res['perR']}} green">
+                        <span>{{res['per']}}%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="species">Species:</div>
+                <div class="bird">{{res['type']}}</div>
+                <div class="upload">Upload On:</div>
+                <div class="time">{{res['date']}}</div>
+
+                <div class="wav" data-activity-waveform='/home/ubuntu/bybsongbird/static/songs/users/users_clean/1194073584.png'></div>
+
+                <form action="{{url_for('info.info_route')}}">
+                    <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
+                </form>
             </div>
+        {% endfor %}
+    </div>
 
-            <div class="species">Species:</div>
-            <div class="bird">{{res['type']}}</div>
-            <div class="upload">Upload On:</div>
-            <div class="time">{{res['date']}}</div>
+    <ul id="pagin"></ul>
 
-            <div class="wav" data-activity-waveform='/home/ubuntu/bybsongbird/static/songs/users/users_clean/1194073584.png'></div>
+    {% else %}
 
-            <form action="{{url_for('info.info_route')}}">
-                <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
-            </form>
-        </div>
-    {% endfor %}
+    <div>
+        <h3 class="nothing">No results returned.</h3>
+    </div>
+
+    {% endif %}
 </div>
-
-<div class="pagination">
-    <a href="/#">&laquo;</a>
-    <a href="/#">1</a>
-    <a href="/#">&raquo;</a>
-</div>
-
-{% else %}
-
-<div>
-    <h3 class="nothing">No results returned.</h3>
-</div>
-
-{% endif %}
-
 <script type="text/javascript" src="{{ url_for('static', filename='js/allsamples.js') }}"></script>
 {% endblock %}
