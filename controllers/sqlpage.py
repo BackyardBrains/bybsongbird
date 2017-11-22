@@ -44,7 +44,7 @@ def sqlpage_route():
             error = 'Search did not return any results.'
 
     options = {
-		"result": result,
+		      "result": result,
         "search": search,
         "error": error
 	}
