@@ -13,3 +13,4 @@ pymediainfo
 sox
 pathos
 Flask-Login
+Pillow-PIL
