@@ -1,15 +1,16 @@
 import json
 import os
+from zlib import crc32
 
 from flask import *
 from flask import request
+from flask_login import login_required, current_user
 from werkzeug import secure_filename
 
 import config
 import extensions
 from machine_learning_and_dsp.process_and_categorize import classiFier
 from waveform import Waveform
-from zlib import crc32
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
@@ -18,6 +19,7 @@ db = extensions.connect_to_database()
 ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
 
 @upload.route('/upload', methods = ['GET','POST'])
+@login_required
 def upload_route():
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -52,7 +54,7 @@ def upload_route():
                 user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
                 os.rename(user_file_temp, user_file)
 
-                result = identify.classFile(user_file)
+                result = identify.classFile(user_file, username=current_user.get_id())
                 first_match_name = result["values"][8]
                 first_match = [{"name": first_match_name[1:first_match_name.find('_')].title(), "value": float(result["values"][9])}, {"name": "Other", "value": 1 - float(result["values"][9])}]
                 second_match_name = result["values"][10]

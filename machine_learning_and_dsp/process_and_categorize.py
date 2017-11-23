@@ -2,7 +2,6 @@
 
 
 import cPickle
-import os
 import shutil
 import sys
 import time
@@ -71,7 +70,7 @@ class classiFier:
         if os.path.exists(os.path.join(directory, "activity")):
             shutil.rmtree(os.path.join(directory, "activity"))
 
-    def classFile(self, file):
+    def classFile(self, file, username=None):
         model_file = self.model_file
         classifierType = self.classifierType
         verbose = self.verbose
@@ -145,12 +144,18 @@ class classiFier:
         values = [sample_id, device_id, added, latitude, longitude, humidity, temp, light, type1, per1, type2,
                   per2,
                   type3, per3]
+        if username:
+            values.append("'" + username + "'")
         values = [str(x) for x in values]
 
         with MySQLdb.connect(host=host, user=user, passwd=passwd,
                              db=database) as cur:  # config is in config.py: see above
-            query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
-                values) + ");"
+            if username:
+                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3, user) values(" + ','.join(
+                    values) + ");"
+            else:
+                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
+                    values) + ");"
             try:
                 cur.execute(query_text)
             except _mysql_exceptions.ProgrammingError, e:
