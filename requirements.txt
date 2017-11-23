@@ -2,7 +2,7 @@ Flask==0.10.1
 gunicorn==18.0
 Jinja2==2.8
 MarkupSafe==0.23
-Werkzeug==0.9.4
+Werkzeug
 wheel==0.29.0
 pymysql==0.7.1
 scikit-learn==0.18.1
@@ -12,3 +12,4 @@ pydub
 pymediainfo
 sox
 pathos
+Flask-Login

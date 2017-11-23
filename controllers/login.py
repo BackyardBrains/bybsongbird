@@ -20,7 +20,7 @@ def login_route():
     correct_password = db_response['password']
     login_successful = hasher.verify(password, correct_password)
     if login_successful:
-        if request.form['remember'] == u'True':
+        if request.form['remember'] == u'true':
             remember = True
         else:
             remember = False
