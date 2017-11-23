@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 
 import config
 import controllers
@@ -23,6 +24,11 @@ app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
 login_manager.init_app(app)
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return render_template('login.html')
 
 app.secret_key = config.secret_key
 

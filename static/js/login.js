@@ -9,7 +9,7 @@ function login() {
             remember: remember
         },
         function (data, status) {
-            window.location.href = "/";
+            window.location.href = "";
         }, 'json').fail(function (data, status) {
         var error_message = data.responseJSON['error'];
         $(".error").text(error_message);

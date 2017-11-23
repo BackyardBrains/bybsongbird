@@ -10,7 +10,7 @@ function new_user() {
             confirm_password: confirm_password
         },
         function (data, status) {
-            window.location.href = "/login";
+            window.location.href = document.referrer;
         }, 'json').fail(function (data, status) {
         var error_message = data.responseJSON['error'];
         $(".error").text(error_message);

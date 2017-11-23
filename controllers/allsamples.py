@@ -1,13 +1,15 @@
-from flask import *
-from extensions import connect_to_database
-from flask import url_for
-import datetime
 import os
+
+from flask import *
+from flask_login import login_required
+
 import config
+from extensions import connect_to_database
 
 allsamples = Blueprint('allsamples', __name__, template_folder='templates')
 
 @allsamples.route('/allsamples', methods = ['GET', 'POST'])
+@login_required
 def allsamples_route():
     db = connect_to_database()
     cur = db.cursor()

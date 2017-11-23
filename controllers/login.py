@@ -40,6 +40,9 @@ def logout_route():
 @login.route('/login', methods=['GET'])
 def login_page_route():
     options = {}
+    active_login = current_user.get_id()
+    if active_login:
+        return redirect(url_for('main.main_route'))
     return render_template("login.html", **options)
 
 
