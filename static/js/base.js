@@ -3,7 +3,7 @@ $(function() {
     function navbar_control() {
         var current = location.pathname;
         $('.nav-link').each(function(){
-            if ($(this).attr('href') === current) {
+            if($(this).attr('href') === current){
                 $(this).addClass('active');
             }
         });
@@ -50,8 +50,7 @@ function donut_chart(data, color, chart, thischart) {
         .enter()
         .append('path')
         .attr('d', arc)
-        .attr('fill', (d, i) = > color[i]
-)
+        .attr('fill', (d,i) => color[i])
 
 
         g.append('text')
