@@ -1,6 +1,6 @@
 $(function() {
     $('#chooseFile').bind('change', function () {
-        var size = $("#chooseFile")[0].files.length
+        var size = $("#chooseFile")[0].files.length;
         if (size > 1) {
             $("#noFile").text(size + ' files chosen'); 
         } else {
@@ -32,7 +32,7 @@ $(function() {
     });
 
     $('.classification').each(function() {
-        var thischart = d3.select(this)
+        var thischart = d3.select(this);
         var data1 = JSON.parse($(this).attr('data-classification-first'));
         var color1 = ['#23CFEE', '#CACACA'];
         donut_chart(data1, color1, 'chart1', thischart);
@@ -141,8 +141,8 @@ $(function() {
           $(".result_sub").each(function(n) {
             if (n >= pageSize * (page - 1) && n < pageSize * page)
               $(this).show();
-          }); 
-        }
+          });
+        };
 
         showNumber = function(current) {
           if (current > 1) {
@@ -184,7 +184,7 @@ $(function() {
               $("#pagin>li:eq("+ (current+1) +")").append('<li class="ellipsis">......</li>');
             }
           }
-        }
+        };
         
         showNumber(1);
         showPage(1);

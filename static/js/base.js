@@ -12,7 +12,7 @@ $(function() {
     $('.nav-link').on('click', function() {
         $('.nav-link').each(function() {
             if ($(this).hasClass('active')) {
-                console.log('has activate')
+                console.log('has activate');
                 $(this).removeClass('active');
             }
         });
@@ -50,7 +50,8 @@ function donut_chart(data, color, chart, thischart) {
         .enter()
         .append('path')
         .attr('d', arc)
-        .attr('fill', (d,i) => color[i])
+        .attr('fill', (d, i) = > color[i];
+)
 
 
         g.append('text')

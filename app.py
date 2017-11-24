@@ -38,4 +38,4 @@ app.secret_key = config.secret_key
 # For us, listen to port 3000 so you can just run 'python app.py' to start the server
 if __name__ == '__main__':
     # listen on external IPs
-    app.run(host=config.env['host'], port=config.env['port'], debug=True)
+    app.run(host=config.env['host'], port=config.env['port'], debug=config.env['debug'])
