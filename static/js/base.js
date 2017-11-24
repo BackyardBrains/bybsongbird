@@ -94,8 +94,8 @@ function show_map(sampleid, latitude, longitude, thismap) {
 
 function logout() {
     $.post('/api/logout').success(function () {
-        window.location.replace("");
+        window.location.reload(true);
     }).fail(function () {
-        window.location.replace("");
+        window.location.reload(true);
     })
 }

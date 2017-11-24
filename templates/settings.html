@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}"
+          xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="boxes">
+        <div class="login">
+            <form>
+                <input type="password" placeholder="Old password" class="old_password" title="old_password_box"/>
+                <input type="password" placeholder="New password" class="new_password" title="new_password_box"/>
+                <input type="password" placeholder="Confirm new password" class="confirm_new_password"
+                       title="confirm_new_password_box"/>
+                <button class="confirm_button" name="submit_new_password" type="button" onclick="submitNewPassword()">
+                    Change password
+                </button>
+            </form>
+            <p class="error"></p>
+            <p class="success"></p>
+        </div>
+    </div>
+
+{% endblock %}

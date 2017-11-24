@@ -49,3 +49,37 @@ def login_page_route():
 @login.route('/api/current-user', methods=['GET'])
 def current_user_route():
     return json.dumps({'current_user': current_user.get_id()})
+
+
+@login.route('/api/change-password', methods=['POST'])
+@login_required
+def change_password_route():
+    old_password = request.form['old_password']
+    new_password = request.form['new_password']
+    confirm_new_password = request.form['confirm_new_password']
+    if len(new_password) > 256:
+        return json.dumps({'error': 'New password cannot be more than 256 characters long\n'}), 409
+    if new_password != confirm_new_password:
+        return json.dumps({'error': 'New passwords do not match\n'}), 409
+
+    username = current_user.get_id()
+    with connect_to_database() as cur:
+        cur.execute("SELECT password FROM userInfo WHERE username='%s';" % username)
+        db_response = cur.fetchone()
+
+    correct_password = db_response['password']
+    correct_old_password = hasher.verify(old_password, correct_password)
+
+    if correct_old_password:
+        hashed_new_password = hasher.hash(new_password)
+        with connect_to_database() as cur:
+            cur.execute("UPDATE userInfo SET password='%s' WHERE username='%s';" % (hashed_new_password, username))
+        return json.dumps({'success': 'Password changed successfully\n'}), 200
+    else:
+        return json.dumps({'error': 'Old password is incorrect\n'}), 409
+
+
+@login.route('/settings', methods=['GET'])
+@login_required
+def settings_route():
+    return render_template('settings.html')
