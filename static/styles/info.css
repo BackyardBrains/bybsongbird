@@ -1,0 +1,101 @@
+.info {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.back_div {
+    margin-top: 20px;
+}
+
+.back_button {
+    color: #EE7E21;
+}
+
+.back_button:hover {
+    color: #EE7E21;
+}
+
+.basic_info {
+    margin-top: 20px;
+    display: flex;
+    color: #515151;
+}
+
+.info_title {
+    font-size: 12px;
+    font-weight: 100;
+    margin: 0;
+}
+
+.audio_track, .info_others {
+    width: 40%;
+}
+
+.information {
+    display: flex;
+}
+
+.audio_button {
+    border: 1px solid #515151;
+    border-radius: 30px;
+    height: 25px;
+    width: 115px;
+    line-height: 25px;
+    display: flex;
+    cursor: pointer;
+}
+
+.audio_play {
+    margin-left: 15px;
+}
+
+.fa.fa-play {
+    height: 25px;
+    line-height: 25px;
+    margin-left: 15px;
+}
+
+.sample_id {
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.first_match, .second_match, .third_match {
+    margin-top: 20px;
+    width: max-content;
+}
+
+.first_match_intro, .second_match_intro, .third_match_intro {
+    margin-left: 10px;
+}
+
+.match_title {
+    font-size: 8px;
+    font-weight: 100;
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
+.info_location {
+    width: 55%;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.map {
+    height: 300px;
+}
+
+.location_text {
+    display: flex;
+    margin-top: 20px;
+}
+
+.info_latitude {
+    margin-right: 100px;
+}
+
+.info_text {
+    font-weight: 300;
+    color: #464646;
+}

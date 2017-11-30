@@ -1,62 +1,114 @@
 {% extends "base.html" %}
-{% block content %}
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/info.css') }}">
+{% endblock %}
 
-<font color="orange"><table style="width:100%">
-    <tr>
-	    <td>Sample ID</td>
-	    <td>{{res["sampleid"]}}</td>
-	</tr>
-	<tr>
-		<td>Device ID</td>
-		<td>{{res["deviceid"]}}</td>
-	</tr>
-	<tr>
-		<td>Time</td>
-		<td>{{res["added"]}}</td>	   
-	</tr> 
-	<tr>
-		<td>Latitude</td>
-		<td>{{res["latitude"]}}</td>	   
-	</tr>
-	<tr>
-		<td>Longitude</td>
-		<td>{{res["longitude"]}}</td>	   
-	</tr>
-	<tr>
-		<td>Humidity</td>
-		<td>{{res["humidity"]}}</td>	   
-	</tr>
-	<tr>
-		<td>Temperature</td>
-		<td>{{res["temp"]}}</td>	   
-	</tr>
-	<tr>
-		<td>Light</td>
-		<td>{{res["light"]}}</td>	   
-	</tr>
-	<tr>
-		<td>Best Match Species</td>
-		<td>{{res["type1"]}}</td>
-	</tr>  
-    <tr>
-    	<td>Best Match Percentage</td>
-    	<td>{{res["per1"]}}</td>
-    </tr>
-    <tr>
-		<td>Second Match Species</td>
-		<td>{{res["type2"]}}</td>	   
-	</tr>
-	<tr>
-    	<td>Second Match Percentage</td>
-    	<td>{{res["per2"]}}</td>
-    </tr>
-    <tr>
-		<td>Third Match Species</td>
-		<td>{{res["type3"]}}</td>	   
-	</tr>
-	<tr>
-    	<td>Third Match Percentage</td>
-    	<td>{{res["per3"]}}</td>
-    </tr>
-</table></font>
+{% block content %}
+<div class="info">
+    <div class="back_div">
+        <a class="back_button" href="{{url_for('allsamples.allsamples_route')}}">&laquo;Back</a>
+    </div>
+
+    <div class="basic_info">
+        <div class="audio_track">
+            <p class="info_title">Cleaned Audio Track:</p>
+            <div class="audio_button">
+                <i class="fa fa-play" aria-hidden="true"></i>
+                <p class="audio_play">play</p>
+            </div>
+        </div>
+
+        <div class="sample_id">
+            <p class="info_title">Sample ID:</p>
+            <p class="info_text">#{{match['sample_id']}}</p>
+        </div>
+
+        <div class="upload_time">
+            <p class="info_title">Upload on</p>
+            <p class="info_text">{{match['added']}}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="information">
+        <div class="info_others">
+            <div class="classification" data-classification-first='{{match.first_match}}' data-classification-second='{{match.second_match}}' data-classification-third='{{match.third_match}}'>
+                <div class="first_match">
+                    <div id="chart1"></div>
+                    <div class="first_match_intro">
+                        <p class="match_title">Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
+                </div>
+
+                <div class="second_match">
+                    <div id="chart2"></div>
+                    <div class="second_match_intro">
+                        <p class="match_title">2nd Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
+                </div>
+
+                <div class="third_match">
+                    <div id="chart3"></div>
+                    <div class="third_match_intro">
+                        <p class="match_title">3rd Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="humidity_result">
+                <p class="info_title">Relative Humidity:</p>
+                {% if match.humidity and match.humidity != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}%</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="temp_result">
+                <p class="info_title">Temperature:</p>
+                {% if match.temperature and match.temperature != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="temp_button" data-temp={{match.temperature}}>{{match.temperature}}°F</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="light_result">
+                <p class="info_title">Light:</p>
+                {% if match.light and match.light != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="light_button" data-light={{match.light}}>{{match.light}}lx</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="info_location">
+            <p class="info_title">Location:</p>
+            {% if match.latitude and match.latitude != 999.0 and match.longitude and match.longitude != 999.0 %}
+                <div class="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}></div>
+                <div class="location_text">
+                    <div class="info_latitude">
+                        <p class="info_title">Latitude:</p>
+                        <p class="info_text">{{match['latitude']}}</p>
+                    </div>
+                    
+                    <div class="info_longitude">
+                        <p class="info_title">Longitude:</p>
+                        <p class="info_text">{{match['longitude']}}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p class="none_info">N/A</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

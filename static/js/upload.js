@@ -31,61 +31,6 @@ $(function() {
         $('.result_title').hide();
     });
 
-    $('.classification').each(function() {
-        var thischart = d3.select(this);
-        var data1 = JSON.parse($(this).attr('data-classification-first'));
-        var color1 = ['#23CFEE', '#CACACA'];
-        donut_chart(data1, color1, 'chart1', thischart);
-        $(this).find('.first_match_intro').find('.match_name').html(data1[0]['name']);
-
-        var data2 = JSON.parse($(this).attr('data-classification-second'));
-        var color2 = ['#ED531D', '#CACACA'];
-        donut_chart(data2, color2, 'chart2', thischart);
-        $(this).find('.second_match_intro').find('.match_name').html(data2[0]['name']);
-
-        var data3 = JSON.parse($(this).attr('data-classification-third'));
-        var color3 = ['#ED0C19', '#CACACA'];
-        donut_chart(data3, color3, 'chart3', thischart);
-        $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
-    });
-
-    $('.map').each(function() {
-        var thismap = $(this);
-        if (thismap.length != 0) {
-            var sampleid = thismap.attr('data-sampleid');
-            var longitude = thismap.attr('data-longitude');
-            var latitude = thismap.attr('data-latitude');
-            show_map(sampleid, latitude, longitude, thismap);
-        }
-    });
-
-    progress_bar_buttons();
-    function progress_bar_buttons() {
-        $('.humidity_button').each(function() {
-            var thishumidity = $(this);
-            if (thishumidity.length != 0) {
-                var humidity = $(this).attr('data-humidity');
-                $(this).css('left', humidity + '%');
-            }
-        });
-        
-        $('.temp_button').each(function() {
-            var thistemp = $(this);
-            if (thistemp.length != 0) {
-                var temp = $(this).attr('data-temp');
-                $(this).css('left', temp + '%');
-            }
-        });  
-        
-        $('.light_button').each(function() {
-            var thislight = $(this);
-            if (thislight.length != 0) {
-                var light = $(this).attr('data-light');
-                $(this).css('left', light + '%');
-            }
-        });
-    }
-
     function show_audios_and_images(current, last_current) {
         if (last_current != 0) {
             $(".result_sub:eq(" + (last_current - 1) + ")").find('.audio_user').empty();
