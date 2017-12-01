@@ -12,7 +12,6 @@ $(function() {
     $('.nav-link').on('click', function() {
         $('.nav-link').each(function() {
             if ($(this).hasClass('active')) {
-                console.log('has activate');
                 $(this).removeClass('active');
             }
         });
@@ -69,7 +68,7 @@ $(function() {
         $('.light_button').each(function() {
             var thislight = $(this);
             if (thislight.length != 0) {
-                var light = $(this).attr('data-light');
+                var light = $(this).attr('data-light') / 10;
                 $(this).css('left', light + '%');
             }
         });
@@ -123,8 +122,6 @@ function show_map(sampleid, latitude, longitude, thismap) {
         mapTypeId: google.maps.MapTypeId.TERRAIN,
         mapTypeControl: false
     };
-
-    console.log('hereimhere');
 
     var mapcanvas = new google.maps.Map(thismap[0], options);
 
