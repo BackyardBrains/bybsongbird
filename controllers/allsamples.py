@@ -95,15 +95,15 @@ def allsamples_route():
       elif 'jay' in birdType:
         color = 'lightgr'
       elif 'chicadee' in birdType:
-        color = 'lightbl'
+        color = 'red'
       elif 'crow' in birdType:
-        color = 'indigo'
+        color = 'lightbl'
       elif 'titmouse' in birdType:
-        color = 'purple'
+        color = 'indigo'
       elif 'cardinal' in birdType:
-        color = 'brown'
+        color = 'purple'
       elif 'sparrow' in birdType:
-        color = 'green'
+        color = 'brown'
       else:
         color = 'blue'
       
