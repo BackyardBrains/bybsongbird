@@ -40,6 +40,7 @@ def sqlpage_route():
         if '*' in birds or 'light' in birds: cols.append('light')
         if '*' in birds or 'latitude' in birds: cols.append('latitude')
         if '*' in birds or 'longitude' in birds: cols.append('longitude')
+        if '*' in birds or 'user' in birds: cols.append('user')
 
         if not error:
             try:

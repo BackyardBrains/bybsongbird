@@ -37,43 +37,36 @@ def allsamples_route():
             search = search + ' WHERE ' + column
             
             if column == 'type1':
-              if equation == 'equal': 
-                search = search + " LIKE '%" + match + "%' "
-              elif equation == 'notequal':
-                search = search + " NOT LIKE '%" + match + "%' "
-              elif equation == 'greater':
-                search = search + " > '" + match + "' "
-              elif equation == 'lesser':
-                search = search + " < '" + match + "' "
-              elif equation == 'greaterand':
-                search = search + " >= '" + match + "' "
-              elif equation == 'lesserand':
-                search = search + " <= '" + match + "' "
+              if equation == 'equal': search = search + " LIKE '%" + match + "%' "
+              elif equation == 'notequal': search = search + " NOT LIKE '%" + match + "%' "
+              elif equation == 'greater': search = search + " > '" + match + "' "
+              elif equation == 'lesser': search = search + " < '" + match + "' "
+              elif equation == 'greaterand': search = search + " >= '" + match + "' "
+              elif equation == 'lesserand': search = search + " <= '" + match + "' "
               good = True
             else:
-              if match.isdigit():
-                if equation == 'equal': search += ' = '
-                elif equation == 'notequal': search += ' <> '
-                elif equation == 'greater': search += ' > '
-                elif equation == 'lesser': search += ' < '
-                elif equation == 'greaterand': search += ' >= '
-                elif equation == 'lesserand': search += ' <= '
-                if column == 'added':
-                  if len(match) == 8:
-                    month = match[0:2]
-                    day = match[2:4]
-                    year = match[4:]
-                    if int(month) > 0 and int(month) < 13 and int(day) > 0 and int(day) < 32:
-                      search = search + " '" + year + "-" + month + "-" + day + " 00:00:00'"
-                      good = True
-                    else: good = False
-                  else: good = False
-                else:
+              if equation == 'equal': search += ' = '
+              elif equation == 'notequal': search += ' <> '
+              elif equation == 'greater': search += ' > '
+              elif equation == 'lesser': search += ' < '
+              elif equation == 'greaterand': search += ' >= '
+              elif equation == 'lesserand': search += ' <= '
+              
+              if column == 'added' and match.isdigit() and len(match) == 8:
+                month = match[0:2]
+                day = match[2:4]
+                year = match[4:]
+                if int(month) > 0 and int(month) < 13 and int(day) > 0 and int(day) < 32:
+                  search = search + " '" + year + "-" + month + "-" + day + " 00:00:00'"
+                  good = True
+                else: good = False
+              else:
+                try:
+                  match = float(match)
                   search += match
                   good = True
-              else: good = False
-        elif equation == '' and match != '':
-          good = False
+                except:
+                  good = False
 
         search = search + ' ORDER BY ' + button
 
