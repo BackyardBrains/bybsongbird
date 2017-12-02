@@ -63,7 +63,9 @@ def allsamples_route():
               else:
                 try:
                   match = float(match)
-                  search += match
+                  if column == 'per1' and match > 100:
+                    match = match / 100.0
+                  search += str(match)
                   good = True
                 except:
                   good = False
