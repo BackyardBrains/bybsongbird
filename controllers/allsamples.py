@@ -45,14 +45,13 @@ def allsamples_route():
               elif equation == 'lesserand': search = search + " <= '" + match + "' "
               good = True
             else:
-              if equation == 'equal': search += ' = '
-              elif equation == 'notequal': search += ' <> '
-              elif equation == 'greater': search += ' > '
-              elif equation == 'lesser': search += ' < '
-              elif equation == 'greaterand': search += ' >= '
-              elif equation == 'lesserand': search += ' <= '
-              
               if column == 'added' and match.isdigit() and len(match) == 8:
+                if equation == 'equal': search += ' = '
+                elif equation == 'notequal': search += ' <> '
+                elif equation == 'greater': search += ' > '
+                elif equation == 'lesser': search += ' < '
+                elif equation == 'greaterand': search += ' >= '
+                elif equation == 'lesserand': search += ' <= '
                 month = match[0:2]
                 day = match[2:4]
                 year = match[4:]
@@ -63,9 +62,17 @@ def allsamples_route():
               else:
                 try:
                   match = float(match)
-                  if column == 'per1' and match > 100:
-                    match = match / 100.0
-                  search += str(match)
+                  match = str(match)
+                  if column == 'per1':
+                    if match > 1: match = match / 100.0
+                    if equation == 'equal':
+                      search = search.split("where")[0] + " where abs(per1 - " + match + ") < 0.01"
+                    elif equation == 'notequal':
+                      search = search.split("where")[0] + " where abs(per1 - " + match + ") > 0.01"
+                    else:
+                      search += match
+                  else:
+                    search += match
                   good = True
                 except:
                   good = False
