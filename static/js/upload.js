@@ -46,22 +46,34 @@ $(function() {
         $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user + ' type="audio/mpeg"></audio>');
                 
         var waveform_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-user-clean-waveform');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<img class="waveform" src=' + waveform_user_clean + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>');
+        if (waveform_user_clean) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<img class="waveform" src=' + waveform_user_clean + ' height="50px"/>');
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<p class="result_text">Cleaned Audio Track:</p>');
+        }
         var audio_user_clean = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').attr('data-audio-user-clean');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user_clean + ' type="audio/mpeg"></audio>');
-
+        if (audio_user_clean) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_user_clean').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_user_clean + ' type="audio/mpeg"></audio>');
+        }
+        
         var waveform_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-activity-waveform');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<img class="waveform" src=' + waveform_activity + ' height="50px"/>');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>');
+        if (waveform_activity) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<img class="waveform" src=' + waveform_activity + ' height="50px"/>');
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<p class="result_text">Activity Audio Track:</p>');
+        }
         var audio_activity = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').attr('data-audio-activity');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_activity + ' type="audio/mpeg"></audio>');
+        if (audio_activity) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_activity').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_activity + ' type="audio/mpeg"></audio>');
+        }
 
         var waveform_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-noise-waveform');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<img class="waveform" src=' +waveform_noise + ' height="50px" />');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>');
+        if (waveform_noise) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<img class="waveform" src=' +waveform_noise + ' height="50px" />');
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<p class="result_text">Noise Audio Track:</p>');
+        }
         var audio_noise = $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').attr('data-audio-noise');
-        $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_noise + ' type="audio/mpeg"></audio>');
+        if (audio_noise) {
+          $(".result_sub:eq(" + (current - 1) + ")").find('.audio_noise').append('<audio controls preload="metadata" class="audiofile"><source src=' + audio_noise + ' type="audio/mpeg"></audio>');
+        }    
     }
 
     pagination();
