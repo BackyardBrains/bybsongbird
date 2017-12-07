@@ -74,8 +74,8 @@ def upload_route():
                     activity_waveform_file = activity_file.replace(activity_file.split('.')[-1], 'png').replace(os.getcwd(), '')
                     activity_file = activity_file.replace(os.getcwd(), '..')
                 else:
-                    activity_waveform_file = ''
-                    activity_file = ''
+                    activity_waveform_file = None
+                    activity_file = None
 
                 noise_file = os.path.join(config.env['UPLOAD_FOLDER'], 'noise/' + filename)
                 if os.path.isfile(noise_file):
@@ -84,8 +84,8 @@ def upload_route():
                     noise_waveform_file = noise_file.replace(noise_file.split('.')[-1], 'png').replace(os.getcwd(), '')
                     noise_file = noise_file.replace(os.getcwd(), '..')
                 else:
-                    noise_waveform_file = ''
-                    noise_file = ''
+                    noise_waveform_file = None
+                    noise_file = None
 
                 user_clean_file = os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + filename)
                 if os.path.isfile(user_clean_file):
@@ -94,8 +94,8 @@ def upload_route():
                     user_clean_waveform_file = user_clean_file.replace(user_clean_file.split('.')[-1], 'png').replace(os.getcwd(), '')
                     user_clean_file = user_clean_file.replace(os.getcwd(), '..')
                 else:
-                    user_clean_waveform_file = ''
-                    user_clean_file = ''
+                    user_clean_waveform_file = None
+                    user_clean_file = None
 
                 cur = db.cursor()
                 cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (result['sample_id'], ))

@@ -31,8 +31,11 @@ class Waveform(object):
 
         max_rms = max(loudness_of_chunks) * 1.00
 
+        if max_rms == 0:
+            max_rms = 1
+
         return [int((loudness / max_rms) * self.db_ceiling)
-                for loudness in loudness_of_chunks]
+            for loudness in loudness_of_chunks]
 
     def _get_bar_image(self, size, fill):
         """ Returns an image of a bar. """
