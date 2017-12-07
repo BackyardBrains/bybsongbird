@@ -99,3 +99,34 @@
     font-weight: 300;
     color: #464646;
 }
+
+.black_overlay {
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    width: max-content;
+    height: 110px;
+    top: 125px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    z-index: 1002;
+    padding: 10px;
+}
+
+.audiotrack {
+    position: relative;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
