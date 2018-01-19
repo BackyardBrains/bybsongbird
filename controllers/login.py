@@ -3,7 +3,7 @@ from passlib.hash import pbkdf2_sha512 as hasher
 
 login = Blueprint('login', __name__, template_folder='templates')
 from extensions import *
-from flask_login import login_required, login_user, current_user
+from flask_login import login_required, login_user, current_user, logout_user
 from _mysql import escape_string
 
 
