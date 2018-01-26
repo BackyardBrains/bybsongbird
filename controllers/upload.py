@@ -2,19 +2,24 @@ import json
 import os
 from zlib import crc32
 
+import sys
+sys.path.append('../')
+sys.path.append('../../')
+
+
 from flask import *
 from flask import request
 from flask_login import login_required, current_user
 from werkzeug import secure_filename
 
 import config
-import extensions
+from extensions import connect_to_database
 from machine_learning_and_dsp.process_and_categorize import classiFier
 from waveform import Waveform
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
-db = extensions.connect_to_database()
+db = connect_to_database()
 
 ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
 
