@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.2.0",
     "react-native": "0.52.2",
+    "react-native-img-button": "^1.0.1",
     "react-native-sound": "^0.10.4"
   },
   "devDependencies": {
