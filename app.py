@@ -11,6 +11,7 @@ app = Flask(__name__, template_folder='templates')
 # Passenger expects to find an object called application
 application = app
 
+
 # Register the controllers
 app.register_blueprint(controllers.main)
 app.register_blueprint(controllers.sqlpage)

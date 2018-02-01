@@ -1,3 +1,4 @@
+
 import json
 import os
 from zlib import crc32
@@ -5,7 +6,6 @@ from zlib import crc32
 import sys
 sys.path.append('../')
 sys.path.append('../../')
-
 
 from flask import *
 from flask import request
@@ -26,7 +26,7 @@ ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'fla
 @upload.route('/upload', methods = ['GET','POST'])
 @login_required
 def upload_route():
-    if request.method == 'POST':
+    if request.method == 'POST': 
         if 'file' not in request.files:
             options = {
                 "noFile": True
@@ -34,7 +34,6 @@ def upload_route():
             return render_template("upload.html", **options)
 
         files = request.files.getlist('file')
-        
         model_file = os.path.join(os.getcwd(), 'model2', 'model')
         identify = classiFier(model_file=model_file, verbose=True)
 
@@ -50,7 +49,8 @@ def upload_route():
             else:
                 filename = secure_filename(file.filename)
                 user_file_temp = os.path.join(config.env['UPLOAD_FOLDER'], filename)
-                file.save(user_file_temp)
+                
+		file.save(user_file_temp)
 
                 with open(user_file_temp, 'rb') as file_contents:
                     sample_id = crc32(file_contents.read())
@@ -101,6 +101,7 @@ def upload_route():
                 else:
                     user_clean_waveform_file = None
                     user_clean_file = None
+			
 
                 cur = db.cursor()
                 cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (result['sample_id'], ))
