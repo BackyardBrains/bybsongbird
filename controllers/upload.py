@@ -3,23 +3,19 @@ import json
 import os
 from zlib import crc32
 
-import sys
-sys.path.append('../')
-sys.path.append('../../')
-
 from flask import *
 from flask import request
 from flask_login import login_required, current_user
 from werkzeug import secure_filename
 
 import config
-from extensions import connect_to_database
+import extensions
 from machine_learning_and_dsp.process_and_categorize import classiFier
 from waveform import Waveform
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 
-db = connect_to_database()
+#db = extensions.connect_to_database()
 
 ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
 
@@ -101,11 +97,16 @@ def upload_route():
                 else:
                     user_clean_waveform_file = None
                     user_clean_file = None
-			
+		
 
+        	db = extensions.connect_to_database() 
+ 
                 cur = db.cursor()
                 cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (result['sample_id'], ))
                 result_sample = cur.fetchall()
+		
+		cur.close() 
+
                 latitude = result_sample[0]['latitude']
                 longitude = result_sample[0]['longitude']
                 humidity = result_sample[0]['humidity']
@@ -135,8 +136,8 @@ def upload_route():
                                 'humidity': humidity,
                                 'temperature': temp,
                                 'light': light
-                                })
-        
+                                })	
+       
         options = {
             'matches': matches,
         }
