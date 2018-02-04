@@ -1,6 +1,12 @@
 from flask import Flask
 from flask import render_template
 
+
+import sys
+sys.path.append("./api")
+
+import api
+
 import config
 import controllers
 from extensions import login_manager
@@ -23,6 +29,8 @@ app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
+
+app.register_blueprint(api.api) 
 
 login_manager.init_app(app)
 
