@@ -2,16 +2,22 @@ import React, {Component} from "react";
 import {View, Text, Image, ScrollView} from "react-native";
 import CardSection from "./common/CardSection";
 import Button from "./common/Button"
+import axios from 'axios';
 
 const Sound = require('react-native-sound')
-const s = new Sound('birdinrain.mp3', Sound.MAIN_BUNDLE, (e) => {
+const s = new Sound('http://songbird.backyardbrains.com/api', undefined, (e) => {
     if (e) {
       console.log(e);
     }
 });
 
 class MainPage extends Component {
-  state = {playSound: false};
+  state = {playSound: false, text: ""};
+
+  componentWillMount() {
+    //axios.get('http://songbird.backyardbrains.com/api')
+    //.then(response => this.setState({ text: response.data }));
+  }
 
   playSound() {
     if(this.state.playSound == true)

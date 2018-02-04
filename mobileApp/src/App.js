@@ -9,7 +9,7 @@ import Swiper from 'react-native-swiper';
 class App extends Component{
   render() {
     return(
-      <Swiper loop={false}>
+      <Swiper loop={false} showButtons={true}>
         <MainPage/>
         <Upload/>
       </Swiper>
