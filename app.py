@@ -5,6 +5,7 @@ from flask import render_template
 import sys
 sys.path.append("./api")
 import api
+import apiPath
 
 import config
 import controllers
@@ -23,14 +24,14 @@ app.register_blueprint(controllers.sqlpage)
 app.register_blueprint(controllers.info)
 app.register_blueprint(controllers.pattern)
 app.register_blueprint(controllers.upload)
-# app.register_blueprint(controllers.database)
+app.register_blueprint(controllers.database)
 app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
 app.register_blueprint(api.api)
- 
+app.register_blueprint(apiPath.apiPath)  
 
 login_manager.init_app(app)
 
