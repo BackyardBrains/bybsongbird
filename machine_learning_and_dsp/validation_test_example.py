@@ -9,4 +9,4 @@ if __name__ == '__main__':
     stWin = [0.1, 0.05, 0.01]
     num_threads = 18
     validate(directory=directory, classifierType=classifierType, mtStep=mtStep, mtWin=mtWin, stStep=stStep, stWin=stWin,
-             num_threads=num_threads)
+             num_threads=num_threads, debug=False, skip_clean=True)
