@@ -11,7 +11,7 @@ from clean_and_test import clean_and_test, test_params
 from train_model import train_model
 
 
-def train_and_verify(parameters, directory, birds, debug=False):
+def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True):
     try:
         os.chdir(directory)
         classifierType = parameters[0]
@@ -32,7 +32,7 @@ def train_and_verify(parameters, directory, birds, debug=False):
         stats_path = '.'.join([model_path, 'stats'])
         if not os.path.exists(png_path) and not os.path.exists(stats_path):
             stats = clean_and_test(directory=test_rootdir, classifierType=classifierType, no_sanitize=True,
-                                   skip_clean=True,
+                                   skip_clean=skip_clean,
                                    show_graphs=False, model_file=model_path, birds=birds, verbose=False)
             with open(stats_path, 'w') as stats_file:
                 cPickle.dump(stats, stats_file)
