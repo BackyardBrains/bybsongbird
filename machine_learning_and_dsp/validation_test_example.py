@@ -2,7 +2,8 @@ from validate import validate
 
 if __name__ == '__main__':
     directory = 'E:\\bird_model_2'
-    #See pyAudioAnalysis docs for info on these parameters
+    #See pyAudioAnalysis docs for info on these parameters, this script will test alll reasonable combonations of the parameters in 
+    #these lists
     classifierType = ['svm']
     mtStep = [1.0, 0.5, 0.1]
     mtWin = [1.0, 0.5, 0.1]
