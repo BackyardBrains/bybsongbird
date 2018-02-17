@@ -16,7 +16,7 @@ api = Blueprint('api', __name__, template_folder='templates')
 
 
 
-#This file is the main page for the app api. Allows user to see data. For sending file to app, see apiPath.py
+#This file is the main page for the app api. Sends entire databse data to app. For sending file to app, see apiPath.py
 
 
 
@@ -35,12 +35,13 @@ def api_route():
     for row in samples:
 	birdType = row['type1'][0:row['type1'].find('_')]
     	sample = ({
-            "per": round(row['per1'] * 100, 2),
-            "perR": int(round(row['per1'] * 100, 0)), 
+            "per": round(row['per1'] * 100, 2), 
             "type": birdType.title(),
             "date": row['added'].strftime("%b %d %Y"),
-            "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
-            "id": str(row['sampleid'])
+            "id": str(row['sampleid']),
+	    "lat": str(row['latitude']), 
+	    "long": str(row['longitude']), 
+	    "temp": str(row['temp']), 
             })
    	sampleList.append(sample) 
      

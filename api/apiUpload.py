@@ -1,52 +1,49 @@
 
-import json
-import os
-from zlib import crc32
-
 from flask import *
-from flask import request
-from flask_login import login_required, current_user
-from werkzeug import secure_filename
+from flask import url_for
+from flask import send_file
+from flask import jsonify
 
+
+import sys
+sys.path.append('/home/bybsongbird/app/bybsongbird')
 import config
+
 import extensions
+
+import os
 from machine_learning_and_dsp.process_and_categorize import classiFier
 from waveform import Waveform
+import json
+from zlib import crc32
+from flask import request
 
-upload = Blueprint('upload', __name__, template_folder='templates')
 
-#db = extensions.connect_to_database()
 
-ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
+#App's api upload file. 
 
-@upload.route('/upload', methods = ['GET','POST'])
-@login_required
-def upload_route():
-    if request.method == 'POST': 
-        if 'file' not in request.files:
-            options = {
-                "noFile": True
-            }
-            return render_template("upload.html", **options)
 
-        files = request.files.getlist('file')
-        model_file = os.path.join(os.getcwd(), 'model2', 'model')
-        identify = classiFier(model_file=model_file, verbose=True)
 
-        matches = []
-        file_num = len(files)
-        for file in files:
-            if file.filename == '':
-                options = {
-                    "emptyname": True
-                }
-                return render_template("upload.html", **options)
+sys.path.append('/home/bybsongbird/app/bybsongbird/static/songs/users')
 
-            else:
+apiUpload = Blueprint('apiUpload', __name__, template_folder='templates')
+
+
+@apiUpload.route('/apiUpload', methods = ['POST'])
+def apiUpload_route():
+
+		#basically copied and pastedd from ../controllers/upload.py. Difference is missing html rendering right here at the beginning and at end. See end for details. 
+		files = request.files.getlist('file')
+        
+       	 	model_file = os.path.join(os.getcwd(), 'model2', 'model')
+        	identify = classiFier(model_file=model_file, verbose=True)
+
+        	matches = []
+       		file_num = len(files)
+       
                 filename = secure_filename(file.filename)
                 user_file_temp = os.path.join(config.env['UPLOAD_FOLDER'], filename)
-                
-		file.save(user_file_temp)
+                file.save(user_file_temp)
 
                 with open(user_file_temp, 'rb') as file_contents:
                     sample_id = crc32(file_contents.read())
@@ -97,16 +94,10 @@ def upload_route():
                 else:
                     user_clean_waveform_file = None
                     user_clean_file = None
-		
 
-        	db = extensions.connect_to_database() 
- 
                 cur = db.cursor()
                 cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (result['sample_id'], ))
                 result_sample = cur.fetchall()
-		
-		cur.close() 
-
                 latitude = result_sample[0]['latitude']
                 longitude = result_sample[0]['longitude']
                 humidity = result_sample[0]['humidity']
@@ -136,12 +127,10 @@ def upload_route():
                                 'humidity': humidity,
                                 'temperature': temp,
                                 'light': light
-                                })	
-       
-        options = {
-            'matches': matches,
-        }
-      
-        return render_template("upload.html", **options)
-
-    return render_template("upload.html")
+                                })
+        
+        	options = {
+        	    'matches': matches,
+        	}
+		#difference here. Instead of return html, returns file. 
+		return jsonify(options)

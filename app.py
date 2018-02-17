@@ -6,6 +6,7 @@ import sys
 sys.path.append("./api")
 import api
 import apiPath
+import apiUpload
 
 import config
 import controllers
@@ -30,8 +31,10 @@ app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
+#API urls
 app.register_blueprint(api.api)
 app.register_blueprint(apiPath.apiPath)  
+app.register_blueprint(apiUpload.apiUpload)
 
 login_manager.init_app(app)
 

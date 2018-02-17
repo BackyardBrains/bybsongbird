@@ -3,6 +3,12 @@ import os
 import shutil
 import sys
 
+
+sys.path.append('/home/bybsongbird/app/bybsongbird/venv/local/lib/python2.7/site-packages/sox')
+sys.path.append('/usr/bin')
+
+
+
 import pathos.multiprocessing as mp
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
 import pyAudioAnalysis.audioSegmentation as aS
@@ -10,6 +16,9 @@ import scipy.io.wavfile as wavfile
 import sox
 from pathos.multiprocessing import Pool
 from pydub import AudioSegment
+import pydub
+
+pydub.AudioSegment.converter = "/usr/bin/ffmpeg"
 
 
 def create_subdirectory(dir, subdir):
@@ -44,7 +53,8 @@ class noiseCleaner:
         sensitivity = self.sensitivity
         debug = self.debug
         verbose = self.verbose
-
+          
+       
         if verbose:
             print inputFile
 

@@ -99,7 +99,7 @@ def unshared_copy(inList):
 
 
 class tester:
-    def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='model', classifierType='gradientboosting',
+    def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='THISONEHSDLKGDSLKGJSLDKJGLKD', classifierType='gradientboosting',
                  verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir

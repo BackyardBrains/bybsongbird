@@ -1,7 +1,7 @@
 from validate import validate
 
 if __name__ == '__main__':
-    directory = 'E:\\bird_model_2'
+    directory = '/home/bybsongbird/app/bybsongbird/aaaTEST'
     classifierType = ['svm']
     mtStep = [1.0, 0.5, 0.1]
     mtWin = [1.0, 0.5, 0.1]

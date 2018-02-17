@@ -7,6 +7,13 @@ import extensions
 import sys
 
 
+
+#This file is for accessing individual file information for the app. URL: ../apiPath/<fileID>/<'info' or 'file'>   'info' option gives info to the file, 'file' gives the audio file itself
+
+
+
+
+
 sys.path.append('/home/bybsongbird/app/bybsongbird/static/songs/users')
 
 apiPath = Blueprint('apiPath', __name__, template_folder='templates')
@@ -25,7 +32,6 @@ def apiPath_route(postID, option):
     if option == "info":
 	db = extensions.connect_to_database()
   	cur = db.cursor()
-        
         cur.execute("SELECT * FROM sampleInfo WHERE sampleid = %s", (postID, ))
         result = cur.fetchone()
   	match = {}
