@@ -1,3 +1,5 @@
+#! python
+
 import cPickle
 import itertools
 import os
@@ -11,6 +13,12 @@ from clean_and_test import clean_and_test, test_params
 from train_model import train_model
 
 
+#You should never need to call this function directly as validate() handles it automatically
+#Trains and tests models using parameters outlined in the example usage file
+#parameters is a list of you params in the correct order
+#birds is your classes
+#debug prints extra info
+#skip_clean skips audio preprocessing, which only needs to be done once
 def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True):
     try:
         os.chdir(directory)
@@ -43,6 +51,8 @@ def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True)
             return
 
 
+#Validates models of different parameter sets automatically using your training and testing sets
+#see validation_example.py or songbird doc for more info
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
 
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
