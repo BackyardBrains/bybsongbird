@@ -1,3 +1,7 @@
+#! python
+
+#An example validation script
+
 from validate import validate
 
 if __name__ == '__main__':
