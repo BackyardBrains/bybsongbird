@@ -53,6 +53,11 @@ def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True)
 
 #Validates models of different parameter sets automatically using your training and testing sets
 #see validation_example.py or songbird doc for more info
+#Model files will automatically be named based on their parameters
+#Automatically saves all graphs as pngs: see test_model.py for more info
+#train_and_verify will automatically "pickle" all the given stats returned by test_model to model_file.stats
+#this means it saves the python object to a file that can be re-imported directly as a python object later on
+#see test_model for more info about stats and lookup pickle for more info about pickling in Python
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
 
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
