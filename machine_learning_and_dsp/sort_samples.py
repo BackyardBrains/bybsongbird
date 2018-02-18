@@ -1,5 +1,9 @@
 #! python
 
+#Run this file in your root directory in bash to automaticaly seperate training and testing sets
+#See songbird doc for more info
+#Current version will create an 80/20 split for Training/Testing
+
 import os
 import shutil
 
@@ -29,7 +33,7 @@ if not os.path.exists(trimed_folder):
 for root, dirs, files in os.walk(rootdir):
     filenum = 0
     for file in files:
-        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 5:
+        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 5: #meaning 1/5 samples go to testing
             file_path = os.path.join(root, file)
             new_file_path = string_sub(file_path, rootdir)
             new_file_path = trimed_folder + new_file_path
