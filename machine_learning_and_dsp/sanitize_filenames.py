@@ -8,6 +8,8 @@ import sys
 #This function will remove any unicode characters or special characters from the names of your wav-files
 #This is useful because python does not handle this well and it will break most of the functions in pyAudioAnalysis
 #Other functions will call this automatically (look for a no-santize flag)
+#directory is the directory to process recusively meaning all wav files in all subdirectories will be included
+#verbose will print each sanitized filename to stdout as it occurs
 def sanatize_filenames(directory=unicode(os.getcwd()), verbose=False):
     if verbose:
         print "Now sanitizing filenames in root directory: ", directory, '\n'
