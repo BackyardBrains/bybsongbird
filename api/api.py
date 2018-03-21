@@ -35,10 +35,10 @@ def api_route():
 	   # return str(data)
 	    title = data['header']
 	    file = data['content']
-	    file = title + file
-	    out = open('/home/bybsongbird/app/bybsongbird/static/songs/users/testUpload.wav', 'wb')
-	    out.write(file)
-	  # return str("hello")
+	    #file = title + file
+	    #out = open('/home/bybsongbird/app/bybsongbird/static/songs/users/testUpload.wav', 'wb')
+	    #out.write(file)
+	    return str(file)
 	except:
 	   return "something went wrong"	
     #open db connection and open cursor and execute. See MySQL documentation for cursors with Python
