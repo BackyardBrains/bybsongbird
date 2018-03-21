@@ -1,4 +1,3 @@
-
 from flask import *
 from flask import url_for
 from flask import send_file
@@ -29,12 +28,14 @@ sys.path.append('/home/bybsongbird/app/bybsongbird/static/songs/users')
 apiUpload = Blueprint('apiUpload', __name__, template_folder='templates')
 
 
-@apiUpload.route('/apiUpload', methods = ['POST'])
+@apiUpload.route('/apiUpload', methods = ['GET', 'POST'])
 def apiUpload_route():
+	
+		
 
-		#basically copied and pastedd from ../controllers/upload.py. Difference is missing html rendering right here at the beginning and at end. See end for details. 
+         	#basically copied and pastedd from ../controllers/upload.py. Difference is missing html rendering right here at the beginning and at end. See end for details. 
 		files = request.files.getlist('file')
-        
+               
        	 	model_file = os.path.join(os.getcwd(), 'model2', 'model')
         	identify = classiFier(model_file=model_file, verbose=True)
 
