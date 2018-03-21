@@ -7,9 +7,13 @@ import pathos.multiprocessing as mp
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
 import pyAudioAnalysis.audioSegmentation as aS
 import scipy.io.wavfile as wavfile
+
 import sox
+
 from pathos.multiprocessing import Pool
 from pydub import AudioSegment
+import pydub
+
 
 
 def create_subdirectory(dir, subdir):
@@ -44,7 +48,8 @@ class noiseCleaner:
         sensitivity = self.sensitivity
         debug = self.debug
         verbose = self.verbose
-
+          
+       
         if verbose:
             print inputFile
 
@@ -97,7 +102,7 @@ class noiseCleaner:
             recombine_wavfiles(noise_files, noise_out)
             recombine_wavfiles(activity_files, activity_out)
 
-
+	   
             tfs = sox.Transformer()
             noise_profile_path = '.'.join([noise_out, 'prof'])
             tfs.noiseprof(noise_out, noise_profile_path)
@@ -106,6 +111,8 @@ class noiseCleaner:
             tfs.noisered(noise_profile_path, amount=sensitivity)
             clean_out = os.path.join(dir, clean_dir, inputFile)
             tfs.build(activity_out, clean_out)
+	   	    
+
 
         except:
             original_file = os.path.join(dir, inputFile)

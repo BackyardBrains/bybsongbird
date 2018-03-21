@@ -124,6 +124,26 @@
     padding: 10px;
 }
 
+.wiki {
+    display: none;
+    position: fixed;
+    width: 70%;
+    height: 70%;
+    top: 150px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    z-index: 1002;
+    padding: 0px;
+}
+
+.wikiframe {
+    display: none;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+}
+
 .audiotrack {
     position: relative;
     top: 10px;

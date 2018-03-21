@@ -1,6 +1,13 @@
 from flask import Flask
 from flask import render_template
 
+
+import sys
+sys.path.append("./api")
+import api
+import apiPath
+import apiUpload
+
 import config
 import controllers
 from extensions import login_manager
@@ -11,17 +18,23 @@ app = Flask(__name__, template_folder='templates')
 # Passenger expects to find an object called application
 application = app
 
+
 # Register the controllers
 app.register_blueprint(controllers.main)
 app.register_blueprint(controllers.sqlpage)
 app.register_blueprint(controllers.info)
 app.register_blueprint(controllers.pattern)
 app.register_blueprint(controllers.upload)
-# app.register_blueprint(controllers.database)
+app.register_blueprint(controllers.database)
 app.register_blueprint(controllers.allsamples)
 app.register_blueprint(controllers.ourTeam)
 app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
+
+#API urls
+app.register_blueprint(api.api)
+app.register_blueprint(apiPath.apiPath)  
+app.register_blueprint(apiUpload.apiUpload)
 
 login_manager.init_app(app)
 

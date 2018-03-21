@@ -2,7 +2,7 @@ from flask import *
 
 new_user = Blueprint('new_user', __name__, template_folder='templates')
 from extensions import *
-from passlib.hash import pbkdf2_sha512 as hasher
+from passlib.hash import pbkdf2_sha512
 from _mysql import escape_string
 
 
@@ -29,7 +29,8 @@ def new_user_route():
             user_conflict_json = json.dumps({'error': 'Username is already taken\n'})
             return user_conflict_json, 409
 
-        hashed_password = hasher.hash(password)
+        hash_handler = pbkdf2_sha512.using(rounds=123456)
+        hashed_password = hash_handler.hash(password)
         cur.execute("INSERT INTO userInfo (username, password) values ('%s', '%s');" % (
         escape_string(username), hashed_password))
         return json.dumps({}), 200

@@ -117,4 +117,9 @@
     <div><img class="waveformimg" src="{{ url_for('static', filename='songs/users/')}}{{match['sample_id']}}.png" height="50px"/></div>
     <div><audio controls preload="metadata" class="audiotrack"><source src="{{ url_for('static', filename='songs/users/')}}{{match['sample_id']}}.WAV" type="audio/mpeg"></audio></div>
 </div>
+
+
+<div class="wiki" style="display: none;">
+    <iframe id="wikiframe" src="https://en.wikipedia.org/wiki/Crow?printable=yes" height="100%" width="100%">
+</iframe></div>
 {% endblock %}

@@ -7,6 +7,9 @@ import sys
 import time
 from zlib import crc32
 
+sys.path.append('../')
+
+
 import MySQLdb
 import _mysql_exceptions
 import pathos.multiprocessing as mp
@@ -82,6 +85,7 @@ class classiFier:
         cleaner = noiseCleaner(verbose=verbose)
         clean_wav = cleaner.noise_removal(file)
         Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
+       
         if verbose:
             print file
             print Result
