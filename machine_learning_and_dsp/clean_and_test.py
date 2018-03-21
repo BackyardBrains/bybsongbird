@@ -94,7 +94,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 if __name__ == '__main__':
 
     directory = os.getcwd()
-    classifierType = 'gradientboosting'
+    classifierType = 'svm'
     birds = []
     verbose = False
     model_file = os.path.join(directory, 'model')

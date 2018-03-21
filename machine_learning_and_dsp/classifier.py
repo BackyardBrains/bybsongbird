@@ -64,8 +64,8 @@ if __name__ == '__main__':
     classifier0 = classiFier(directory, model_file, classifierType, verbose=verbose, num_threads=num_threads)
     if run:
         classifier0.classify()
-    if export:
-        classifier0.export()
+    #if export:
+    #    classifier0.export()
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)

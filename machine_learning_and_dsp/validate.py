@@ -6,7 +6,7 @@ from functools import partial
 
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
-
+from noise_removal import noiseCleaner
 from clean_and_test import clean_and_test, test_params
 from train_model import train_model
 
@@ -25,9 +25,8 @@ def train_and_verify(parameters, directory, birds, debug=False):
         model = 'x'.join([classifierType, str(mtStep), str(mtWin), str(stStep), str(stWin)])
         model_path = os.path.join(os.getcwd(), model)
         if not os.path.exists(model):
-            train_model(modelName=model, mtWin=mtWin, mtStep=mtStep, stWin=stWin, stStep=stStep,
-                        classifierType=classifierType,
-                        list_of_dirs=train_dirs)
+            train_model(list_of_dirs=train_dirs, mtWin=mtWin, mtStep=mtStep, stWin=stWin, stStep=stStep,
+                        classifierType=classifierType, modelName=model)
         png_path = '.'.join([model_path, 'png'])
         stats_path = '.'.join([model_path, 'stats'])
         if not os.path.exists(png_path) and not os.path.exists(stats_path):
@@ -44,13 +43,12 @@ def train_and_verify(parameters, directory, birds, debug=False):
 
 
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
-
-    for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
-        birds = dirs
-        break
-
+ 
+#    for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
+#        bird = dirs
+#        break
+    birds = ['Goldfinch','Thrush']
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
-
     # Gets rid of invalid sets of parameters
     parameters_temp = deepcopy(parameters)
     for p in parameters:

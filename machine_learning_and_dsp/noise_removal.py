@@ -37,7 +37,7 @@ class noiseCleaner:
         self.debug = debug
         self.verbose = verbose
         self.num_threads = num_threads
-
+	
     def noise_removal(self, inputFile):
         smoothingWindow = self.smoothingWindow
         weight = self.weight
@@ -124,7 +124,7 @@ class noiseCleaner:
     def noise_removal_dir(self, rootdir):
 
         num_threads = self.num_threads
-
+        print 'i am in noise_removal'
         if not os.path.exists(rootdir):
             raise Exception(rootdir + " not found!")
 

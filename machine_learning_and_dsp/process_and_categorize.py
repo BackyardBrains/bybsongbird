@@ -1,6 +1,6 @@
 #! python
 
-
+import os
 import cPickle
 import shutil
 import sys
@@ -14,7 +14,7 @@ from pathos.multiprocessing import Pool
 from pyAudioAnalysis import audioTrainTest as aT
 from pymediainfo import MediaInfo
 
-from config import *
+#from config import *
 from noise_removal import noiseCleaner
 
 
@@ -26,14 +26,14 @@ def tbl_create():
 class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
                  classifierType='gradientboosting',
-                 verbose=False, num_threads=mp.cpu_count()):
+                 verbose=True, num_threads=mp.cpu_count()):
         self.directory = directory
         self.model_file = model_file
         self.classifierType = classifierType
         self.verbose = verbose
         self.num_threads = num_threads
 
-        try:
+        '''try:
             db = MySQLdb.connect(host=host, user=user, passwd=passwd,
                                  db=database)
         except _mysql_exceptions.OperationalError, e:
@@ -44,12 +44,11 @@ class classiFier:
                                      db='') as cur:
                     cur.execute("CREATE DATABASE %s;" % database)
         else:
-            db.close()
+            db.close()'''
 
     def classify(self):
         directory = self.directory
         num_threads = self.num_threads
-
         wav_files = []
         for file in os.listdir(directory):
             if file.endswith('.wav') or file.endswith('.WAV'):
@@ -89,88 +88,88 @@ class classiFier:
             print classNames
             print P, '\n'
 
-        result_dict = {}
-        for i in xrange(0, len(classNames)):
-            result_dict[classNames[i]] = P[i]
+#        result_dict = {}
+#        for i in xrange(0, len(classNames)):
+#            result_dict[classNames[i]] = P[i]
 
-        result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
+#        result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
 
-        with open(file, 'rb') as file_contents:
-            sample_id = crc32(file_contents.read())
+#        with open(file, 'rb') as file_contents:
+#            sample_id = crc32(file_contents.read())
 
-        device_id = -1  # tbi
+#        device_id = -1  # tbi
 
-        file_metadata = MediaInfo.parse(file)
-        file_metadata = file_metadata.tracks[0]
-        assert file_metadata.track_type == 'General'
-        humidity = file_metadata.humi
-        temp = file_metadata.temp
-        latitude = file_metadata.lati
-        longitude = file_metadata.long
-        light = file_metadata.lite
+#        file_metadata = MediaInfo.parse(file)
+#        file_metadata = file_metadata.tracks[0]
+#        assert file_metadata.track_type == 'General'
+#        humidity = file_metadata.humi
+#        temp = file_metadata.temp
+#        latitude = file_metadata.lati
+#        longitude = file_metadata.long
+#        light = file_metadata.lite
 
-        if humidity == None or humidity == ' nan':
-            humidity = -1
-        else:
-            humidity = float(humidity)
+#        if humidity == None or humidity == ' nan':
+#            humidity = -1
+#        else:
+#            humidity = float(humidity)
 
-        if temp == None or temp==' nan':
-            temp = -1
-        else:
-            temp = float(temp)
+#        if temp == None or temp==' nan':
+#            temp = -1
+#        else:
+#            temp = float(temp)
 
-        if latitude == None:
-            latitude = 999.0
-        else:
-            latitude = float(latitude)
+#        if latitude == None:
+#            latitude = 999.0
+#        else:
+#            latitude = float(latitude)
 
-        if longitude == None:
-            longitude = 999.0
-        else:
-            longitude = float(longitude)
+#        if longitude == None:
+#            longitude = 999.0
+#        else:
+#            longitude = float(longitude)
 
-        if light == None or light == 0:
-            light = -1
-        else:
-            light = float(light)
+#        if light == None or light == 0:
+#            light = -1
+#        else:
+#            light = float(light)
 
-        type1 = '\'' + result_dict[0][0] + '\''
-        type2 = '\'' + result_dict[1][0] + '\''
-        type3 = '\'' + result_dict[2][0] + '\''
-        per1 = result_dict[0][1]
-        per2 = result_dict[1][1]
-        per3 = result_dict[2][1]
+#        type1 = '\'' + result_dict[0][0] + '\''
+#        type2 = '\'' + result_dict[1][0] + '\''
+#        type3 = '\'' + result_dict[2][0] + '\''
+#        per1 = result_dict[0][1]
+#        per2 = result_dict[1][1]
+#        per3 = result_dict[2][1]
 
-        values = [sample_id, device_id, added, latitude, longitude, humidity, temp, light, type1, per1, type2,
-                  per2,
-                  type3, per3]
-        if username:
-            values.append("'" + username + "'")
-        values = [str(x) for x in values]
+#        values = [sample_id, device_id, added, latitude, longitude, humidity, temp, light, type1, per1, type2,
+#                  per2,
+#                  type3, per3]
+#        if username:
+#            values.append("'" + username + "'")
+#        values = [str(x) for x in values]
 
-        with MySQLdb.connect(host=host, user=user, passwd=passwd,
-                             db=database) as cur:  # config is in config.py: see above
-            if username:
-                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3, user) values(" + ','.join(
-                    values) + ");"
-            else:
-                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
-                    values) + ");"
-            try:
-                cur.execute(query_text)
-            except _mysql_exceptions.ProgrammingError, e:
-                if e[0] != 1146:
-                    raise
-                else:
-                    tbl_create()
-                    cur.execute(query_text)
-            except _mysql_exceptions.IntegrityError, e:
-                if e[0] != 1062:
-                    raise
-                else:
-                    sys.stderr.write("Warning: Duplicate key entry.\n")
+#        with MySQLdb.connect(host=host, user=user, passwd=passwd,
+#                             db=database) as cur:  # config is in config.py: see above
+#            if username:
+#                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3, user) values(" + ','.join(
+#                    values) + ");"
+#            else:
+#                query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
+#                    values) + ");"
+#            try:
+#                cur.execute(query_text)
+#            except _mysql_exceptions.ProgrammingError, e:
+#                if e[0] != 1146:
+#                    raise
+#                else:
+#                    tbl_create()
+#                    cur.execute(query_text)
+#            except _mysql_exceptions.IntegrityError, e:
+#                if e[0] != 1062:
+#                    raise
+#                else:
+#                    sys.stderr.write("Warning: Duplicate key entry.\n")
 
-        return {"values": values, "sample_id": sample_id}
+#        return {"values": values, "sample_id": sample_id}
 
 
 
