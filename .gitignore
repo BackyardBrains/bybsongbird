@@ -9,3 +9,5 @@ config.py
 static/songs/users/
 localconfig.py
 config.py
+machine_learning_dsp/model_files
+
