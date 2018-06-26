@@ -1,3 +1,10 @@
+#! python
+
+#Functions in this file can be used to create a csv file containing the top 20 AUC scores for the roc curves of the models tested
+#by drawing from model_file.stats for every model in the directory 
+#this can be used to create a graph in excel
+#see validate.py and test_model.py for info on this
+
 import cPickle
 import csv
 import os

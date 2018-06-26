@@ -1,3 +1,5 @@
+#! python
+
 import cPickle
 import itertools
 import os
@@ -11,7 +13,13 @@ from clean_and_test import clean_and_test, test_params
 from train_model import train_model
 
 
-def train_and_verify(parameters, directory, birds, debug=False):
+#You should never need to call this function directly as validate() handles it automatically
+#Trains and tests models using parameters outlined in the example usage file
+#parameters is a list of you params in the correct order
+#birds is your classes
+#debug prints extra info
+#skip_clean skips audio preprocessing, which only needs to be done once
+def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True):
     try:
         os.chdir(directory)
         classifierType = parameters[0]
@@ -32,7 +40,7 @@ def train_and_verify(parameters, directory, birds, debug=False):
         stats_path = '.'.join([model_path, 'stats'])
         if not os.path.exists(png_path) and not os.path.exists(stats_path):
             stats = clean_and_test(directory=test_rootdir, classifierType=classifierType, no_sanitize=True,
-                                   skip_clean=True,
+                                   skip_clean=skip_clean,
                                    show_graphs=False, model_file=model_path, birds=birds, verbose=False)
             with open(stats_path, 'w') as stats_file:
                 cPickle.dump(stats, stats_file)
@@ -43,6 +51,13 @@ def train_and_verify(parameters, directory, birds, debug=False):
             return
 
 
+#Validates models of different parameter sets automatically using your training and testing sets
+#see validation_example.py or songbird doc for more info
+#Model files will automatically be named based on their parameters
+#Automatically saves all graphs as pngs: see test_model.py for more info
+#train_and_verify will automatically "pickle" all the given stats returned by test_model to model_file.stats
+#this means it saves the python object to a file that can be re-imported directly as a python object later on
+#see test_model for more info about stats and lookup pickle for more info about pickling in Python
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
 
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):

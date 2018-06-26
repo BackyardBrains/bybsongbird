@@ -1,5 +1,6 @@
 #! python
 
+#This file contains functions to classify files recorded by the device
 
 import cPickle
 import shutil
@@ -18,11 +19,18 @@ from config import *
 from noise_removal import noiseCleaner
 
 
+#This function creates a new sql table for the classifier data automatically if it does not already exist
 def tbl_create():
     tbl_create = os.path.join(os.getcwd(), 'tbl_create.sql')
     if os.system("mysql -u %s -p %s --password=%s < %s" % (user, database, passwd, tbl_create)):
         raise Exception("tbl_create.sql error!")
 
+#The classifier object
+#directory is the directory containing the wav files from the device if you wish to classify an entire directory at once
+#model_file is the path of the model file which should also contain model_file.arff and model_fileMEANS; however, this paramater should be pointed to model_file
+#classifierType is the ML algorithm that was used to train the model, see pyAudioAnalysis and scikit-learn docs for more info
+#verbose prints a line to stdout for each file classified including its results
+#num_threads is the number of processes to run in paralel, default is the number of logical cores on your p.c., this will NOT work correctly on flux and must be set manually in that case
 class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
                  classifierType='gradientboosting',
@@ -46,6 +54,8 @@ class classiFier:
         else:
             db.close()
 
+    #This function classifies all files in the directory and puts the results into the sql table
+    #it will also print the results to stdout if verbose was set to true
     def classify(self):
         directory = self.directory
         num_threads = self.num_threads
@@ -70,6 +80,8 @@ class classiFier:
         if os.path.exists(os.path.join(directory, "activity")):
             shutil.rmtree(os.path.join(directory, "activity"))
 
+    #This function classifies a single file and puts the results into the sql table
+    #it will also print the results to stdout if verbose was set to true
     def classFile(self, file, username=None):
         model_file = self.model_file
         classifierType = self.classifierType
@@ -174,6 +186,9 @@ class classiFier:
 
 
 
+    #This function exports the entire sql table and all the included data to a .sql file that can then be imported into another sql server
+    #somewhere else
+    #This was mainly implemented due to design choices that were abondened somewhere along the way, but it may be useful to you at some point
     def export(self):
         try:
             export_file = str(time.time())

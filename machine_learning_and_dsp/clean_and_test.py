@@ -1,4 +1,6 @@
 #! python
+
+#This file includes functions to automate noise-reduction and testing of a model
 import matplotlib
 
 matplotlib.use("Pdf")
@@ -83,14 +85,13 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         plt.clf()
         print "AUC for %s is %s" % ("Macro-average", macro_average_auc)
     except Exception:
-        # send_notification("Clean and test process failed.")
         raise
     else:
-        #send_notification("Clean and test finished successfully.")
         print "Total time elapsed: ", time.clock() - start_time, " seconds."
         return [micro_average_fpr, micro_average_tpr, micro_average_auc, tests]
 
-
+#In case you want to run this from bash for some reason, requires a -b className or --bird className for each class, 
+#dir should be your rootdir
 if __name__ == '__main__':
 
     directory = os.getcwd()

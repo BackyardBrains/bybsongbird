@@ -18,4 +18,3 @@ def train_and_test(list_of_dirs, test_dirs, mtStep=0.4, mtWin=0.4, stStep=0.04, 
     train_model(list_of_dirs, mtWin, mtStep, stWin, stStep, classifierType, modelName, useBeatmap)
     t1 = tester(test_dirs, modelName=modelName, classifierType=classifierType)
     t1.test_model()
-    # send_notification('test and train complete') #sms notification; see twillio_test.py
