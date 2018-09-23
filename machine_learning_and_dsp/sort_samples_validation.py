@@ -22,13 +22,16 @@ def directory_check(file):
 
 rootdir = os.getcwd()
 
-training_folder = os.path.join(rootdir + 'training')
-validation_folder = os.path.join(rootdir + 'validation')
+print rootdir
+
+#training_folder = os.path.join(rootdir + 'training')
+#validation_folder = os.path.join(rootdir + 'validation')
+validation_folder = rootdir + '_validation'
 
 if not os.path.exists(validation_folder):
     os.mkdir(validation_folder)
 
-for root, dirs, files in os.walk(training_folder):
+for root, dirs, files in os.walk(rootdir):
     filenum = 0
     for file in files:
         if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 5:
