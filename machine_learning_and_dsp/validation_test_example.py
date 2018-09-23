@@ -2,8 +2,8 @@ from validate import validate
 
 if __name__ == '__main__':
 
-    directory = '/home/bybsongbird/app/bybsongbird/aaaTEST'
-    classifierType = ['svm']
+    directory = '/home/bybsongbird/machine_learning_and_dsp'
+    classifierType = ['gradientboosting']
     mtStep = [1.0, 0.5, 0.1]
     mtWin = [1.0, 0.5, 0.1]
     stStep = [0.1, 0.05, 0.01]
