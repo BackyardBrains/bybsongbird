@@ -23,13 +23,14 @@ def directory_check(file):
 rootdir = os.getcwd()
 
 trimed_folder = rootdir + '_testing'
+
 if not os.path.exists(trimed_folder):
     os.mkdir(trimed_folder)
 
 for root, dirs, files in os.walk(rootdir):
     filenum = 0
     for file in files:
-        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 5:
+        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 10:
             file_path = os.path.join(root, file)
             new_file_path = string_sub(file_path, rootdir)
             new_file_path = trimed_folder + new_file_path
