@@ -5,7 +5,7 @@ from sanitize_filenames import sanatize_filenames
 directory = os.getcwd()
 dirs=[]
 dirs.append(os.path.join(directory,'Training'))
-dirs.append(os.path.join(directory,'Testing'))
+#dirs.append(os.path.join(directory,'Testing'))
 dirs.append(os.path.join(directory,'Validation'))
 for d in dirs:
 	print d	
