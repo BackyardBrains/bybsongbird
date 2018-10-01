@@ -47,7 +47,7 @@ def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_thread
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
 	birds = dirs
         break
-    directory = directory + 'Training'
+    #directory = directory + 'Training'
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
      #Gets rid of invalid sets of parameters
     parameters_temp = deepcopy(parameters)
