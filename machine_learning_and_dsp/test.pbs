@@ -14,5 +14,5 @@ mkdir /tmp/${PBS_JOBID}
 cd /tmp/${PBS_JOBID}
 cp -r /home/anushaj/* .
 
-timeout 7h mdp/bin/python2.7 bybsongbird/machine_learning_and_dsp/validate.py
+timeout 7h python bybsongbird/machine_learning_and_dsp/validation_test_example.py
 cp -r -n * /home/anushaj
