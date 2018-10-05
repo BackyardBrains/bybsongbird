@@ -4,7 +4,7 @@ from flask import render_template
 
 import sys
 sys.path.append("./api")
-import api
+import api_blueprint
 import apiPath
 import apiUpload
 
@@ -32,7 +32,7 @@ app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
 #API urls
-app.register_blueprint(api.api)
+app.register_blueprint(api_blueprint.api_blueprint)
 app.register_blueprint(apiPath.apiPath)  
 app.register_blueprint(apiUpload.apiUpload)
 

@@ -7,6 +7,10 @@ from flask import *
 from flask import request
 from flask_login import login_required, current_user
 from werkzeug import secure_filename
+from pydub import AudioSegment
+from pydub.utils import which
+
+AudioSegment.converter = which("ffmpeg")
 
 import config
 import extensions
@@ -51,9 +55,14 @@ def upload_route():
                 with open(user_file_temp, 'rb') as file_contents:
                     sample_id = crc32(file_contents.read())
 
-                filename = str(sample_id) + '.WAV'
+                filename = str(sample_id) + file.filename[len(file.filename)-4: len(file.filename)]
                 user_file = os.path.join(config.env['UPLOAD_FOLDER'], filename)
                 os.rename(user_file_temp, user_file)
+		
+		if file.filename[len(file.filename)-3:len(file.filename)].lower() == 'mp3':
+		    AudioSegment.from_mp3(user_file).export(user_file[0:len(user_file)-3] + "wav", format="wav")
+		    filename = filename[0:len(filename)-3] + 'wav'
+		    user_file = user_file[0:len(user_file)-3] + 'wav'
 
                 result = identify.classFile(user_file, username=current_user.get_id())
                 first_match_name = result["values"][8]

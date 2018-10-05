@@ -1,19 +1,30 @@
 $(function() {
     $('#chooseFile').bind('change', function () {
-        var size = $("#chooseFile")[0].files.length;
-        if (size > 1) {
-            $("#noFile").text(size + ' files chosen'); 
-        } else {
-            var filename = $("#chooseFile").val();
-            if (/^\s*$/.test(filename)) {
-                $(".file-upload").removeClass('active');
-                $("#noFile").text("No file chosen..."); 
-            }
-            else {
-                $(".file-upload").addClass('active');
-                $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
-            }
-        }
+        // max upload = 20mb
+        /*var file_max = 1024 * 1024 * 20
+        var fileSize = $(this).get(0).files[0].size;
+        if (fileSize > file_max){
+		alert("The file is too big for web upload, try make it smaller");
+	}
+	*/
+	//else{
+		var size = $("#chooseFile")[0].files.length;
+        	if (size > 1) {
+            		$("#noFile").text(size + ' files chosen'); 
+        	} 
+            
+        	else {
+                    var filename = $("#chooseFile").val();
+                    if (/^\s*$/.test(filename)) {
+            	        $(".file-upload").removeClass('active');
+                        $("#noFile").text("No file chosen..."); 
+                    }  
+                    else {
+                        $(".file-upload").addClass('active');
+                        $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+                    }
+       	    }	 
+  	//}
     });
 
     // $('.location_icon').on('click', function() {
