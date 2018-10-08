@@ -43,7 +43,8 @@ def train_and_verify(parameters, directory, birds, debug=False):
 
 
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
-
+	
+    birds=0
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
 	birds = dirs
         break
