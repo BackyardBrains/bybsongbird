@@ -1,7 +1,7 @@
 #! python
 import matplotlib
 
-matplotlib.use("Pdf")
+#matplotlib.use("Pdf")
 
 from matplotlib import pyplot as plt
 

@@ -43,11 +43,13 @@ def train_and_verify(parameters, directory, birds, debug=False):
 
 
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
-	
-    birds=0
+
+    birds = []
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
-	birds = dirs
+        for bird in dirs:
+	    birds.append(bird)
         break
+
     #directory = directory + 'Training'
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
      #Gets rid of invalid sets of parameters
