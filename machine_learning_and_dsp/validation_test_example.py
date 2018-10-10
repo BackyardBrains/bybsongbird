@@ -10,6 +10,6 @@ if __name__ == '__main__':
     mtWin = [1.0, 0.5, 0.1]
     stStep = [0.1, 0.05, 0.01]
     stWin = [0.1, 0.05, 0.01]
-    num_threads = 8
+    num_threads = 16
     validate(directory=directory, classifierType=classifierType, mtStep=mtStep, mtWin=mtWin, stStep=stStep, stWin=stWin,
              num_threads=num_threads)
