@@ -93,6 +93,10 @@
     color: white;
 }
 
+.header:first-child {
+    width: 100%;
+}
+
 .header:last-child {
     margin-right: 0;
 }
