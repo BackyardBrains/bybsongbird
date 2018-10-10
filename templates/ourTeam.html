@@ -1,12 +1,46 @@
-{% extends "base.html" %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Backyard Brains Songbird Identidication System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel=stylesheet type=text/css href="/static/styles/base.css">
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/base.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCYp3pn94F0hy-2n5-FnqVOcP3wDhQRf38"></script>
+    
+    <link rel=stylesheet type=text/css href="/static/styles/index.css">
+    <script type="text/javascript" src="/static/js/index.js"></script>
+    <link rel=stylesheet type=text/css href="/static/styles/ourTeam.css">
 
-{% block head %}
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/index.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/ourTeam.css') }}">
-{% endblock %}
-
-{% block content %}
+</head>
+<body>
+    <header>
+        <center>
+            <a href="https://backyardbrains.com/">
+                <img src="/static/images/logo.png" alt="Backyard Brains Logo" class="fit" />
+            </a>
+        </center>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/allsamples">All Samples</a>
+                <a class="nav-item nav-link" href="/ourTeam">Our Team</a>
+                <a class="nav-item nav-link" href="/sqlpage">Pro Users</a>
+                <a class="nav-item nav-link upload_btn" href="/upload"><i class="fa fa-upload" aria-hidden="true"></i>Upload</a>
+                
+                    <a id="login_button" class="nav-item nav-link"
+                       href=/login>Login</a>
+                
+            </div>
+        </nav>
+    </header>
+    
+    
     <div class="introducing">
         <div class="intro-title">Our Team</div>
 
@@ -34,40 +68,54 @@
                 about the behavior of songbirds and the broader implications of climate change.
             </div>
             <div class="desc desc2">
-                <p class="student_name">Raghu Arghal</p>
+                <p class="student_name">Anusha Joshi</p>
                 <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Electrical Engineering, Class of 2019</p>
+                <p class="student_desc">Master student in Electrical Computer Engineering, Class of 2019</p>
             </div>
             <div class="desc desc3">
-                <p class="student_name">Weifong Chou</p>
+                <p class="student_name">Cedric Bernard</p>
                 <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Computer Science, Class of 2018</p>
+                <p class="student_desc">Undergraduate student in Computer Science Engineering, Class of 2021</p>
             </div>
             <div class="desc desc4">
-                <p class="student_name">Matthew Price</p>
+                <p class="student_name">Jun Luo</p>
                 <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Computer Engineering, Class of 2019</p>
+                <p class="student_desc">Master student in Electrical Computer Engineering, Class of 2019</p>
             </div>
             <div class="desc desc5">
-                <p class="student_name">Abhinav Reddy</p>
+                <p class="student_name">Xiaoran Peng</p>
                 <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Computer Engineering, Class of 2018</p>
+                <p class="student_desc">Master student in Electrical Computer Engineering, Class of 2019</p>
             </div>
             <div class="desc desc6">
-                <p class="student_name">Zachary Robinson</p>
+                <p class="student_name">Yifan Zhang</p>
                 <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Computer Science, Class of 2017</p>
+                <p class="student_desc">Undergraduate student in Computer Science, Class of 2019</p>
             </div>
             <div class="desc desc7">
-                <p class="student_name">Yuan Tian</p>
-                <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Master student in Electrical and Computer Engineering, Class of 2017</p>
-            </div>
-            <div class="desc desc8">
-                <p class="student_name">Jessica Yan</p>
-                <p class="student_school">University of Michigan</p>
-                <p class="student_desc">Undergraduate student in Ecology and Evolutionary Biology Environment, Class of 2019</p>
+                <p class="student_name">MDP 2017</p>
+                <p>
+                    Special thanks to 2017 songbird team:
+                    Raghu Arghal
+                    Weifong Chou
+                    Matthew Price
+                    Abhinav Reddy
+                    Zachary Robinson
+                    Yuan Tian
+                    Jessica Yan
+                </p>
             </div>
         </div>
     </div>
-{% endblock %}
+
+
+    <footer>
+        <div class="footer">
+            <a href="/upload">
+                <img src="/static/images/upload.png" id="uploadButton">
+            </a>
+            Copyright - Backyard Brains - 2017
+        </div>
+    </footer>
+</body>
+</html>
