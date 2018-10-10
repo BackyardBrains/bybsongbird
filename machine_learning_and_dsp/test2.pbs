@@ -4,7 +4,7 @@
 #PBS -V
 
 #PBS -l walltime=20:00:00
-#PBS -l procs=8,pmem=4096mb
+#PBS -l procs=16,pmem=4096mb
 
 
 #PBS -q flux
