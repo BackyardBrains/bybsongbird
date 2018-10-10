@@ -3,7 +3,7 @@
 #PBS -m abe
 #PBS -V
 
-#PBS -l walltime=8:00:00
+#PBS -l walltime=20:00:00
 #PBS -l procs=8,pmem=4096mb
 
 
@@ -11,11 +11,9 @@
 #PBS -A mdprjf18-songbird_flux
 #PBS -l qos=flux
 
-mkdir /tmp/${PBS_JOBID}
-cd /tmp/${PBS_JOBID}
-cp -r /home/anushaj/* .
-
 cd $PBS_O_WORKDIR
 
-timeout 7h python ./validation_test_example.py
-cp -r -n * /home/anushaj
+python ./validation_test_example.py
+
+
+
