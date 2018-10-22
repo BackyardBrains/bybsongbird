@@ -43,9 +43,10 @@ login_manager.init_app(app)
 def unauthorized():
     return render_template('login.html')
 
+
 app.secret_key = config.secret_key
 
-#sys.stderr = open("error_log", "a")
+# sys.stderr = open("error_log", "a")
 
 # Listen on external IPs
 # For us, listen to port 3000 so you can just run 'python app.py' to start the server
