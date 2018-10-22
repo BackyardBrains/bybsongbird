@@ -1,0 +1,16 @@
+*~
+*.log
+*.egg-info/
+*.db
+*.pyc
+.DS_Store
+__pycache__/
+venv/
+var/
+node_modules/
+bundle.js
+.vscode/*
+.idea/*
+cookies.txt
+insta485/static/js/
+*.pem
