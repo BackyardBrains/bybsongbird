@@ -3,13 +3,13 @@ import os
 from flask import *
 
 import config
-from extensions import connect_to_database
+import extensions
 
 allsamples = Blueprint('allsamples', __name__, template_folder='templates')
 
 @allsamples.route('/allsamples', methods = ['GET', 'POST'])
 def allsamples_route():
-    db = connect_to_database()
+    db = extensions.connect_to_database()
     cur = db.cursor()
 
     result = ''
