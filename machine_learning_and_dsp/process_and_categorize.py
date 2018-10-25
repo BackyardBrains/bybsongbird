@@ -14,7 +14,7 @@ import MySQLdb
 import _mysql_exceptions
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
-from pyAudioAnalysis import audioTrainTest as aT
+from bybsongbird.pyAudioAnalysis import audioTrainTest as aT
 from pymediainfo import MediaInfo
 
 from config import *

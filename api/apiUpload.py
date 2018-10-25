@@ -9,8 +9,8 @@ import config
 import extensions
 
 import os
-from machine_learning_and_dsp.process_and_categorize import classiFier
-from waveform import Waveform
+from bybsongbird.machine_learning_and_dsp.process_and_categorize import classiFier
+from bybsongbird.waveform import Waveform
 import json
 from zlib import crc32
 from flask import request

@@ -4,8 +4,8 @@ import shutil
 import sys
 
 import pathos.multiprocessing as mp
-import pyAudioAnalysis.audioBasicIO as audioBasicIO
-import pyAudioAnalysis.audioSegmentation as aS
+import bybsongbird.pyAudioAnalysis.audioBasicIO as audioBasicIO
+import bybsongbird.pyAudioAnalysis.audioSegmentation as aS
 import scipy.io.wavfile as wavfile
 
 import sox

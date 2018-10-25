@@ -1,9 +1,9 @@
 from flask import Flask
 from flask import render_template
 import extensions
-import api_blueprint
-import apiPath
-import apiUpload
+import api.api_blueprint
+import api.apiPath
+import api.apiUpload
 import config
 import controllers
 import sys
@@ -30,9 +30,9 @@ app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
 #API urls
-app.register_blueprint(api_blueprint.api_blueprint)
-app.register_blueprint(apiPath.apiPath)  
-app.register_blueprint(apiUpload.apiUpload)
+app.register_blueprint(api.api_blueprint.api_blueprint)
+app.register_blueprint(api.apiPath.apiPath)
+app.register_blueprint(api.apiUpload.apiUpload)
 
 extensions.login_manager.init_app(app)
 
