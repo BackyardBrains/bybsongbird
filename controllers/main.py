@@ -1,14 +1,14 @@
 from flask import *
-import extensions
+import bybsongbird.extensions as ex
 from flask import url_for
 import os
-import config
+import bybsongbird.config
 
 main = Blueprint('main', __name__, template_folder='templates')
 
 @main.route('/', methods = ['GET', 'POST'])
 def main_route():
-    db = extensions.connect_to_database()
+    db = ex.connect_to_database()
     cur = db.cursor()
     cur.execute("SELECT * FROM sampleInfo ORDER BY added DESC LIMIT 3")
     result = cur.fetchall()
@@ -41,7 +41,7 @@ def main_route():
             "perR": int(round(row['per1'] * 100, 0)), 
             "type": birdType.title(),
             "date": row['added'].strftime("%b %d %Y"),
-            "wave": os.path.join(config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
+            "wave": os.path.join(bybsongbird.config.env['UPLOAD_FOLDER'], 'users_clean/' + str(row['sampleid']) + '.png'),
             "id": str(row['sampleid']),
             "color": color
         })

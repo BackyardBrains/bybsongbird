@@ -3,13 +3,13 @@ import os
 from flask import *
 
 import config
-import extensions
+import bybsongbird.extensions
 
 allsamples = Blueprint('allsamples', __name__, template_folder='templates')
 
 @allsamples.route('/allsamples', methods = ['GET', 'POST'])
 def allsamples_route():
-    db = extensions.connect_to_database()
+    db = bybsongbird.extensions.connect_to_database()
     cur = db.cursor()
 
     result = ''
@@ -121,6 +121,7 @@ def allsamples_route():
       results.append(sample)
 
     options = {
-		    "results": results
-	   }
+        "results": results
+    }
+
     return render_template("allsamples.html", **options)
