@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Posts from './posts';
+import Sample from './sample';
 
 const TYPE_BACK_FORWARD = 2;
 
@@ -76,7 +76,7 @@ class InfScroll extends React.Component {
       >
         {this.state.results.map(post =>
           (
-            <Posts key={post.postid.toString()} url={post.url} />
+            <Sample key={post.postid.toString()} url={post.url} />
           ))}
       </InfiniteScroll>
 

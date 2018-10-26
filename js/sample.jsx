@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Likes from './likes';
 import Comments from './comments';
 
-class Posts extends React.Component {
+class Sample extends React.Component {
   /* Display posts
    * Reference on forms https://facebook.github.io/react/docs/forms.html
    */
@@ -68,8 +68,8 @@ class Posts extends React.Component {
   }
 }
 
-Posts.propTypes = {
+Sample.propTypes = {
   url: PropTypes.string.isRequired,
 };
 
-export default Posts;
+export default Sample;
