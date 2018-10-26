@@ -231,7 +231,7 @@ class tester:
         return stats
 
 
-def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filename='graph'):
+def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=True, filename='graph'):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)

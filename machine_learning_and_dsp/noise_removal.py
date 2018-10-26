@@ -13,7 +13,7 @@ import sox
 from pathos.multiprocessing import Pool
 from pydub import AudioSegment
 import pydub
-
+#mp.cpu_count()
 
 
 def create_subdirectory(dir, subdir):
@@ -34,7 +34,7 @@ def recombine_wavfiles(infiles, outfile):
 
 class noiseCleaner:
     def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
-                 verbose=False, num_threads=mp.cpu_count()):
+                 verbose=False, num_threads=0):
         self.smoothingWindow = smoothingWindow
         self.weight = weight
         self.sensitivity = sensitivity
@@ -131,7 +131,6 @@ class noiseCleaner:
     def noise_removal_dir(self, rootdir):
 
         num_threads = self.num_threads
-        print 'i am in noise_removal'
         if not os.path.exists(rootdir):
             raise Exception(rootdir + " not found!")
 
@@ -139,6 +138,7 @@ class noiseCleaner:
             parent, folder_name = os.path.split(root)
             if folder_name == 'activity' or folder_name == 'noise' or '_clean' in folder_name:
                 shutil.rmtree(root)
+
         num_samples_processed = 0
         wav_files = []
         for root, dirs, files in os.walk(rootdir):
@@ -147,7 +147,12 @@ class noiseCleaner:
                     wav_files.append(os.path.join(root, file))
                     num_samples_processed += 1
                     if not num_threads:
-                        self.noise_removal(os.path.join(root,file))
+			print (os.path.join(root, file))
+			try:
+                        	self.noise_removal(os.path.join(root,file))
+			except ValueError:
+				print 'error processing, deleting the file'
+				os.remove(os.path.join(root,file))
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
 

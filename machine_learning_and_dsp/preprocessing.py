@@ -9,7 +9,7 @@ dirs.append(os.path.join(directory,'Training'))
 dirs.append(os.path.join(directory,'Validation'))
 for d in dirs:
 	print d	
-	sanatize_filenames(d,verbose=True)
+#	sanatize_filenames(d,verbose=True)
 	cleaner = noiseCleaner()
 	cleaner.noise_removal_dir(d)
 
