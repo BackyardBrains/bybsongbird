@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *~
 *.log
 *.egg-info/
@@ -14,3 +15,16 @@ bundle.js
 cookies.txt
 insta485/static/js/
 *.pem
+=======
+*.pyc
+venv/*
+.vagrant/*
+__pycache__/*
+controllers/__pycache__/*
+controllers/*.pyc
+Vagrantfile
+config.py
+static/songs/users/
+localconfig.py
+config.py
+>>>>>>> c71ef71d50b6404c3ce11561f7b56354609da266

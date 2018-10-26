@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/upload.css') }}">
+<script type="text/javascript"  src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="boxes">
+    <div class="upload">
+        <h4>Upload</h4>
+        <p class="upload_intro">Here you can submit one or more audio files for analysis and classification.</p>
+        <form method="post" enctype="multipart/form-data">
+            <div class="file-upload">
+                <div class="file-select">
+                    <div class="file-select-button" id="fileName">Choose File</div>
+                    <div class="file-select-name" id="noFile">No file chosen</div> 
+                    <input type="file" name="file" accept="audio/*" class="choose_file" id="chooseFile" multiple>
+                </div>
+            </div>
+            <!-- <div class="location">
+                <input class="longitude" type="text" name='longitude' placeholder="Longitude">
+                <input class="latitude" type="text" name='latitude' placeholder="Latitude">
+                <div class="location_icon_div">
+                    <i class="fa fa-location-arrow location_icon" aria-hidden="true"></i>
+                </div>
+            </div>
+            <input class="humidity" type="text" name='humidity' placeholder="Humidity">
+            <input class="temperature" type="text" name='temp' placeholder="Temperature">
+            <input class="light" type="text" name='light' placeholder="Light"> -->
+            <input class="submit_file" type="submit" value="Upload">
+        </form>
+    </div>
+
+    {% if matches %}
+    <div class="result">
+        <div class='result_title'>
+            <p class="result_title_text">
+                {% if file_num == 1 %}
+                    Your sample has been uploaded successfully.
+                {% else %}
+                    Your samples have been uploaded successfully.
+                {% endif %}
+                <i class="fa fa-times close_icon" aria-hidden="true"></i>
+            </p>
+        </div>
+        {% for match in matches %}
+        <div class="result_sub">
+            <div class="result_id">
+                Your Sample ID: #{{match.sample_id}}
+            </div>
+
+            <hr>
+
+            <div class="first_row">
+                <div class="audio_user" data-audio-user={{match.filename}} data-user-waveform={{match.user}}>
+                </div>
+                <div class="audio_user_clean" data-audio-user-clean={{match.user_clean_audio}} data-user-clean-waveform={{match.user_clean}}>
+                </div>
+            </div>
+            
+
+            <div class="second_row">
+                <div class="audio_activity" data-audio-activity={{match.activity_audio}} data-activity-waveform={{match.activity}}>
+                </div>
+                <div class="audio_noise" data-audio-noise={{match.noise_audio}} data-noise-waveform={{match.noise}}>
+                </div>
+            </div>
+            
+            <div class='classification' data-classification-first='{{match.first_match}}' data-classification-second='{{match.second_match}}' data-classification-third='{{match.third_match}}'>
+                <div class="first_row_classify">
+                    <div class="first_match">
+                        <div id="chart1"></div>
+                        <div class="first_match_intro">
+                            <p class="match_title">Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                    <div class="second_match">
+                        <div id="chart2"></div>
+                        <div class="second_match_intro">
+                            <p class="match_title">2nd Best Match Species:</p>
+                            <p class="match_name"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="third_match">
+                    <div id="chart3"></div>
+                    <div class="third_match_intro">
+                        <p class="match_title">3rd Best Match Species:</p>
+                        <p class="match_name"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="humidity_result">
+                <p class="info_title">Relative Humidity:</p>
+                {% if match.humidity and match.humidity != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="humidity_button" data-humidity={{match.humidity}}>{{match.humidity}}%</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="temp_result">
+                <p class="info_title">Temperature:</p>
+                {% if match.temperature and match.temperature != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="temp_button" data-temp={{match.temperature}}>{{match.temperature}}°F</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="light_result">
+                <p class="info_title">Light:</p>
+                {% if match.light and match.light != -1 %}
+                    <div class="progress_bar"></div>
+                    <div class="light_button" data-light={{match.light}}>{{match.light}}lx</div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+
+            <div class="info_location">
+                <p class="info_title">Location:</p>
+                {% if match.latitude and match.latitude != 999.0 and match.longitude and match.longitude != 999.0 %}
+                    <div class="map" data-sampleid={{match.sample_id}} data-latitude={{match.latitude}} data-longitude={{match.longitude}}></div>
+                {% else %}
+                    <p class="none_info">N/A</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <ul id="pagin"></ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

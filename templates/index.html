@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/index.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/allsamples.css') }}">
+<script type="text/javascript"  src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="welcome">
+    <div class="overlay"></div>
+    <div class="home-info">
+            <p class='text-1' align="center">Welcome to the</p>
+            <p class='text-2' align="center">Songbird Identification Project</p>
+            <p class='text-3' align="center">Sponsored by Backyard Brains</p>
+            <div class="home-buttons">
+                <div class="sub-button-1">Learn More</div>
+                <div class="sub-button-2">All Samples</div>
+            </div>
+        </div>
+</div>
+
+<div class="introducing">
+    <div class="intro-title">Project Overview</div>
+
+    <div class="intro-header">
+        <div class="header active" data-associated="desc1">Project Context</div>
+        <div class="header" data-associated="desc2">Early Research and Results</div>
+        <div class="header" data-associated="desc3">Impact of Success</div>
+    </div>
+
+    <div class="intro-desc">
+        <div class="desc desc1">
+            Climate change is affecting all of the natural world, and the habitat and survival of many species of birds are being threatened. In order to understand the effects of climate change on birds, it is crucial to record and track songbird activity. The goal of this project is to develop a system that can correctly identify the songs of eight common and local birds of Michigan. This device will record the bird song and relevant environmental information. In doing so, we must consider and further define our goals for power usage, connectivity, longevity, and cost. Our ultimate goal is to create a product that can automatically report this data and is suitable for deployment in nature spanning weeks or months. Our highest level stakeholder, Backyard Brains, hopes that their investment will help us learn more about the behavior of songbirds and the broader implications of climate change.
+        </div>
+        <div class="desc desc2">
+            There are many different types of recording devices that field ornithologists use to record songs and calls, as well as existing algorithms that automatically recognize and identify songs. Based on research into relevant literature, there seem to be many different projects that cover this topic, 
+            but our device will be unique in execution. We have created our own devices to be placed in the field that will record bird songs. This data will then be processed by the device or stored for processing post recording. Machine learning techniques have shown to be very successful in identifying birds. We have also explored the ideas of using pitch and timbre data and the difference between calls and songs to help us identify bird species. Some challenges that we may face include noise interference, file storage, and durability of the recording devices.
+        </div>
+        <div class="desc desc3">
+            This project is important to us and our sponsor because birdsong and communication is applicable to the field of neuroscience, and birdsongs can tell us much about their behavior. Additionally, Backyard Brains is a company focused on educational outreach, and this project is a good way of educating the public on bird behavior, climate change, and how they can be a part of data collection for research. More broadly, this is important for ornithologists and ecologists because the project provides an accessible and effective device that can provide insight into the patterns of bird populations. Researchers will be able to use this data to use for further studies in understanding the effects of climate change. The device will not be limited to scientists, but be available to the public as well as a way to be involved in community science.
+        </div>
+    </div>
+</div>
+
+<div class="join-us">
+    <p class="join-text-1">Join us in documenting bird habbits and migration</p>
+    <p class="join-text-2">patterns by uploading your recordings <a class='join-link' href="{{url_for('upload.upload_route')}}">here!</a></p>
+</div>
+
+<div class="latest-upload">
+    <p class="latest-title">Latest Uploads</p>
+    {% if results %}
+    <div>
+    {% for res in results %}
+        <div class="sample">
+            <div class="circles">
+                <div class="c100 p{{res['perR']}} {{res['color']}}">
+                    <span>{{res['per']}}%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="species">Species:</div>
+            <div class="bird">{{res['type']}}</div>
+            <div class="upload">Upload On:</div>
+            <div class="time">{{res['date']}}</div>
+
+            <div><img src="{{ url_for('static', filename='songs/users/users_clean/' + res['id'] + '.png') }}" class="wav"></div>
+
+            <form action="{{url_for('info.info_route')}}">
+                <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+    <div>
+        <h3 class="nothing">No uploads within the last 15 days.</h3>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/allsamples.css') }}">
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 3%; margin-bottom: 3%; margin-left: 10%; margin-right: 10%;">
+    <div>
+        <h3>All Samples</h3>
+    </div>
+    <div style="padding-bottom:10px;">
+        <form method="post" id="selection">
+            <div style="display:inline-block;">
+                <p style="display:inline-block; font-size:75%">Sort data by:</p>
+                <select name="sort" id="sortid" onchange="submitThis()">
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="added">Added Date</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Species</option>
+                    <option value="per1">Percentage</option>
+                </select>
+                <select name="dir" id="dirid" onchange="submitThis()">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+            </div>
+            <div style="display:inline-block; float:right">
+                <p style="display:inline-block; font-size:75%">Optional sort:</p>
+                <select name="col">
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="added">Added Date (MMDDYYYY)</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Species</option>
+                    <option value="per1">Percentage</option>
+                </select>
+                <select name="equ">
+                    <option value="">Condition</option>
+                    <option value="equal">=</option>
+                    <option value="notequal">&#8800</option>
+                    <option value="greater">></option>
+                    <option value="lesser"><</option>
+                    <option value="greaterand">>=</option>
+                    <option value="lesserand"><=</option>
+                </select>
+                <input type="text" name="crit" placeholder="Your Value" onsubmit="submitThis()"/>
+            </div>
+        </form>
+    </div>
+
+    {% if results %}
+    <div>
+        {% for res in results %}
+            <div class="sample">
+                <div class="circles">
+                    <div class="c100 p{{res['perR']}} {{res['color']}}">
+                        <span>{{res['per']}}%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="species">Species:</div>
+                <div class="bird">{{res['type']}}</div>
+                <div class="upload">Upload On:</div>
+                <div class="time">{{res['date']}}</div>
+
+                <div><img src="{{ url_for('static', filename='songs/users/users_clean/' + res['id'] + '.png') }}" class="wav"></div>
+
+                <form action="{{url_for('info.info_route')}}">
+                    <button type="submit" name="sampleid" value="{{res['id']}}" class="button">Learn More</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    <ul id="pagin"></ul>
+
+    {% else %}
+
+    <div>
+        <h3 class="nothing">No results returned.</h3>
+    </div>
+
+    {% endif %}
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/allsamples.js') }}"></script>
+{% endblock %}

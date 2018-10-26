@@ -1,0 +1,156 @@
+$(function() {
+    navbar_control();
+    function navbar_control() {
+        var current = location.pathname;
+        $('.nav-link').each(function(){
+            if($(this).attr('href') === current){
+                $(this).addClass('active');
+            }
+        });
+    }
+
+    $('.nav-link').on('click', function() {
+        $('.nav-link').each(function() {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            }
+        });
+        $(this).addClass('active');
+    });
+
+    $('.classification').each(function() {
+        var thischart = d3.select(this);
+        var data1 = JSON.parse($(this).attr('data-classification-first'));
+        var color1 = ['#23CFEE', '#CACACA'];
+        donut_chart(data1, color1, 'chart1', thischart);
+        $(this).find('.first_match_intro').find('.match_name').html(data1[0]['name']);
+
+        var data2 = JSON.parse($(this).attr('data-classification-second'));
+        var color2 = ['#ED531D', '#CACACA'];
+        donut_chart(data2, color2, 'chart2', thischart);
+        $(this).find('.second_match_intro').find('.match_name').html(data2[0]['name']);
+
+        var data3 = JSON.parse($(this).attr('data-classification-third'));
+        var color3 = ['#ED0C19', '#CACACA'];
+        donut_chart(data3, color3, 'chart3', thischart);
+        $(this).find('.third_match_intro').find('.match_name').html(data3[0]['name']);
+    });
+
+
+    $('.map').each(function() {
+        var thismap = $(this);
+        if (thismap.length != 0) {
+            var sampleid = thismap.attr('data-sampleid');
+            var longitude = thismap.attr('data-longitude');
+            var latitude = thismap.attr('data-latitude');
+            show_map(sampleid, latitude, longitude, thismap);
+        }
+    });
+
+    progress_bar_buttons();
+    function progress_bar_buttons() {
+        $('.humidity_button').each(function() {
+            var thishumidity = $(this);
+            if (thishumidity.length != 0) {
+                var humidity = $(this).attr('data-humidity');
+                $(this).css('left', humidity + '%');
+            }
+        });
+        
+        $('.temp_button').each(function() {
+            var thistemp = $(this);
+            if (thistemp.length != 0) {
+                var temp = $(this).attr('data-temp');
+                $(this).css('left', temp + '%');
+            }
+        });  
+        
+        $('.light_button').each(function() {
+            var thislight = $(this);
+            if (thislight.length != 0) {
+                var light = $(this).attr('data-light') / 10;
+                $(this).css('left', light + '%');
+            }
+        });
+    }
+});
+
+function donut_chart(data, color, chart, thischart) {
+    var text = (data[0].value * 100).toFixed(3) + '%' ;
+    var width = 90;
+    var height = 90;
+    var thickness = 10;
+
+    var radius = Math.min(width, height) / 2;
+
+    var svg = thischart.select("#" + chart)
+        .append('svg')
+        .attr('class', 'pie')
+        .attr('width', width)
+        .attr('height', height);
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
+
+    var arc = d3.arc()
+        .innerRadius(radius - thickness)
+        .outerRadius(radius);
+
+    var pie = d3.pie()
+        .value(function(d) { return d.value; })
+        .sort(null);
+
+    var path = g.selectAll('path')
+        .data(pie(data))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', (d,i) => color[i])
+
+
+        g.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '.35em')
+            .style("font-size", "14px")
+            .text(text);
+}
+
+function show_map(sampleid, latitude, longitude, thismap) {
+    var options = {
+        zoom: 5,
+        center: new google.maps.LatLng(44.182205, -84.506836), // Michigan
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        mapTypeControl: false
+    };
+
+    var mapcanvas = new google.maps.Map(thismap[0], options);
+
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        map: mapcanvas,
+        title: 'Click Me'
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        window.location.href = "/info?sampleid=" + sampleid;
+    });
+
+    marker.addListener('mouseover', function() {
+        infowindow = new google.maps.InfoWindow({
+            content: 'sampleid = ' + sampleid
+        });
+        infowindow.open(mapcanvas, marker);
+    });
+
+    marker.addListener('mouseout', function() {
+        infowindow.close();
+    });
+}
+
+function logout() {
+    $.post('/api/logout').success(function () {
+        window.location.reload(true);
+    }).fail(function () {
+        window.location.reload(true);
+    })
+}
