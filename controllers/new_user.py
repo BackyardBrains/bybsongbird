@@ -1,7 +1,7 @@
 from flask import *
 
 new_user = Blueprint('new_user', __name__, template_folder='templates')
-from extensions import *
+from bybsongbird.extensions import *
 from passlib.hash import pbkdf2_sha512
 from _mysql import escape_string
 

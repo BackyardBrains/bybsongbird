@@ -1,12 +1,12 @@
 from flask import *
-import extensions
+import bybsongbird.extensions
 from flask import url_for
 
 sqlpage = Blueprint('sqlpage', __name__, template_folder='templates')
 
 @sqlpage.route('/sqlpage', methods = ['GET', 'POST'])
 def sqlpage_route():
-    db = extensions.connect_to_database()
+    db = bybsongbird.extensions.connect_to_database()
     cur = db.cursor()
 
     result = ''

@@ -2,7 +2,7 @@ import os
 
 from flask import *
 
-import config
+import bybsongbird.config as config
 import bybsongbird.extensions
 
 allsamples = Blueprint('allsamples', __name__, template_folder='templates')
