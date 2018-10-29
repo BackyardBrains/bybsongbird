@@ -3,7 +3,7 @@
 #PBS -m abe
 #PBS -V
 
-#PBS -l walltime=20:00:00
+#PBS -l walltime=50:00:00
 #PBS -l procs=16,pmem=4096mb
 
 
