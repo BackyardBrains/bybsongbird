@@ -5,6 +5,8 @@ import matplotlib
 #
 from matplotlib import pyplot as plt
 
+from copy import deepcopy
+from functools import partial
 import getopt
 import os
 import sys
@@ -15,6 +17,7 @@ from numpy import mean
 from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
 from test_model import tester, basic_roc_plot
+import itertools
 
 
 # This function will take the directory name(dir) and the bird names (categories) and return a list of folder paths of the form dir/bird_name
@@ -25,11 +28,14 @@ def test_params(dir, categories):
 
     return test_dirs
 
+def test_models(model_dir,classifiertype,param):
+    model_file = 'x'.join([classifiertype,str(param[0]),str(param[1]),str(param[2]),str(param[3])])
+    return os.path.join(model_dir,model_file)
 
 # When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
 #Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
 def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize,
-                   show_graphs=False,roc_save_dir):
+                   show_graphs=False):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
 
@@ -40,9 +46,6 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
     # 'sparrow_song', 'titmouse_song']
 
     test_dirs = test_params(directory, birds)
-
-    if not os.path.exists(roc_save_dir):
-         os.mkdir(roc_save_dir)
 
     try:
         if not no_sanitize:
@@ -77,7 +80,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 
         auc_scores = []
         for g in xrange(num_classes):
-            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g], show_graph=show_graphs,roc_save_dir=roc_save_dir))
+            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g], show_graph=show_graphs))
 
         macro_average_auc = mean(auc_scores)
 
@@ -97,12 +100,36 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 if __name__ == '__main__':
 
     directory = os.getcwd()
-    classifierType = 'svm'
     birds = []
-    verbose = False
-    model_file = os.path.join(directory, 'model')
-    skip_clean = False
-    no_sanitize = False
+    for root, dirs, files in os.walk(os.path.join(directory, 'Validation')):
+	birds = dirs
+	break
+    classifierType = 'gradientboosting'    
+    verbose = True
+    model_dir = os.path.join(directory,'model_file_9birds')
+    roc_save_dir = os.path.join(directory,'roc_curves')
+#    model_dir = os.path.join(directory,'model_files_oct_14')
+#    model_file = os.path.join(directory, 'gradientboostingx0.5x0.5x0.01x0.05')
+    skip_clean = True
+    no_sanitize = True
+    val_directory = os.path.join(directory,'Validation')
+#    mtStep = [1.0, 0.5, 0.1]
+#    mtWin = [1.0, 0.5, 0.1]
+#    stStep = [0.1, 0.05, 0.01]
+#    stWin = [0.1, 0.05, 0.01]
+    mtStep =[0.5, 0.1]
+    mtWin = [1.0, 0.5]
+    stStep =[0.05, 0.01]
+    stWin = [0.1, 0.05]
+
+    parameters = list(itertools.product(mtStep, mtWin, stStep, stWin))
+     #Gets rid of invalid sets of parameters
+    parameters_temp = deepcopy(parameters)
+    for p in parameters:
+        if p[0] > p[1] or p[2] > p[3] or p[3] >= p[1]:
+           parameters_temp.remove(p)
+
+    parameters = parameters_temp 
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vsn",
@@ -129,11 +156,22 @@ if __name__ == '__main__':
         else:
             assert False, "unhandled option"
 
-    if not os.path.isfile(model_file):
-        raise Exception("Model file:" + model_file + " not found!")
+#    if not os.path.isfile(model_file):
+#        raise Exception("Model file:" + model_file + " not found!")
 
     if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
         raise Exception(classifierType + " is not a valid model type!")
+    
+    model_files = list(map(lambda params: test_models(model_dir,classifierType,params) , parameters))
 
-    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-                   no_sanitize=no_sanitize)
+    for model_file in model_files:
+	if not os.path.isfile(model_file):
+		print 'Model not found, moving to next file'
+		continue
+	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
+		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
+
+
+
+
+

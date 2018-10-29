@@ -231,7 +231,7 @@ class tester:
         return stats
 
 
-def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=True, filename='graph'):
+def basic_roc_plot(fpr, tpr, className, show_graph=False, save_graph=True, filename='graph', roc_save_dir):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
@@ -243,7 +243,7 @@ def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=True, filena
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
     if save_graph:
-        plt.savefig('.'.join([filename, 'png']))
+        plt.savefig(os.path.join(roc_save_dir,'.'.join([filename, 'png'])))
     if show_graph:
         plt.show()
     return roc_auc
