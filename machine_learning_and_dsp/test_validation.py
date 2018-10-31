@@ -18,6 +18,9 @@ from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
 from test_model import tester, basic_roc_plot
 import itertools
+from pathos.muliprocessing import Pool
+from functools import partial
+
 
 
 # This function will take the directory name(dir) and the bird names (categories) and return a list of folder paths of the form dir/bird_name
@@ -34,7 +37,7 @@ def test_models(model_dir,classifiertype,param):
 
 # When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
 #Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
-def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize,roc_save_dir,
+def clean_and_test(model_file,directory, classifierType, birds, verbose, skip_clean, no_sanitize,roc_save_dir,
                    show_graphs=False):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
@@ -166,10 +169,20 @@ if __name__ == '__main__':
 
     for model_file in model_files:
 	if not os.path.isfile(model_file):
-		print 'Model not found, moving to next file'
-		continue
-	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
+            model_files.remove(model_file)
+
+    num_threads = mp.cpu_count()
+    pros = Pool(num_threads)
+    partial_func = partial(clean_and_test, directory=val_directory, classifierType=classifierType, birds=birds, skip_clean=skip_clean, no_sanitize=no_sanitize,
+                           roc_save_dir=roc_save_dir)
+    pros.map(partial_func,model_files)
+    
+#    for model_file in model_files:
+#	if not os.path.isfile(model_file):
+#		print 'Model not found, moving to next file'
+#		continue
+#	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
+#		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
 
 
 
