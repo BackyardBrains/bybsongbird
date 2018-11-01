@@ -18,7 +18,8 @@ from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
 from test_model import tester, basic_roc_plot
 import itertools
-from pathos.muliprocessing import Pool
+import multiprocessing as mp
+from pathos.multiprocessing import Pool
 from functools import partial
 
 
@@ -107,6 +108,7 @@ if __name__ == '__main__':
     for root, dirs, files in os.walk(os.path.join(directory, 'Validation')):
 	birds = dirs
 	break
+    print birds
     classifierType = 'gradientboosting'    
     verbose = True
     model_dir = os.path.join(directory,'model_file_9birds')
@@ -167,22 +169,22 @@ if __name__ == '__main__':
     
     model_files = list(map(lambda params: test_models(model_dir,classifierType,params) , parameters))
 
-    for model_file in model_files:
-	if not os.path.isfile(model_file):
-            model_files.remove(model_file)
-
-    num_threads = mp.cpu_count()
-    pros = Pool(num_threads)
-    partial_func = partial(clean_and_test, directory=val_directory, classifierType=classifierType, birds=birds, skip_clean=skip_clean, no_sanitize=no_sanitize,
-                           roc_save_dir=roc_save_dir)
-    pros.map(partial_func,model_files)
-    
 #    for model_file in model_files:
 #	if not os.path.isfile(model_file):
-#		print 'Model not found, moving to next file'
-#		continue
-#	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-#		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
+#            model_files.remove(model_file)
+
+#    num_threads = mp.cpu_count()
+#    pros = Pool(num_threads)
+#    partial_func = partial(clean_and_test, directory=val_directory, classifierType=classifierType, verbose = False, birds=birds, skip_clean=skip_clean, no_sanitize=no_sanitize,
+#                           roc_save_dir=roc_save_dir)
+#    pros.map(partial_func,model_files)
+    
+    for model_file in model_files:
+	if not os.path.isfile(model_file):
+		print 'Model not found, moving to next file'
+		continue
+	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
+		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
 
 
 
