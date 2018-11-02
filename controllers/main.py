@@ -6,6 +6,7 @@ import bybsongbird.config
 
 main = Blueprint('main', __name__, template_folder='templates')
 
+
 @main.route('/', methods = ['GET', 'POST'])
 def main_route():
     db = ex.connect_to_database()
@@ -48,6 +49,6 @@ def main_route():
         results.append(sample)
 
     options = {
-		"results": results
-	}
+        "results": results
+    }
     return render_template("index.html", **options)
