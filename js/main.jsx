@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import Sample from './Sample';
 
 ReactDOM.render(
-  <Sample url="/" />,
+  <Sample url="/api/index" />,
   document.getElementById("reactEntry"),
 );
