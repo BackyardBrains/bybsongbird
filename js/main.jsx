@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import InfScroll from './infScroll';
+import Sample from './Sample';
 
 ReactDOM.render(
-  <sample url="/" />,
-  document.getElementById('react-samples'),
+  <Sample url="/" />,
+  document.getElementById("reactEntry"),
 );

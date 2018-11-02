@@ -50,13 +50,13 @@
 
 <div class="latest-upload">
     <p class="latest-title">Latest Uploads</p>
+    <div id="reactEntry"></div>
     {% if results %}
-    <div id="react-sample"></div>
+
     {% else %}
     <div>
         <h3 class="nothing">No uploads within the last 15 days.</h3>
     </div>
     {% endif %}
 </div>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 {% endblock %}
