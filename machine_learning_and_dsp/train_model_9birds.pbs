@@ -1,9 +1,9 @@
-#PBS -N validation_5birds
+#PBS -N train_9birds
 #PBS -M anushaj@umich.edu
 #PBS -m abe
 #PBS -V
 
-#PBS -l walltime=50:00:00
+#PBS -l walltime=80:00:00
 #PBS -l procs=16,pmem=4096mb
 
 
@@ -14,6 +14,3 @@
 cd $PBS_O_WORKDIR
 
 python ./validation_test_example.py
-
-
-
