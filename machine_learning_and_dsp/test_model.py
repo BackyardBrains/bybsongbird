@@ -153,24 +153,28 @@ class tester:
         for i in xrange(0, len(test_dirs)):  # Iterate through each test directory
             dir = test_dirs[i]
             os.chdir(dir)
+            print dir
             rootdir, correct_cat = os.path.split(dir)
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
-                result_pickle = '.'.join([file, modelName])
-                if os.path.exists(result_pickle):
-                    with open(result_pickle, 'r') as result_file:
-                        Result, P, classNames = cPickle.load(result_file)
-                else:
-                    with open(result_pickle, 'w') as result_file:
-                        Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
-                                                                      classifierType)  # Test the file
-                        cPickle.dump([Result, P, classNames], result_file)
+                print file
+                try:
+			result_pickle = '.'.join([file, modelName])
+			if os.path.exists(result_pickle):
+			    with open(result_pickle, 'r') as result_file:
+				Result, P, classNames = cPickle.load(result_file)
+			else:
+			    with open(result_pickle, 'w') as result_file:
+				Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
+				                                              classifierType)  # Test the file
+				cPickle.dump([Result, P, classNames], result_file)
+			if verbose:
+		            print '\n', file
+		            print Result
+		            print classNames
+		            print P, '\n'
 
-                if verbose:
-                    print '\n', file
-                    print Result
-                    print classNames
-                    print P, '\n'
-
+                except EOFError:
+			continue 
 
                 threshold = level
 

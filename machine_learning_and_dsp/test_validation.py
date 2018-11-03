@@ -38,7 +38,7 @@ def test_models(model_dir,classifiertype,param):
 
 # When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
 #Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
-def clean_and_test(model_file,directory, classifierType, birds, verbose, skip_clean, no_sanitize,roc_save_dir,
+def clean_and_test(directory,model_file, classifierType, birds, verbose, skip_clean, no_sanitize,roc_save_dir,
                    show_graphs=False):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
