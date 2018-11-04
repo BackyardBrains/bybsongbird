@@ -35,21 +35,21 @@ class Sample extends React.Component {
     circleName = circleName + " " + "p" + result.perR + " " + result.color;
     let imgurl = "/static/songs/users/users_clean/" + result.id + ".png";
     return (
-      <div class="sample" key={result.id}>
-        <div class="circles">
-          <div class={circleName}>
+      <div className="sample" key={result.id}>
+        <div className="circles">
+          <div className={circleName}>
             <span>{result.per + "%"}</span>
-            <div class="slice">
-              <div class="bar"></div>
-              <div class="fill"></div>
+            <div className="slice">
+              <div className="bar"></div>
+              <div className="fill"></div>
             </div>
           </div>
         </div>
 
-        <div class="species">Species:</div>
-        <div class="bird">{result.type}</div>
-        <div class="upload">Upload On:</div>
-        <div class="time">{result.date}</div>
+        <div className="species">Species:</div>
+        <div className="bird">{result.type}</div>
+        <div className="upload">Upload On:</div>
+        <div className="time">{result.date}</div>
 
         <div><img src={imgurl} className="wav"/></div>
         <form action="/info">
