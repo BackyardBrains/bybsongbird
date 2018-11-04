@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sample from './Sample';
-import allSamples from './allSamples';
+import AllSamples from './AllSamples';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 // render starts with a router, each route matches an url
@@ -9,8 +9,8 @@ ReactDOM.render(
   (
     <Router>
       <Switch>
-        <Route path="/" component={index_samples}/>
-        <Route path="/allsamples" component={all_samples}/>
+        <Route exact path="/" component={index_samples}/>
+        <Route exact path="/allsamples/" component={All_samples}/>
       </Switch>
     </Router>
   ),
@@ -23,6 +23,6 @@ function index_samples(){
 
 
 // renders the all samples' page react components
-function all_samples(){
-  return (<allSamples url="/api/allsamples"/>);
+function All_samples(){
+  return (<AllSamples url="/api/allsamples"/>);
 }
