@@ -1,5 +1,5 @@
 from flask import *
-from extensions import connect_to_database
+import extensions
 from flask import url_for
 
 pattern = Blueprint('pattern', __name__, template_folder='templates')

@@ -2,8 +2,6 @@ from flask import *
 from flask import url_for
 from flask import send_file
 from flask import jsonify
-
-
 import sys
 sys.path.append('/home/bybsongbird/app/bybsongbird')
 import config
@@ -11,8 +9,8 @@ import config
 import extensions
 
 import os
-from machine_learning_and_dsp.process_and_categorize import classiFier
-from waveform import Waveform
+from bybsongbird.machine_learning_and_dsp.process_and_categorize import classiFier
+from bybsongbird.waveform import Waveform
 import json
 from zlib import crc32
 from flask import request
@@ -33,9 +31,9 @@ def apiUpload_route():
 	
 		
 
-         	#basically copied and pastedd from ../controllers/upload.py. Difference is missing html rendering right here at the beginning and at end. See end for details. 
+        #basically copied and pastedd from ../controllers/upload.py. Difference is missing html rendering right here at the beginning and at end. See end for details.
 		files = request.files.getlist('file')
-               
+
        	 	model_file = os.path.join(os.getcwd(), 'model2', 'model')
         	identify = classiFier(model_file=model_file, verbose=True)
 

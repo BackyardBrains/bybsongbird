@@ -14,8 +14,8 @@ AudioSegment.converter = which("ffmpeg")
 
 import config
 import extensions
-from machine_learning_and_dsp.process_and_categorize import classiFier
-from waveform import Waveform
+from bybsongbird.machine_learning_and_dsp.process_and_categorize import classiFier
+from bybsongbird.waveform import Waveform
 
 upload = Blueprint('upload', __name__, template_folder='templates')
 

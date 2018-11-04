@@ -9,3 +9,4 @@ config.py
 static/songs/users/
 localconfig.py
 config.py
+bundle.js

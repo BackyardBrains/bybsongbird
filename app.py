@@ -1,16 +1,14 @@
 from flask import Flask
 from flask import render_template
-
-
-import sys
-sys.path.append("./api")
-import api_blueprint
-import apiPath
-import apiUpload
-
+import extensions
+import api.api_blueprint
+import api.apiPath
+import api.apiUpload
 import config
 import controllers
-from extensions import login_manager
+import sys
+#sys.path.append("./api")
+
 
 # Initialize Flask app with the template folder address
 app = Flask(__name__, template_folder='templates')
@@ -32,20 +30,21 @@ app.register_blueprint(controllers.new_user)
 app.register_blueprint(controllers.login)
 
 #API urls
-app.register_blueprint(api_blueprint.api_blueprint)
-app.register_blueprint(apiPath.apiPath)  
-app.register_blueprint(apiUpload.apiUpload)
+app.register_blueprint(api.api_blueprint.api_blueprint)
+app.register_blueprint(api.apiPath.apiPath)
+app.register_blueprint(api.apiUpload.apiUpload)
 
-login_manager.init_app(app)
+extensions.login_manager.init_app(app)
 
 
-@login_manager.unauthorized_handler
+@extensions.login_manager.unauthorized_handler
 def unauthorized():
     return render_template('login.html')
 
+
 app.secret_key = config.secret_key
 
-#sys.stderr = open("error_log", "a")
+# sys.stderr = open("error_log", "a")
 
 # Listen on external IPs
 # For us, listen to port 3000 so you can just run 'python app.py' to start the server
