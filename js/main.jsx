@@ -24,5 +24,5 @@ function index_samples(){
 
 // renders the all samples' page react components
 function All_samples(){
-  return (<AllSamples url="/api/allsamples"/>);
+  return (<Sample url="/api/allsamples"/>);
 }
