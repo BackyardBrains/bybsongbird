@@ -4,7 +4,6 @@ import math
 import matplotlib.pyplot as plt
 from matplotlib import pyplot, patches
 import seaborn as sns
-import networkx as nx
 
 def euclidean_distance(u,v):
     dist = 0.0
@@ -55,35 +54,28 @@ def getCoordinates(init, distance, rad):
     y = distance * math.sin(rad)
     return (init[0]+x, init[1]+y)
 
-def main():
-    vectors, tags = generateInputVectors(10,300, 0, 9)
+def adjacencyMatrix(vectors, tags):
+    #vectors, tags = generateInputVectors(10,300, 0, 9)
     #vectors = [[1,1,1], [1,1,1], [2,2,2], [2,2,2], [3,3,3], [3,3,3]]
     a = createAdjacencyMatrix(vectors)
     matrix = sns.clustermap(a)
     plt.show()
     plt.figure()
     data = matrix.data2d
-    plot1D(data, 0, tags)
+    #plot1D(data, 0, tags)
     plot2D(data, 0, tags)
-    exit(0)
-    fig = pyplot.figure(figsize=(5,5))
-    #pyplot.imshow(a, cmap = "Greys", interpolation="none")
-    #pyplot.show()
-    Graph = nx.from_numpy_matrix(a)
-    pos = nx.spring_layout (Graph, pos = nx.spring_layout(Graph, k=0.3*1/np.sqrt(len(Graph.nodes())), iterations=20))
-    color_map = []
-    edge_colors = []
-    weights = []
-    color_list = ['red', 'blue', 'green', 'yellow', 'orange', 'black', 'purple']
-    j = 0
-    for node in Graph:
-        color_map.append(color_list[int(j/10)])
-        for i in range(30):
-            edge_colors.append(color_list[int(j/10)])
-            weights.append(0)
-        j = j + 1
 
-    nx.draw(Graph, pos = pos, node_color = color_map, edge_color = edge_colors, width=weights, with_labels=False, node_size=7)
+def main():
+    vectors, tags = generateInputVectors(10,1, 0, 9)
+    print(vectors.shape)
+    #vectors = [[1,1,1], [1,1,1], [2,2,2], [2,2,2], [3,3,3], [3,3,3]]
+    a = createAdjacencyMatrix(vectors)
+    matrix = sns.clustermap(a)
     plt.show()
+    plt.figure()
+    data = matrix.data2d
+    #plot1D(data, 0, tags)
+    plot2D(data, 0, tags)
+
 if __name__ == '__main__':
     main()

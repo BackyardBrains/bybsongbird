@@ -12,6 +12,7 @@ sys.path.append('../')
 
 import MySQLdb
 import _mysql_exceptions
+import numpy as np
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
 from bybsongbird.pyAudioAnalysis import audioTrainTest as aT
@@ -19,6 +20,7 @@ from pymediainfo import MediaInfo
 
 from config import *
 from noise_removal import noiseCleaner
+from CreateAdjacencyMatrix import adjacencyMatrix
 
 
 def tbl_create():
@@ -30,6 +32,7 @@ class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
                  classifierType='gradientboosting',
                  verbose=False, num_threads=mp.cpu_count()):
+        #Classifier stores the type of classifier as well and path of the model file, also connects to a MySQL database
         self.directory = directory
         self.model_file = model_file
         self.classifierType = classifierType
@@ -50,6 +53,7 @@ class classiFier:
             db.close()
 
     def classify(self):
+        #Runs the classFile method on the path stored in the model class
         directory = self.directory
         num_threads = self.num_threads
 
@@ -74,7 +78,8 @@ class classiFier:
             shutil.rmtree(os.path.join(directory, "activity"))
 
     def classFile(self, file, username=None):
-        model_file = self.model_file
+        #actually does classification and returns the results
+        model_file = self.model_file #points to the stored model file
         classifierType = self.classifierType
         verbose = self.verbose
 
@@ -84,9 +89,10 @@ class classiFier:
                               added)
 
         cleaner = noiseCleaner(verbose=verbose)
-        clean_wav = cleaner.noise_removal(file)
-        Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
-       
+        clean_wav = cleaner.noise_removal(file) #removes noise from target file
+        Result, P, classNames, features = aT.fileClassification(clean_wav, model_file, classifierType) #This line actually runs the classification 
+        #adjacencyMatirx(np.array(features), [Result]) doesn't work b/c features is len 1
+        #One single object with previously uploaded featuers, stores features/tags but not associated with the database
         if verbose:
             print file
             print Result
@@ -95,7 +101,7 @@ class classiFier:
 
         result_dict = {}
         for i in xrange(0, len(classNames)):
-            result_dict[classNames[i]] = P[i]
+            result_dict[classNames[i]] = P[i] #transforms the integer results into the bird name
 
         result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
 
@@ -104,7 +110,7 @@ class classiFier:
 
         device_id = -1  # tbi
 
-        file_metadata = MediaInfo.parse(file)
+        file_metadata = MediaInfo.parse(file) #gets file metadata
         file_metadata = file_metadata.tracks[0]
         assert file_metadata.track_type == 'General'
         humidity = file_metadata.humi
@@ -113,6 +119,7 @@ class classiFier:
         longitude = file_metadata.long
         light = file_metadata.lite
 
+        #deals with empty fields
         if humidity == None or humidity == ' nan':
             humidity = -1
         else:
@@ -152,7 +159,7 @@ class classiFier:
             values.append("'" + username + "'")
         values = [str(x) for x in values]
 
-        with MySQLdb.connect(host=host, user=user, passwd=passwd,
+        with MySQLdb.connect(host=host, user=user, passwd=passwd, #connects to database and creates a cursor
                              db=database) as cur:  # config is in config.py: see above
             if username:
                 query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3, user) values(" + ','.join(
@@ -179,6 +186,7 @@ class classiFier:
 
 
     def export(self):
+        #exports database to a file
         try:
             export_file = str(time.time())
             dump_command = "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
