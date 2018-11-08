@@ -49,7 +49,8 @@ def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_thread
         for bird in dirs:
 	    birds.append(bird)
         break
-
+    current_dir = os.getcwd()
+    model_dir = os.path.join(current_dir,'random_forest_model')
     #directory = directory + 'Training'
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
      #Gets rid of invalid sets of parameters
@@ -57,8 +58,10 @@ def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_thread
     for p in parameters:
         if p[1] > p[2] or p[3] > p[4] or p[4] >= p[2]:
            parameters_temp.remove(p)
-
-    parameters = parameters_temp 
+        model = 'x'.join([p[0],str(p[1]),str(p[2]),str(p[3]),str(p[4])])
+        if os.path.isfile(os.path.join(model_dir,model)):
+            parameters_temp.remove(p)
+    parameters = parameters_temp
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
     pros = Pool(num_threads)
