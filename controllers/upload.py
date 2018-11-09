@@ -23,6 +23,13 @@ upload = Blueprint('upload', __name__, template_folder='templates')
 
 ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
 
+
+@upload.route('/api/device', methods = ['POST'])
+def device_post_handle():
+    context = request.get_data()
+    return context
+
+
 @upload.route('/upload', methods = ['GET','POST'])
 @login_required
 def upload_route():
