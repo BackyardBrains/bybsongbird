@@ -26,28 +26,32 @@ def normal(song):
     waveData = song*1.0/(max(abs(song)))
     return waveData
 
-#can be change
+#can be change input part
 file_name = 'D:/songs/The_birds_I_have/crow.wav'#original sound
 sound = AudioSegment.from_wav(file_name)
 long=librosa.core.load(file_name, sr=44100)[0]
 number_of_chunk=20
 clf = joblib.load('D:\\knn0_5.pkl')#the model
-threshold=0.5#0.2,1,0
+threshold=0.2#0.2,1,0
 length=1000#3000,5000
 name='D:/songs/The_birds_I_have/crow0.wav'#saved file name
 
 def testandcut(sound,loadsong):
     i=0
     total=sound[0]
+    noisetotal=sound[0]
     while (i+1)*length<len(sound):
 #          print(i)
           temp=sound[i*length:length*(i+1)]
-          fortest=long[i*44100*length/1000:44100*(i+1)*length/1000]
+          fortest=long[int(i*44100*length/1000):int(44100*(i+1)*length/1000)]
           if testsongs(fortest)==1:
               total=total+temp
+          else:
+              noisetotal=noisetotal+temp
           i=i+1
     total=total+sound[i*length:len(sound)-1]
     total.export(name, format="wav",tags={'artist': 'crow'})
+    noisetotal.export(name[0:len(name)-4]+'noise.wav',format="wav",tags={'artist': 'crow'})
 
 def testsongs(l):
     if len(l)!=44100:
