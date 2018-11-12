@@ -1,0 +1,5 @@
+1, Use model knn27.pkl python27. I am still trying to improve the model but at least knn27.pkl can be run with python27
+2, If you have problem related to librosa, please comment the librosa and uncomment wavfile.
+3, If you have problems for ffmepg, google 'download and add ffmepg to path', change the directory 
+of AudioSegment.converter to 'yourpath/bin/ffmepg.exe' (if you use mac, this should be 'yourpath/bin/ffmepg')
+If you have any other problem, just let me know on slack.
