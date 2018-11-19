@@ -3,3 +3,10 @@
 3, If you have problems for ffmepg, google 'download and add ffmepg to path', change the directory 
 of AudioSegment.converter to 'yourpath/bin/ffmepg.exe' (if you use mac, this should be 'yourpath/bin/ffmepg')
 If you have any other problem, just let me know on slack.
+
+for 3s model
+default setting
+number_of_chunk=100
+clf = joblib.load('path\knn27_3s.pkl')#the model
+threshold=0.4#0.2,1,0
+length=3000#3000,5000
