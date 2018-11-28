@@ -38,7 +38,7 @@ def test_models(model_dir,classifiertype,param):
 
 # When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
 #Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
-def clean_and_test(directory,model_file, classifierType, birds, verbose, skip_clean, no_sanitize,roc_save_dir,
+def clean_and_test(directory,model_file, classifierType, birds, verbose, skip_clean, no_sanitize,
                    show_graphs=False):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
@@ -84,7 +84,7 @@ def clean_and_test(directory,model_file, classifierType, birds, verbose, skip_cl
 
         auc_scores = []
         for g in xrange(num_classes):
-            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g],roc_save_dir, show_graph=show_graphs))
+            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g], show_graph=show_graphs))
 
         macro_average_auc = mean(auc_scores)
 
@@ -111,21 +111,21 @@ if __name__ == '__main__':
     print birds
     classifierType = 'gradientboosting'    
     verbose = True
-    model_dir = os.path.join(directory,'model_file_9birds')
-    roc_save_dir = os.path.join(directory,'roc_curves')
+    model_dir = os.path.join(directory,'gradient_boosting_9birds')
+
 #    model_dir = os.path.join(directory,'model_files_oct_14')
 #    model_file = os.path.join(directory, 'gradientboostingx0.5x0.5x0.01x0.05')
     skip_clean = True
     no_sanitize = True
     val_directory = os.path.join(directory,'Validation')
-#    mtStep = [1.0, 0.5, 0.1]
-#    mtWin = [1.0, 0.5, 0.1]
-#    stStep = [0.1, 0.05, 0.01]
-#    stWin = [0.1, 0.05, 0.01]
-    mtStep =[0.5, 0.1]
-    mtWin = [1.0, 0.5]
-    stStep =[0.05, 0.01]
-    stWin = [0.1, 0.05]
+    mtStep = [1.0, 0.5, 0.1]
+    mtWin = [1.0, 0.5, 0.1]
+    stStep = [0.1, 0.05, 0.01]
+    stWin = [0.1, 0.05, 0.01]
+#    mtStep =[0.5, 0.1]
+#    mtWin = [1.0, 0.5]
+#    stStep =[0.05, 0.01]
+#    stWin = [0.1, 0.05]
 
     parameters = list(itertools.product(mtStep, mtWin, stStep, stWin))
      #Gets rid of invalid sets of parameters
@@ -184,7 +184,7 @@ if __name__ == '__main__':
 		print 'Model not found, moving to next file'
 		continue
 	clean_and_test(val_directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-		           no_sanitize=no_sanitize,roc_save_dir = roc_save_dir)
+		           no_sanitize=no_sanitize)
 
 
 
