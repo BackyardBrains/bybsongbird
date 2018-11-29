@@ -59,7 +59,7 @@ class wave_Cut:
                 f.setframerate(framerate)
                 f.writeframes(temp_dataTemp.tostring())
                 f.close()
-            return self.path+'\cutresults'
+    return self.path+'\cutresults'
 
 result=wave_Cut(cut_time=60,path='D:\songs\The_birds_I_have\wood_set')
 final=result.CutFile()
