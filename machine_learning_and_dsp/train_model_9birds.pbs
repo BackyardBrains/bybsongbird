@@ -13,4 +13,4 @@
 
 cd $PBS_O_WORKDIR
 
-python ./validation_test_example.py
+python ./train_final_model.py

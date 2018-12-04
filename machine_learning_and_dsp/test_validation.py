@@ -109,9 +109,9 @@ if __name__ == '__main__':
 	birds = dirs
 	break
     print birds
-    classifierType = 'gradientboosting'    
+    classifierType = 'svm'    
     verbose = True
-    model_dir = os.path.join(directory,'gradient_boosting_9birds')
+    model_dir = os.path.join(directory,'models_svm')
 
 #    model_dir = os.path.join(directory,'model_files_oct_14')
 #    model_file = os.path.join(directory, 'gradientboostingx0.5x0.5x0.01x0.05')

@@ -25,8 +25,10 @@ def save_result(my_dict):
 
 root_dir = os.getcwd()
 test_dir = os.path.join(root_dir, 'Testing')
-classifierType = 'gradientboosting'
-model_dir  = os.path.join(root_dir, 'gradient_boosting_9birds')
+#classifierType = 'gradientboosting'
+#model_dir  = os.path.join(root_dir, 'gradient_boosting_9birds')
+classifierType = 'svm'
+model_dir  = os.path.join(root_dir, 'models_svm')
 mtStep = [1.0, 0.5, 0.1]
 mtWin = [1.0, 0.5, 0.1]
 stStep = [0.1, 0.05, 0.01]
@@ -46,7 +48,7 @@ for model_file in model_files:
 	if not os.path.isfile(model_file):
    		 model_files_temp.remove(model_file)
 model_files = model_files_temp
-print model_files
+#print model_files
 birds  = []
 for root, dirs, files in os.walk(test_dir):
     birds = dirs
@@ -85,12 +87,15 @@ for model_file in model_files:
 	accuracy = (float(correct_classified)/float(num))*100
 	print accuracy
 	accuracy_dict['accuracy'].append(accuracy)
-save_result(accuracy_dict)
+#save_result(accuracy_dict)
 
+accuracy_df = pd.DataFrame(accuracy_dict)
+accuracy_df.to_csv('accuracy_svm.csv',index=False) 
+print 'svm done'
 #accuracy_df = pd.DataFrame(accuracy_dict)
 #accuracy_df.to_csv('accuracy_gradient_boosting.csv',index=False) 
 
-print 'Gradient Boosting Done'
+#print 'Gradient Boosting Done'
 
 
 #root_dir = os.getcwd()
@@ -151,7 +156,7 @@ print 'Gradient Boosting Done'
 #accuracy_df = pd.DataFrame(accuracy_dict)
 #accuracy_df.to_csv('accuracy_random_forest.csv',index=False) 
 
-print 'Random Forest Done'
+#print 'Random Forest Done'
 
 
 

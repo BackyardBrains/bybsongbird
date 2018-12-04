@@ -33,7 +33,7 @@ def recombine_wavfiles(infiles, outfile):
 
 
 class noiseCleaner:
-    def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
+    def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=False,
                  verbose=False, num_threads=0):
         self.smoothingWindow = smoothingWindow
         self.weight = weight
@@ -74,7 +74,7 @@ class noiseCleaner:
             pass
 
         try:
-
+	    x = x[5*Fs:]
             segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
                                               weight, False)  # get onsets
             prev_end = 0
