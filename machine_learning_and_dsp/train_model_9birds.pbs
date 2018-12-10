@@ -1,0 +1,16 @@
+#PBS -N train_9birds
+#PBS -M anushaj@umich.edu
+#PBS -m abe
+#PBS -V
+
+#PBS -l walltime=80:00:00
+#PBS -l procs=16,pmem=4096mb
+
+
+#PBS -q flux
+#PBS -A mdprjf18-songbird_flux
+#PBS -l qos=flux
+
+cd $PBS_O_WORKDIR
+
+python ./train_final_model.py

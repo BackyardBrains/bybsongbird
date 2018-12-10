@@ -170,24 +170,28 @@ class tester:
         for i in xrange(0, len(test_dirs)):  # Iterate through each test directory
             dir = test_dirs[i]
             os.chdir(dir)
+            print dir
             rootdir, correct_cat = os.path.split(dir)
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
-                result_pickle = '.'.join([file, modelName])
-                if os.path.exists(result_pickle):
-                    with open(result_pickle, 'r') as result_file:
-                        Result, P, classNames = cPickle.load(result_file)
-                else:
-                    with open(result_pickle, 'w') as result_file:
-                        Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
-                                                                      classifierType)  # Test the file
-                        cPickle.dump([Result, P, classNames], result_file)
+                print file
+                try:
+			result_pickle = '.'.join([file, modelName])
+			if os.path.exists(result_pickle):
+			    with open(result_pickle, 'r') as result_file:
+				Result, P, classNames = cPickle.load(result_file)
+			else:
+			    with open(result_pickle, 'w') as result_file:
+				Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
+				                                              classifierType)  # Test the file
+				cPickle.dump([Result, P, classNames], result_file)
+			if verbose:
+		            print '\n', file
+		            print Result
+		            print classNames
+		            print P, '\n'
 
-                if verbose:
-                    print '\n', file
-                    print Result
-                    print classNames
-                    print P, '\n'
-
+                except EOFError:
+			continue 
 
                 threshold = level
 
@@ -248,11 +252,13 @@ class tester:
         return stats
 
 
+
 #Creates the ROC plot using matplotlib
 #Show graph will show the graph on screen automaticlly when it is created
 #This will interrupt the process and should be disabled for large tests
 #save_graph automatically saves a .png of the graph to filename.png
-def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filename='graph'):
+
+def basic_roc_plot(fpr, tpr, className, show_graph=False, save_graph=True, filename='graph'):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
@@ -264,7 +270,8 @@ def basic_roc_plot(fpr, tpr, className, show_graph=True, save_graph=False, filen
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
     if save_graph:
-        plt.savefig('.'.join([filename, 'png']))
+	roc_save_dir=os.getcwd()
+        plt.savefig(os.path.join(roc_save_dir,'.'.join([filename, 'png'])))
     if show_graph:
         plt.show()
     return roc_auc

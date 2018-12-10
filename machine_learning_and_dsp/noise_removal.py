@@ -17,7 +17,7 @@ import sox
 from pathos.multiprocessing import Pool
 from pydub import AudioSegment
 import pydub
-
+#mp.cpu_count()
 
 
 #Checks if a subdirectory exists in a directory and if not creates it
@@ -46,8 +46,8 @@ def recombine_wavfiles(infiles, outfile):
 #Verbose will print a line to stdout for each file processed
 #num_threads is the number of threads to run in paralel, default is the number of logical cores on your machine, this count will NOT be accurate for flux
 class noiseCleaner:
-    def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
-                 verbose=False, num_threads=mp.cpu_count()):
+    def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=False,
+                 verbose=False, num_threads=0):
         self.smoothingWindow = smoothingWindow
         self.weight = weight
         self.sensitivity = sensitivity
@@ -89,7 +89,6 @@ class noiseCleaner:
             pass
 
         try:
-
             segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
                                               weight, False)  # get onsets
             prev_end = 0
@@ -147,7 +146,6 @@ class noiseCleaner:
     def noise_removal_dir(self, rootdir):
 
         num_threads = self.num_threads
-        print 'i am in noise_removal'
         if not os.path.exists(rootdir):
             raise Exception(rootdir + " not found!")
 
@@ -155,6 +153,7 @@ class noiseCleaner:
             parent, folder_name = os.path.split(root)
             if folder_name == 'activity' or folder_name == 'noise' or '_clean' in folder_name:
                 shutil.rmtree(root)
+
         num_samples_processed = 0
         wav_files = []
         for root, dirs, files in os.walk(rootdir):

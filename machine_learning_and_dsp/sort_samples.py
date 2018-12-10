@@ -27,6 +27,7 @@ def directory_check(file):
 rootdir = os.getcwd()
 
 trimed_folder = rootdir + '_testing'
+
 if not os.path.exists(trimed_folder):
     os.mkdir(trimed_folder)
 

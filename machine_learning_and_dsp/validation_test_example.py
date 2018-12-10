@@ -1,18 +1,18 @@
+
 #! python
 
 #An example validation script
-
+import matplotlib
+matplotlib.use('Pdf')
+import os
 from validate import validate
 
-if __name__ == '__main__':
-<<<<<<< HEAD
 
-    directory = '/home/bybsongbird/app/bybsongbird/aaaTEST'
-=======
-    directory = 'E:\\bird_model_2'
+
+if __name__ == '__main__':
     #See pyAudioAnalysis docs for info on these parameters, this script will test alll reasonable combonations of the parameters in 
     #these lists
->>>>>>> 4f234c56ee0e994eb44291adbddb1623d5cadc5e
+    directory = os.getcwd()
     classifierType = ['svm']
     mtStep = [1.0, 0.5, 0.1]
     mtWin = [1.0, 0.5, 0.1]

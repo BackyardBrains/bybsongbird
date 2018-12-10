@@ -1,0 +1,18 @@
+#PBS -N testingvalidate
+#PBS -M anushaj@umich.edu
+#PBS -m abe
+#PBS -V
+
+#PBS -l walltime=8:00:00
+#PBS -l procs=19,pmem=4096mb
+
+#PBS -q flux
+#PBS -A engin_flux
+#PBS -l qos=flux
+
+mkdir /tmp/${PBS_JOBID}
+cd /tmp/${PBS_JOBID}
+cp -r /home/anushaj/* .
+
+timeout 7h python /mdp/bybsongbird/machine_learning_and_dsp/validation_test_example.py
+cp -r -n * /home/anushaj

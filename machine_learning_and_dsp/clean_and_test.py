@@ -3,8 +3,8 @@
 #This file includes functions to automate noise-reduction and testing of a model
 import matplotlib
 
-matplotlib.use("Pdf")
-
+#matplotlib.use("Pdf")
+#
 from matplotlib import pyplot as plt
 
 import getopt
@@ -31,7 +31,7 @@ def test_params(dir, categories):
 # When given a directory with folders "Testing" and "Training" containing test-set wav files and training-set wav files respectively
 #Will "clean" (run preprosecssing) on all wav_files then runs a full validation test across selection thresholds 0.0 through 0.9 and generates an ROC curve
 def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize,
-                   show_graphs=True):
+                   show_graphs=False):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
 
@@ -42,6 +42,9 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
     # 'sparrow_song', 'titmouse_song']
 
     test_dirs = test_params(directory, birds)
+
+    if not os.path.exists(roc_save_dir):
+         os.mkdir(roc_save_dir)
 
     try:
         if not no_sanitize:
@@ -76,7 +79,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 
         auc_scores = []
         for g in xrange(num_classes):
-            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g], show_graph=show_graphs))
+            auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g],show_graph=show_graphs, save_graph=True))
 
         macro_average_auc = mean(auc_scores)
 
@@ -95,7 +98,7 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
 if __name__ == '__main__':
 
     directory = os.getcwd()
-    classifierType = 'svm'
+    classifierType = 'gradientboosting'
     birds = []
     verbose = False
     model_file = os.path.join(directory, 'model')

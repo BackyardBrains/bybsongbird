@@ -1,0 +1,7 @@
+old: 
+['Common_Loon_clean', 'Northern_Cardinal_clean', 'Wood_Thrush_clean', 'Blue_Jay_clean', 'Carolina_Wren_clean', 'Sparrow_clean', 'American_Goldfinch_clean', 'Black_Capped_Chickadee_clean', 'Robin_clean']
+
+new:
+['Northern_Cardinal_clean', 'Wood_Thrush_clean', 'Blue_Jay_clean', 'Carolina_Wren_clean', 'Sparrow_clean', 'American_Goldfinch_clean', 'Black_Capped_Chickadee_clean', 'Robin_clean']
+
+

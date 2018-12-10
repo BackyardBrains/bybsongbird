@@ -10,4 +10,8 @@ static/songs/users/
 localconfig.py
 config.py
 machine_learning_dsp/model_files
+machine_learning_dsp/Training 
+machine_learning_and_dsp/Testing
+machine_learning_and_dsp/Training
+machine_learning_and_dsp/model_files
 

@@ -28,7 +28,7 @@ def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True)
         stStep = parameters[3]
         stWin = parameters[4]
         train_rootdir = os.path.join(directory, 'Training')
-        test_rootdir = os.path.join(directory, 'Testing')
+        test_rootdir = os.path.join(directory, 'Validation')
         train_dirs = test_params(train_rootdir, birds)
         model = 'x'.join([classifierType, str(mtStep), str(mtWin), str(stStep), str(stWin)])
         model_path = os.path.join(os.getcwd(), model)
@@ -59,18 +59,24 @@ def train_and_verify(parameters, directory, birds, debug=False, skip_clean=True)
 #see test_model for more info about stats and lookup pickle for more info about pickling in Python
 def validate(directory, classifierType, mtStep, mtWin, stStep, stWin, num_threads=mp.cpu_count()):
 
+    birds = []
     for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
-	birds = dirs
+        for bird in dirs:
+	    birds.append(bird)
         break
-    directory = directory + 'Training'
+    current_dir = os.getcwd()
+    model_dir = os.path.join(current_dir,'random_forest_model')
+    #directory = directory + 'Training'
     parameters = list(itertools.product(classifierType, mtStep, mtWin, stStep, stWin))
      #Gets rid of invalid sets of parameters
     parameters_temp = deepcopy(parameters)
     for p in parameters:
         if p[1] > p[2] or p[3] > p[4] or p[4] >= p[2]:
            parameters_temp.remove(p)
-
-    parameters = parameters_temp 
+        model = 'x'.join([p[0],str(p[1]),str(p[2]),str(p[3]),str(p[4])])
+        if os.path.isfile(os.path.join(model_dir,model)):
+            parameters_temp.remove(p)
+    parameters = parameters_temp
     verifier = partial(train_and_verify, directory=directory, birds=birds)
 
     pros = Pool(num_threads)
