@@ -10,9 +10,14 @@
 #PBS -A engin_flux
 #PBS -l qos=flux
 
-mkdir /tmp/${PBS_JOBID}
+# copies all files in your working directory to flux temp storage, 
+#you need to do this or else the whole preocess will be bottlenecked by excessive network i/o
+mkdir /tmp/${PBS_JOBID} 
 cd /tmp/${PBS_JOBID}
 cp -r /home/znrobins/* .
 
-timeout 7h venv/bin/python2.7 bybsongbird/machine_learning_and_dsp/validate.py
+#run your validation script with a timeout less than your walltime, 
+#this way if the whole process does not finish in the allotted time everything will be copied back to your working directory 
+#and the processes can be resumed from where you left off by simply running the same job again
+timeout 7h venv/bin/python2.7 bybsongbird/machine_learning_and_dsp/validation_test_example.py 
 cp -r -n * /home/znrobins

@@ -1,3 +1,7 @@
+#! python
+
+#This file contains the functions that do the audio preprocessing
+
 import cPickle
 import os
 import shutil
@@ -16,11 +20,15 @@ import pydub
 
 
 
+#Checks if a subdirectory exists in a directory and if not creates it
 def create_subdirectory(dir, subdir):
     if not os.path.exists(os.path.join(dir, subdir)):
         os.makedirs(os.path.join(dir, subdir))
 
 
+#This function combines a list of segmented wav files into a single wav file
+#This is used to concatonate individual segments of "activity" or noise
+#together into their respective wav files
 # https://stackoverflow.com/questions/2890703/how-to-join-two-wav-files-using-python
 def recombine_wavfiles(infiles, outfile):
     sound = [AudioSegment.from_wav(infile) for infile in infiles]
@@ -32,6 +40,11 @@ def recombine_wavfiles(infiles, outfile):
         os.remove(file)
 
 
+#noise-reducer object for more info on smoothingWindow and Weight see here: https://github.com/tyiannak/pyAudioAnalysis/wiki/5.-Segmentation
+#sensitivity is the parameter given to sox for noisered, see SoX documentation for more info on that
+#setting debug to false will automatically delete the "activity" and "noise" files once the whole process is completed in order to save space
+#Verbose will print a line to stdout for each file processed
+#num_threads is the number of threads to run in paralel, default is the number of logical cores on your machine, this count will NOT be accurate for flux
 class noiseCleaner:
     def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
                  verbose=False, num_threads=mp.cpu_count()):
@@ -41,7 +54,9 @@ class noiseCleaner:
         self.debug = debug
         self.verbose = verbose
         self.num_threads = num_threads
-	
+    #This function performs noise removal for a single file
+    #in some cases the process will fail, either because the file is too short or because activity is constant and therfore a noise profile cannot be generated
+    #in this case the function will simply make a copy of the original file into the "clean" folder to feed to the classifier
     def noise_removal(self, inputFile):
         smoothingWindow = self.smoothingWindow
         weight = self.weight
@@ -127,7 +142,8 @@ class noiseCleaner:
             shutil.rmtree(os.path.join(dir, "activity"))
 
         return clean_out
-
+    
+    #Performs noise_removal for an entire directory recursively, meaning that all wav files in all subdirectories will be processed
     def noise_removal_dir(self, rootdir):
 
         num_threads = self.num_threads
