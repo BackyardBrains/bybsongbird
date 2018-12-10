@@ -74,7 +74,6 @@ class noiseCleaner:
             pass
 
         try:
-	    x = x[5*Fs:]
             segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
                                               weight, False)  # get onsets
             prev_end = 0
@@ -147,12 +146,7 @@ class noiseCleaner:
                     wav_files.append(os.path.join(root, file))
                     num_samples_processed += 1
                     if not num_threads:
-			print (os.path.join(root, file))
-			try:
-                        	self.noise_removal(os.path.join(root,file))
-			except ValueError:
-				print 'error processing, deleting the file'
-				os.remove(os.path.join(root,file))
+                        self.noise_removal(os.path.join(root,file))
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
 

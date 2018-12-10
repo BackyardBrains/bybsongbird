@@ -21,11 +21,6 @@ def directory_check(file):
 
 
 rootdir = os.getcwd()
-
-print rootdir
-
-#training_folder = os.path.join(rootdir + 'training')
-#validation_folder = os.path.join(rootdir + 'validation')
 validation_folder = rootdir + '_validation'
 
 if not os.path.exists(validation_folder):
@@ -34,7 +29,7 @@ if not os.path.exists(validation_folder):
 for root, dirs, files in os.walk(rootdir):
     filenum = 0
     for file in files:
-        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 5:
+        if (file.endswith('.wav') or file.endswith('.WAV')) and not filenum % 10:
             file_path = os.path.join(root, file)
             new_file_path = string_sub(file_path, rootdir)
             new_file_path = validation_folder + new_file_path
