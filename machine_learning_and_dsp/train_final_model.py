@@ -10,7 +10,7 @@ for root, dirs, files in os.walk(os.path.join(directory, 'Training')):
     		birds.append(bird)	
 	break
 
-all_parameters =[('gradientboosting',0.1,1,0.01,0.1) ,('gradientboosting',0.1,0.5,0.01,0.1)]
+all_parameters =[('gradientboosting',0.1,1.0,0.01,0.1) ,('gradientboosting',0.1,0.5,0.01,0.1)]
 for parameters in all_parameters:
 	classifierType = parameters[0]
 	mtStep = parameters[1]

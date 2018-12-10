@@ -26,9 +26,7 @@ def save_result(my_dict):
 root_dir = os.getcwd()
 test_dir = os.path.join(root_dir, 'Testing')
 classifierType = 'gradientboosting'
-model_dir  = os.path.join(root_dir, 'old_model')
-#classifierType = 'svm'
-#model_dir  = os.path.join(root_dir, 'models_svm')
+model_dir  = os.path.join(root_dir, 'models')
 mtStep = [1.0, 0.5, 0.1]
 mtWin = [1.0, 0.5, 0.1]
 stStep = [0.1, 0.05, 0.01]
@@ -48,7 +46,7 @@ for model_file in model_files:
 	if not os.path.isfile(model_file):
    		 model_files_temp.remove(model_file)
 model_files = model_files_temp
-#print model_files
+
 birds  = []
 for root, dirs, files in os.walk(test_dir):
     birds = dirs
@@ -77,13 +75,7 @@ for model_file in model_files:
 			Result, P, classNames = aT.fileClassification(file, model_file, classifierType)
 			print Result
 			print classNames
-#			print correct_cat
-#			print classNames[int(Result)]
-#			print (str(correct_cat)==str(classNames[int(Result)]))
-#			print (correct_cat == classNames[int(Result)])
-#			print (unicode(correct_cat) == unicode(classNames[int(Result)]))
 			if unicode(correct_cat) == unicode(classNames[int(Result)]):
-#					print 'yes!'
 				correct_classified += 1
 				correct_bird += 1
             print num_bird
@@ -94,13 +86,11 @@ for model_file in model_files:
 	accuracy = (float(correct_classified)/float(num))*100
 	print accuracy
 	accuracy_dict['accuracy'].append(accuracy)
-#save_result(accuracy_dict)
 
-#accuracy_df = pd.DataFrame(accuracy_dict)
-#accuracy_df.to_csv('accuracy_gradientboosting.csv',index=False) 
-#print 'svm done'
-#accuracy_df = pd.DataFrame(accuracy_dict)
-#accuracy_df.to_csv('accuracy_gradient_boosting.csv',index=False) 
+
+accuracy_df = pd.DataFrame(accuracy_dict)
+accuracy_df.to_csv('accuracy_gradientboosting.csv',index=False) 
+
 
 
 
